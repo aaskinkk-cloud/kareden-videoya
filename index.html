@@ -10,7 +10,7 @@
 <style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="6.0" data-ad="Kareden Videoya" data-tarih="03.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="6.1" data-ad="Kareden Videoya" data-tarih="03.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -466,7 +466,7 @@ body.pvfs #pvFull{display:inline-grid!important}
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 6.0 · 03.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 6.1 · 03.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -6760,6 +6760,16 @@ async function saveBlob(blob, prefix, ext, noteEl){
 }
 
 const FAST_VID = !LS.get('kv2.nofast');
+/* 6.1: kaynağın ortalama parlaklığı (0–255); okunamazsa -1 */
+function kvParlak(src){ try { const k = mk(16, 16), kg = k.getContext('2d', {willReadFrequently:true}); kg.drawImage(src, 0, 0, 16, 16); const d = kg.getImageData(0, 0, 16, 16).data; let t = 0; for (let q = 0; q < d.length; q += 4) t += d[q] + d[q+1] + d[q+2]; k.width = 0; return t/(d.length/4)/3; } catch(_){ return -1; } }
+/* 6.1: video oluşturulurken ekran kapanır ya da başka uygulamaya geçilirse telefon video çözücüsünü durdurur ve kareler siyah çıkar.
+   Bu yüzden arka plana geçince oluşturma kendiliğinden duraklar, geri dönünce devam eder. */
+let kvOtoDurak = false;
+document.addEventListener('visibilitychange', () => {
+  if (!exporting) return;
+  if (document.hidden){ if (!pauseReq){ pauseReq = true; kvOtoDurak = true; } }
+  else if (kvOtoDurak){ kvOtoDurak = false; pauseReq = false; try { toast('Video oluşturmaya kaldığı yerden devam ediliyor'); } catch(e){} }
+});
 /* ---------- hızlı video çözme: dosya sırayla çözülür (WebCodecs), her karede atlama (seek) beklenmez ---------- */
 const FastVid = (() => {
   const LIB = window.__MP4 || null;
@@ -6988,7 +6998,7 @@ async function runExport(){
     canvas = mk(W, H);
     const ctx = canvas.getContext('2d', {alpha:false});
     R = makeRenderer(ctx, W, H, i => exMap.get(i) || null);
-    let lastSig = null;
+    let lastSig = null, kvSiyahSn = 0; const kvSiyahAd = new Set();
     for (let f = 0; f < nF; f++){
       if (pauseReq && !cancelReq){ const pz = performance.now(); setProg(f/nF, `duraklatıldı · kare ${f}/${nF}`); try { wake && wake.release(); } catch(e){} wake = null;
         while (pauseReq && !cancelReq) await sleep(200);
@@ -7014,6 +7024,17 @@ async function runExport(){
               if (parlak(v.canvas) < 4){ const el = makeVideoEl(c); try { await waitMeta(el); await seekTo(el, videoTime(c, s.local)); if (parlak(el) > 10){ console.warn('hızlı çözücü siyah kare verdi; yavaş yola geçildi', c.name); v.close(); c._noFast = true; fastN--; v = el; exVid.set(c.id, v); } else dropVideoEl(el); } catch(_){ dropVideoEl(el); } }
             }
           } else await seekTo(v, videoTime(c, s.local));
+          /* 6.1: klibin ortasında da denetle — hızlı çözücü kareyi siyah vermeye başlarsa yavaş yola geç */
+          if (f % 15 === 0){
+            let p = kvParlak(v.fast ? v.canvas : v);
+            if (v.fast && p >= 0 && p < 4 && (v._sonDene == null || f - v._sonDene > fps*3)){
+              v._sonDene = f; const el = makeVideoEl(c);
+              try { await waitMeta(el); await seekTo(el, videoTime(c, s.local));
+                if (kvParlak(el) > 10){ console.warn('hızlı çözücü klibin ortasında siyah verdi; yavaş yola geçildi', c.name); v.close(); c._noFast = true; fastN--; v = el; exVid.set(c.id, v); p = kvParlak(v); }
+                else dropVideoEl(el); } catch(_){ dropVideoEl(el); }
+            }
+            if (p >= 0 && p < 4){ kvSiyahSn += 15/fps; kvSiyahAd.add(c.name || 'video'); }
+          }
           exMap.set(s.i, {video: v.fast ? v.canvas : v});
         } else if (!exMap.has(s.i)) exMap.set(s.i, await prepare(c, W, H, new Map(), 1));
       }
@@ -7038,7 +7059,11 @@ async function runExport(){
     const v = $('#expVid'); v.hidden = false; v.onerror = () => { v.hidden = true; }; v.src = lastUrl;
     $('#expInfo').textContent = `${W}×${H} · ${fps} fps · ${mmss(tl.total)} · ${trNum(lastBlob.size/1048576,1)} MB · ${vsel.label}${acfg ? ' + ' + (acfg.mux === 'aac' ? 'AAC' : 'Opus') : ' · sessiz'} · ${mmss((performance.now()-t0)/1000)} sürede oluşturuldu${fastN ? ' · hızlı video çözme' : ''}`;
     $('#expRes').hidden = false; $('#saveNote').textContent = '';
-    toast('Video hazır'); expDone = true; S.exported = {when:Date.now(), dur:tl.total, res:S.res}; projSave();
+    if (kvSiyahSn >= 2){ const ad = [...kvSiyahAd].slice(0, 2).join(', ');
+      $('#expInfo').textContent += ` · ⚠ yaklaşık ${Math.round(kvSiyahSn)} sn siyah/çok karanlık görüntü (${ad}). Videoyu izleyip kontrol et; siyahsa bu klibi telefonun galerisinde "kopya olarak kaydet" ile yeniden kaydedip ekle.`;
+      toast(`Video hazır — ${Math.round(kvSiyahSn)} sn siyah görüntü olabilir, kontrol et`, 6000); }
+    else toast('Video hazır');
+    expDone = true; S.exported = {when:Date.now(), dur:tl.total, res:S.res}; projSave();
     $('#ovSub').textContent = $('#expInfo').textContent.split(' · ').slice(0, 4).join(' · ');
   } catch(e){
     if (e && e.message === 'cancel') toast('Durduruldu');
