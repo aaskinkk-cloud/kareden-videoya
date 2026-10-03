@@ -1,2 +1,39 @@
-{"name":"Musikisinaz","short_name":"Musikisinaz","start_url":"./","scope":"./","display":"standalone","orientation":"any","background_color":"#0d1118","theme_color":"#0d1118","lang":"tr",
- "icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}
+{
+ "id": "kareden-videoya",
+ "name": "Kareden Videoya",
+ "short_name": "Kareden Videoya",
+ "description": "Fotoğraf ve videolardan YouTube videosu",
+ "start_url": "./?app=kv",
+ "scope": "./",
+ "display": "standalone",
+ "orientation": "any",
+ "background_color": "#111317",
+ "theme_color": "#111317",
+ "lang": "tr",
+ "icons": [
+  {
+   "src": "icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icon.svg",
+   "sizes": "any",
+   "type": "image/svg+xml",
+   "purpose": "any"
+  },
+  {
+   "src": "icon-maskable.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}
