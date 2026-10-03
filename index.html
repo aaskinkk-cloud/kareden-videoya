@@ -10,7 +10,7 @@
 <style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="6.1" data-ad="Kareden Videoya" data-tarih="03.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="6.2" data-ad="Kareden Videoya" data-tarih="03.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -466,7 +466,7 @@ body.pvfs #pvFull{display:inline-grid!important}
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 6.1 · 03.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 6.2 · 03.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -6625,7 +6625,9 @@ Object.entries(PHEAD).forEach(([k, [title, desc, heads]]) => {
   uygula();
   $$('#bolumMod button').forEach(b => b.addEventListener('click', () => { mod = b.dataset.v; LS.set('kv2.bolum', mod); uygula(); }));
   window.sectAc = el => { const s = el && el.closest && el.closest('.panel > .sect.kapali'); if (s) s.firstElementChild.click(); };
-  document.addEventListener('focusin', e => sectAc(e.target));
+  let sonDokunus = 0; document.addEventListener('pointerdown', () => { sonDokunus = Date.now(); }, true);
+  /* 6.2: yalnız klavyeyle (Tab) gelinen odakta aç; dokunuşta açıp-kapama olmasın */
+  document.addEventListener('focusin', e => { if (Date.now() - sonDokunus < 800) return; if (e.target && e.target.matches && e.target.matches('.panel > .sect > h3')) return; sectAc(e.target); });
 })();
 
 /* telefonda üst satırdaki bilgi ve düğmeler önizleme altındaki simge satırına taşınır */
@@ -8347,6 +8349,34 @@ boot();
     if (istendi && !disari) return;
     istendi = true; disari = false; iste();
   }, true);
+})();
+</script>
+<style id="kv62">
+/* 6.2: simge satırları — simgenin altında adı, sığmazsa yana kaydırılır */
+.lbl-row{display:flex!important;flex-wrap:nowrap!important;justify-content:flex-start!important;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;gap:6px!important;max-width:100%;min-width:0;padding-bottom:2px;scroll-snap-type:x proximity}
+.lbl-row::-webkit-scrollbar{display:none}
+.lbl-row > button[data-lb]{flex:none!important;display:inline-flex!important;flex-direction:column!important;align-items:center;justify-content:center;gap:3px;width:auto!important;min-width:54px;height:auto!important;min-height:50px!important;padding:6px 7px!important;line-height:1;scroll-snap-align:start;font-size:16px}
+.lbl-row > button[data-lb]::after{content:attr(data-lb);font:600 10.5px/1.1 var(--ui,system-ui),sans-serif;white-space:nowrap;letter-spacing:0;opacity:.9}
+.lbl-row > button[data-lb] svg{width:20px!important;height:20px!important}
+.lbl-row #pvDikey b{display:none}
+#pvTools.lbl-row #meta{flex:none!important;max-width:42vw;align-self:center}
+.km-ust .km-arac.lbl-row{flex:1 1 100%!important}
+body.dikey-sik .km-arac.lbl-row button[data-lb]{min-height:44px!important;padding:4px 6px!important}
+</style>
+<script>
+/* 6.2: simge satırlarına ad ekle (ad, düğmenin data-lb özniteliğinde; düğmenin içeriği değişse de ad kalır) */
+(function(){
+  var AD={pvAdd:'Ekle',pvDikey:'Dikey',pvTk:'Takip yazı',pvHide:'Gizle',pvSmall:'Küçült',pvBig:'Büyüt',temaBtn:'Tema',newProj:'Yeni video',fsBtn:'Tam ekran',pvFull:'Tam ekran',
+          kmOnce:'Geri kare',kmSonra:'İleri kare',kmBol:'Böl',kmCog:'Çoğalt',kmGeri:'Geri al',kmZo:'Uzaklaş',kmZi:'Yakınlaş',kmAc:'Katmanlar'};
+  function uygula(){
+    ['pvTools'].forEach(function(id){var r=document.getElementById(id);if(r)r.classList.add('lbl-row')});
+    document.querySelectorAll('.km-arac').forEach(function(r){r.classList.add('lbl-row')});
+    Object.keys(AD).forEach(function(id){var b=document.getElementById(id);if(b&&!b.dataset.lb)b.dataset.lb=AD[id]});
+    var bol=document.getElementById('kmBol');if(bol&&/Böl/.test(bol.textContent))bol.textContent='✂';
+  }
+  uygula();
+  /* katman çubuğu ve üst düğmeler sonradan yeniden çizilebilir: değişince yeniden uygula */
+  try{new MutationObserver(function(){uygula()}).observe(document.body,{childList:true,subtree:true})}catch(e){}
 })();
 </script>
 <script>
