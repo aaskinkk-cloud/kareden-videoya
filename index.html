@@ -10,7 +10,7 @@
 <style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="6.3" data-ad="Kareden Videoya" data-tarih="03.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="6.4" data-ad="Kareden Videoya" data-tarih="03.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -466,7 +466,7 @@ body.pvfs #pvFull{display:inline-grid!important}
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 6.3 · 04.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 6.4 · 04.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -828,22 +828,9 @@ body.pvfs #pvFull{display:inline-grid!important}
       <div class="btns"><button class="btn" id="extGo2">Okumaya başla (kaydedici açık)</button><button class="btn" id="extAdd2">Kaydı ekle ve hizala</button></div>
     </div>
     <div class="sect">
-      <p class="warn"><b>Önemli:</b> Asistanın sesi videoya eklenemez; tarayıcılar yapay sesin kaydedilmesine izin vermez, yalnızca hoparlörden çalar. Videoya giren ses senin okumandır: aşağıdaki "Kendim okuyayım" ile mikrofondan ya da telefonun ses kaydedicisiyle.</p>
-      <div class="row"><label for="vText">Okunacak metin</label><textarea id="vText" rows="7" placeholder="Metni buraya yapıştır. Okuma önerileri [Heyecanlı], [Sakin], [Yavaşla] gibi etiketlerle eklenir."></textarea></div>
+      <div class="vbas"><label for="vText">Okunacak metin</label><button type="button" class="btn primary small" id="vGoTop">▶ Okumaya başla</button></div>
+      <textarea id="vText" rows="7" placeholder="Metni buraya yapıştır. Okuma önerileri [Heyecanlı], [Sakin], [Yavaşla] gibi etiketlerle eklenir."></textarea>
       <p class="note mono" id="vStats"></p>
-      <div class="chips" id="cueBtns"></div>
-      <div class="btns"><button class="btn primary" id="vCues">Okuma önerilerini ekle</button><button class="btn small" id="vCuesClear">Önerileri temizle</button><button class="btn" id="vSubs">Metinden altyazı oluştur</button></div>
-      <p class="note" id="vNote"></p>
-    </div>
-    <div class="sect">
-      <h3>Asistan okusun (dinleme, prova)</h3>
-      <div class="row"><label for="vVoice">Ses</label><select id="vVoice"></select></div>
-      <div class="row"><div class="lab"><label for="vRate">Okuma hızı</label><output data-o="voice.rate" data-f="x"></output></div><input type="range" id="vRate" data-k="voice.rate" min="0.6" max="1.5" step="0.05"></div>
-      <label class="check"><input type="checkbox" id="vWithVid" checked>Videoyla birlikte oynat</label>
-      <div class="btns"><button class="btn" id="vSpeak">▶ Asistan okusun</button><button class="btn small" id="vHush">Durdur</button></div>
-    </div>
-    <div class="sect">
-      <h3>Kendim okuyayım</h3>
       <div class="two">
         <div class="row"><div class="lab"><label for="vWpm">Akış hızı</label><output data-o="voice.wpm" data-f="wpm"></output></div><input type="range" id="vWpm" data-k="voice.wpm" min="70" max="220" step="5"></div>
         <div class="row"><div class="lab"><label for="vFont">Yazı boyu</label><output data-o="voice.font" data-f="px"></output></div><input type="range" id="vFont" data-k="voice.font" min="18" max="48" step="1"></div>
@@ -851,11 +838,10 @@ body.pvfs #pvFull{display:inline-grid!important}
       <label class="check"><input type="checkbox" id="vRec" checked>Okurken sesimi kaydet ve videoya ekle</label>
       <label class="check"><input type="checkbox" id="vFromStart" checked>Videonun başından başlat (kapalıysa önizlemedeki andan)</label>
       <div class="row"><div class="lab"><label>Konuşma bitince kendiliğinden bitir</label></div><div class="seg" data-k="voice.sessiz" data-num><button data-v="5">5 sn sessizlikte</button><button data-v="10">10 sn</button><button data-v="15">15 sn</button><button data-v="0">Kapalı</button></div><p class="note" style="margin:4px 0 0">Mikrofonla kayıtta çalışır: konuştuktan sonra bu kadar sessizlik olursa kayıt durur, sondaki sessizlik kesilir, ses videoya eklenir.</p></div>
-      <div class="kayitkutu"><button type="button" class="btn vKayit">🎙 Ses kaydedicisiyle kaydet</button><span class="note">Dokun → telefonun Ses Kaydedici'si açılır → oku → durdurup onayla (✓ / Kaydet). Kayıt kendiliğinden buraya gelir, baştaki sessizlik kesilir, videoya oturur.</span></div>
-      <div class="btns"><button class="btn primary" id="vGo">Okumaya başla</button><button class="btn" id="vFile">Seslendirme dosyası ekle</button></div>
+      <div class="btns"><button class="btn primary" id="vGo">Okumaya başla</button><button type="button" class="btn vKayit">🎙 Ses kaydedicisiyle kaydet</button><button class="btn" id="vFile">Seslendirme dosyası ekle</button></div>
       <input type="file" id="vKayitIn" accept="audio/*" capture hidden>
       <input type="file" id="vFileIn" accept="audio/*" hidden>
-      <p class="note" id="vRecNote">Okurken müzik susturulur, önizleme sessiz oynar. Seslendirme sırasında müzik kendiliğinden kısılır.</p>
+      <p class="note" id="vRecNote">Okurken tam ekrana geçilir, müzik susturulur, önizleme sessiz oynar; bitince eski düzene dönülür.</p>
       <div class="micbox" id="micBox" hidden>
         <b id="micWhy">Mikrofon açılamadı.</b>
         <span>Telefonun ses kaydedicisiyle kesin çalışan yol:</span>
@@ -869,6 +855,18 @@ body.pvfs #pvFull{display:inline-grid!important}
       </div>
       <input type="file" id="vFileIn2" accept="audio/*" hidden>
     </div>
+    <details class="sect vdet"><summary>Okuma önerileri ve altyazı</summary>
+      <div class="chips" id="cueBtns"></div>
+      <div class="btns"><button class="btn primary" id="vCues">Okuma önerilerini ekle</button><button class="btn small" id="vCuesClear">Önerileri temizle</button><button class="btn" id="vSubs">Metinden altyazı oluştur</button></div>
+      <p class="note" id="vNote"></p>
+    </details>
+    <details class="sect vdet"><summary>Asistan okusun (yalnız dinleme / prova)</summary>
+      <p class="note">Asistanın sesi videoya girmez (tarayıcılar yapay sesin kaydına izin vermez); videoya giren ses senin okumandır.</p>
+      <div class="row"><label for="vVoice">Ses</label><select id="vVoice"></select></div>
+      <div class="row"><div class="lab"><label for="vRate">Okuma hızı</label><output data-o="voice.rate" data-f="x"></output></div><input type="range" id="vRate" data-k="voice.rate" min="0.6" max="1.5" step="0.05"></div>
+      <label class="check"><input type="checkbox" id="vWithVid" checked>Videoyla birlikte oynat</label>
+      <div class="btns"><button class="btn" id="vSpeak">▶ Asistan okusun</button><button class="btn small" id="vHush">Durdur</button></div>
+    </details>
   </section>
 
   <!-- MUSIC -->
@@ -6769,6 +6767,9 @@ function kvParlak(src){ try { const k = mk(16, 16), kg = k.getContext('2d', {wil
 /* 6.1: video oluşturulurken ekran kapanır ya da başka uygulamaya geçilirse telefon video çözücüsünü durdurur ve kareler siyah çıkar.
    Bu yüzden arka plana geçince oluşturma kendiliğinden duraklar, geri dönünce devam eder. */
 let kvOtoDurak = false;
+/* 6.4: donanım çözücü bir kez siyah verdiyse sonraki videolarda doğrudan yazılım çözücü (hızlı ve güvenli) */
+let kvSwTercih = !!LS.get('kv2.swdec');
+function kvHazir(v){ return new Promise(r => { if (v.readyState >= 2) return r(); let d = false; const f = () => { if (!d){ d = true; r(); } }; v.addEventListener('loadeddata', f, {once:true}); v.addEventListener('canplay', f, {once:true}); setTimeout(f, 900); }); }
 document.addEventListener('visibilitychange', () => {
   if (!exporting) return;
   if (document.hidden){ if (!pauseReq){ pauseReq = true; kvOtoDurak = true; } }
@@ -7008,6 +7009,7 @@ async function runExport(){
     let lastSig = null, kvSiyahSn = 0; const kvSiyahAd = new Set();
     /* 6.3: siyah kare koruması — klibin son sağlam karesi saklanır; görüntü alınamazsa siyah yerine o kare kullanılır */
     const kvSonIyi = new Map(); let kvDonukSn = 0, kvKurtarma = 0;
+    S.clips.forEach(c => { c._siyah = false; c._swDenendi = false; });
     const kvKopya = (id, src) => { const w = src.videoWidth || src.width, h = src.videoHeight || src.height; if (!w || !h) return; let g = kvSonIyi.get(id);
       if (!g || g.width !== w || g.height !== h){ g = mk(w, h); g.readyState = 4; g.videoWidth = w; g.videoHeight = h; kvSonIyi.set(id, g); }
       try { g.getContext('2d').drawImage(src, 0, 0, w, h); } catch(e){} };
@@ -7024,40 +7026,38 @@ async function runExport(){
         const c = S.clips[s.i];
         if (c.kind === 'video'){
           let v = exVid.get(c.id);
-          if (!v){ v = (FAST_VID && !c._noFast) ? await FastVid.open(c, Math.round(Math.max(W, H)*1.25)).catch(() => null) : null;
+          if (!v){ v = (FAST_VID && !c._noFast) ? await FastVid.open(c, Math.round(Math.max(W, H)*1.25), kvSwTercih).catch(() => null) : null;
+            if (v && kvSwTercih) v._sw = true;
+            if (!v && kvSwTercih && FAST_VID && !c._noFast) v = await FastVid.open(c, Math.round(Math.max(W, H)*1.25)).catch(() => null);
             if (v) fastN++; else { v = makeVideoEl(c); await waitMeta(v); }
             exVid.set(c.id, v); }
+          const tV = videoTime(c, s.local), MAXS = Math.round(Math.max(W, H)*1.25);
           if (v.fast){
-            try { await v.frameAt(videoTime(c, s.local)); }
-            catch(e){ console.warn('hızlı çözme durdu, yavaş yola geçiliyor', e); v.close(); c._noFast = true; fastN--; v = makeVideoEl(c); await waitMeta(v); exVid.set(c.id, v); await seekTo(v, videoTime(c, s.local)); }
-            /* 5.4: bazı telefonların donanım çözücüsü kareyi siyah verir — ilk karede denetle, siyahsa yavaş (görüntü öğesi) yola geç */
-            if (v.fast && !v._denetlendi){ v._denetlendi = true;
-              const parlak = src => { try { const k = mk(16, 16), kg = k.getContext('2d', {willReadFrequently:true}); kg.drawImage(src, 0, 0, 16, 16); const d = kg.getImageData(0, 0, 16, 16).data; let t = 0; for (let q = 0; q < d.length; q += 4) t += d[q] + d[q+1] + d[q+2]; k.width = 0; return t/(d.length/4)/3; } catch(_){ return -1; } };
-              if (parlak(v.canvas) < 4){ const el = makeVideoEl(c); try { await waitMeta(el); await seekTo(el, videoTime(c, s.local)); if (parlak(el) > 10){ console.warn('hızlı çözücü siyah kare verdi; yavaş yola geçildi', c.name); v.close(); c._noFast = true; fastN--; v = el; exVid.set(c.id, v); } else dropVideoEl(el); } catch(_){ dropVideoEl(el); } }
-            }
-          } else await seekTo(v, videoTime(c, s.local));
-          /* 6.1: klibin ortasında da denetle — hızlı çözücü kareyi siyah vermeye başlarsa yavaş yola geç */
-          if (f % 15 === 0){
-            let p = kvParlak(v.fast ? v.canvas : v);
-            if (v.fast && p >= 0 && p < 4 && (v._sonDene == null || f - v._sonDene > fps*3)){
-              v._sonDene = f; const el = makeVideoEl(c);
-              try { await waitMeta(el); await seekTo(el, videoTime(c, s.local));
-                if (kvParlak(el) > 10){ console.warn('hızlı çözücü klibin ortasında siyah verdi; yavaş yola geçildi', c.name); v.close(); c._noFast = true; fastN--; v = el; exVid.set(c.id, v); p = kvParlak(v); }
-                else dropVideoEl(el); } catch(_){ dropVideoEl(el); }
-            }
-            if (p >= 0 && p < 4){ kvSiyahSn += 15/fps; kvSiyahAd.add(c.name || 'video'); }
-          }
+            try { await v.frameAt(tV); }
+            catch(e){ console.warn('hızlı çözme durdu, yavaş yola geçiliyor', e); v.close(); c._noFast = true; fastN--; v = makeVideoEl(c); await waitMeta(v); exVid.set(c.id, v); await seekTo(v, tV); }
+          } else await seekTo(v, tV);
+          /* 6.4: görüntü öğesi hazır değilse küçük önizleme resmi çizilip titreme yapıyordu: hazır olmasını bekle */
+          if (!v.fast && v.readyState < 2) await kvHazir(v);
+          /* 6.4: siyah kare denetimi — 6 karede bir (siyah görülünce her karede). Önce yazılım çözücü, olmazsa görüntü öğesi; arada son sağlam kare */
           let kvKaynak = v.fast ? v.canvas : v;
           if (c._thP == null) c._thP = c.thumb ? kvParlak(c.thumb) : 50;
-          if (c._thP > 12){
+          if (c._thP > 12 && (f % 6 === 0 || c._siyah || !v._ilk)){
+            v._ilk = true;
             let p = kvParlak(kvKaynak);
-            if (p >= 0 && p < 4 && !c._swDenendi && v.fast){   /* önce yazılım çözücüyle bir kez dene */
-              c._swDenendi = true; const alt = await FastVid.open(c, Math.round(Math.max(W, H)*1.25), true).catch(() => null);
-              if (alt){ try { await alt.frameAt(videoTime(c, s.local)); if (kvParlak(alt.canvas) > 10){ v.close(); v = alt; exVid.set(c.id, v); kvKaynak = v.canvas; p = kvParlak(kvKaynak); kvKurtarma++; console.warn('yazılım çözücüye geçildi', c.name); } else alt.close(); } catch(_){ alt.close(); } }
+            if (p >= 0 && p < 4 && v.fast && !v._sw && !c._swDenendi){
+              c._swDenendi = true; const alt = await FastVid.open(c, MAXS, true).catch(() => null);
+              if (alt){ try { await alt.frameAt(tV); if (kvParlak(alt.canvas) > 10){ v.close(); v = alt; v._sw = true; v._ilk = true; exVid.set(c.id, v); kvKaynak = v.canvas; p = kvParlak(kvKaynak); kvSwTercih = true; try { LS.set('kv2.swdec', true); } catch(_){} console.warn('donanım çözücü siyah verdi; yazılım çözücüye geçildi (hızlı)', c.name); } else alt.close(); } catch(_){ alt.close(); } }
             }
-            if (p >= 0 && p < 4){ const g = kvSonIyi.get(c.id); if (g){ kvKaynak = g; kvDonukSn += 1/fps; kvSiyahAd.add(c.name || 'video'); } }
-            else if (f % 2 === 0) kvKopya(c.id, kvKaynak);
+            if (p >= 0 && p < 4 && v.fast && (v._sonDene == null || f - v._sonDene > fps*3)){
+              v._sonDene = f; const el = makeVideoEl(c);
+              try { await waitMeta(el); await seekTo(el, tV); if (el.readyState < 2) await kvHazir(el);
+                if (kvParlak(el) > 10){ console.warn('hızlı çözücü siyah verdi; görüntü öğesine geçildi (yavaş)', c.name); v.close(); c._noFast = true; fastN--; v = el; exVid.set(c.id, v); kvKaynak = v; p = kvParlak(v); }
+                else dropVideoEl(el); } catch(_){ dropVideoEl(el); }
+            }
+            if (p >= 0 && p < 4){ c._siyah = true; const g = kvSonIyi.get(c.id); if (g){ kvKaynak = g; kvDonukSn += 1/fps; } else kvSiyahSn += 1/fps; kvSiyahAd.add(c.name || 'video'); }
+            else { c._siyah = false; kvKopya(c.id, kvKaynak); }
           }
+          if (!v.fast && v.readyState < 2){ const g = kvSonIyi.get(c.id); if (g) kvKaynak = g; }
           exMap.set(s.i, {video: kvKaynak});
         } else if (!exMap.has(s.i)) exMap.set(s.i, await prepare(c, W, H, new Map(), 1));
       }
@@ -8450,6 +8450,58 @@ body.dikey-sik .km-arac.lbl-row button[data-lb]{min-height:44px!important;paddin
     }catch(e){ if(e&&e.name!=='AbortError')toast('Paylaşılamadı'); }
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',kur); else kur();
+})();
+</script>
+<style id="kv64">
+/* 6.4: Gizle düğmesi üst çubuktan kalktı; katmanların üstünde ince yazılı düğmeler */
+#pvHide{display:none!important}
+.km-ince{display:flex;gap:14px;justify-content:flex-end;align-items:center;padding:2px 8px 4px;font:600 12px/1.2 system-ui,sans-serif}
+.km-ince button{border:0;background:none;color:var(--muted,#9a948a);padding:4px 2px;font:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(127,127,127,.35)}
+.km-ince button:active{color:var(--accent)}
+/* katman araçları: en küçük boy, yazısız */
+.km-arac.lbl-row > button[data-lb]{min-width:30px!important;min-height:28px!important;height:28px!important;padding:0 6px!important;font-size:12px!important;flex-direction:row!important}
+.km-arac.lbl-row > button[data-lb]::after{content:none!important}
+#kmAc{display:none!important}
+/* seslendirme: sade düzen */
+.vbas{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+.vbas label{font-weight:600}
+.vbas .btn{white-space:nowrap}
+details.vdet{padding-top:4px}
+details.vdet>summary{cursor:pointer;font-weight:700;list-style:none;padding:6px 0}
+details.vdet>summary::before{content:'▸ ';color:var(--accent)}
+details.vdet[open]>summary::before{content:'▾ '}
+.brand .tally{width:24px!important;height:24px!important;border-radius:7px!important;box-shadow:none!important;background:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232b2f38'/%3E%3Cstop offset='1' stop-color='%230e1014'/%3E%3C/linearGradient%3E%3ClinearGradient id='og' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23ffbe55'/%3E%3Cstop offset='1' stop-color='%23e2771c'/%3E%3C/linearGradient%3E%3ClinearGradient id='ph' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%238fc3e6'/%3E%3Cstop offset='1' stop-color='%23f2d9a8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='116' fill='url%28%23bg%29'/%3E%3Cg transform='translate%28-14 -16%29'%3E%3Cg transform='rotate%28-13 200 250%29'%3E%3Crect x='92' y='150' width='200' height='160' rx='18' fill='%23f4efe6'/%3E%3Crect x='106' y='164' width='172' height='112' rx='8' fill='url%28%23ph%29'/%3E%3Cpath d='M106 252l44-40 34 30 26-20 68 54H106z' fill='%235c8a62'/%3E%3Ccircle cx='246' cy='196' r='12' fill='%23fff6dd'/%3E%3C/g%3E%3Cg transform='rotate%28-4 250 260%29'%3E%3Crect x='150' y='172' width='200' height='160' rx='18' fill='%23f4efe6'/%3E%3Crect x='164' y='186' width='172' height='112' rx='8' fill='url%28%23ph%29'/%3E%3Cpath d='M164 276l50-46 38 34 22-16 62 48H164z' fill='%234d7a56'/%3E%3C/g%3E%3Crect x='196' y='214' width='236' height='176' rx='28' fill='url%28%23og%29'/%3E%3Cg fill='%231b120a' opacity='.18'%3E%3Crect x='214' y='226' width='16' height='12' rx='3'/%3E%3Crect x='246' y='226' width='16' height='12' rx='3'/%3E%3Crect x='278' y='226' width='16' height='12' rx='3'/%3E%3Crect x='310' y='226' width='16' height='12' rx='3'/%3E%3Crect x='342' y='226' width='16' height='12' rx='3'/%3E%3Crect x='374' y='226' width='16' height='12' rx='3'/%3E%3Crect x='406' y='226' width='12' height='12' rx='3'/%3E%3Crect x='214' y='366' width='16' height='12' rx='3'/%3E%3Crect x='246' y='366' width='16' height='12' rx='3'/%3E%3Crect x='278' y='366' width='16' height='12' rx='3'/%3E%3Crect x='310' y='366' width='16' height='12' rx='3'/%3E%3Crect x='342' y='366' width='16' height='12' rx='3'/%3E%3Crect x='374' y='366' width='16' height='12' rx='3'/%3E%3Crect x='406' y='366' width='12' height='12' rx='3'/%3E%3C/g%3E%3Cpath d='M290 262c0-8 9-13 16-9l60 35c7 4 7 14 0 18l-60 35c-7 4-16-1-16-9z' fill='%231b120a'/%3E%3C/g%3E%3C/svg%3E") center/cover no-repeat!important;flex:none}
+</style>
+<script>
+/* 6.4: ince katman/önizleme düğmeleri + okurken tam ekran */
+(function(){
+  function kur(){
+    var km=document.getElementById('katman'); if(!km||document.getElementById('kmInce'))return;
+    var d=document.createElement('div'); d.className='km-ince'; d.id='kmInce';
+    d.innerHTML='<button type="button" id="kmAc2"></button><button type="button" id="pvHide2"></button>';
+    km.insertBefore(d,km.firstChild);
+    var ac=document.getElementById('kmAc'), ph=document.getElementById('pvHide');
+    function yaz(){ var a=document.getElementById('kmAc2'), b=document.getElementById('pvHide2');
+      if(ac&&a) a.textContent=ac.getAttribute('aria-expanded')==='false'?'Katmanları göster':'Katmanları gizle';
+      if(ph&&b) b.textContent=ph.getAttribute('aria-pressed')==='true'?'Önizlemeyi göster':'Önizlemeyi gizle'; }
+    document.getElementById('kmAc2').onclick=function(){ if(ac) ac.click(); setTimeout(yaz,30); };
+    document.getElementById('pvHide2').onclick=function(){ if(ph) ph.click(); setTimeout(yaz,30); };
+    try{ new MutationObserver(yaz).observe(ac,{attributes:true}); new MutationObserver(yaz).observe(ph,{attributes:true}); }catch(e){}
+    yaz();
+    var top=document.getElementById('vGoTop'); if(top) top.onclick=function(){ var g=document.getElementById('vGo'); if(g) g.click(); };
+  }
+  /* okumaya başlarken tam ekran; okuma bitince eski düzen */
+  var bizAcik=false;
+  document.addEventListener('click',function(e){
+    var b=e.target&&e.target.closest&&e.target.closest('#vGo,#vGoTop,#extGo,#extGo2,#rehGo'); if(!b)return;
+    if(document.fullscreenElement)return;
+    var de=document.documentElement; if(de.requestFullscreen){ de.requestFullscreen({navigationUI:'hide'}).then(function(){bizAcik=true;}).catch(function(){}); }
+  },true);
+  function izle(){ var pr=document.getElementById('prompter'); if(!pr)return;
+    new MutationObserver(function(){ if(pr.hidden&&bizAcik&&document.fullscreenElement){ bizAcik=false; document.exitFullscreen().catch(function(){}); } }).observe(pr,{attributes:true,attributeFilter:['hidden']}); }
+  document.addEventListener('fullscreenchange',function(){ if(!document.fullscreenElement) bizAcik=false; });
+  function hazir(){ kur(); izle(); }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',hazir); else hazir();
 })();
 </script>
 <script>

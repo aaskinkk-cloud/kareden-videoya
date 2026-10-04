@@ -1,1 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="112" fill="#111317"/><rect x="104" y="146" width="304" height="220" rx="26" fill="none" stroke="#ece9e2" stroke-width="26"/><path d="M104 196h304M104 316h304" stroke="#ece9e2" stroke-width="18" stroke-dasharray="22 22"/><path d="M226 214l78 42-78 42z" fill="#e8a33d"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2b2f38"/><stop offset="1" stop-color="#0e1014"/></linearGradient>
+<linearGradient id="og" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffbe55"/><stop offset="1" stop-color="#e2771c"/></linearGradient>
+<linearGradient id="ph" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fc3e6"/><stop offset="1" stop-color="#f2d9a8"/></linearGradient>
+</defs>
+<rect width="512" height="512" rx="116" fill="url(#bg)"/>
+<g transform="translate(-14 -16)">
+<g transform="rotate(-13 200 250)"><rect x="92" y="150" width="200" height="160" rx="18" fill="#f4efe6"/><rect x="106" y="164" width="172" height="112" rx="8" fill="url(#ph)"/><path d="M106 252l44-40 34 30 26-20 68 54H106z" fill="#5c8a62"/><circle cx="246" cy="196" r="12" fill="#fff6dd"/></g>
+<g transform="rotate(-4 250 260)"><rect x="150" y="172" width="200" height="160" rx="18" fill="#f4efe6"/><rect x="164" y="186" width="172" height="112" rx="8" fill="url(#ph)"/><path d="M164 276l50-46 38 34 22-16 62 48H164z" fill="#4d7a56"/></g>
+<rect x="196" y="214" width="236" height="176" rx="28" fill="url(#og)"/>
+<g fill="#1b120a" opacity=".18"><rect x="214" y="226" width="16" height="12" rx="3"/><rect x="246" y="226" width="16" height="12" rx="3"/><rect x="278" y="226" width="16" height="12" rx="3"/><rect x="310" y="226" width="16" height="12" rx="3"/><rect x="342" y="226" width="16" height="12" rx="3"/><rect x="374" y="226" width="16" height="12" rx="3"/><rect x="406" y="226" width="12" height="12" rx="3"/>
+<rect x="214" y="366" width="16" height="12" rx="3"/><rect x="246" y="366" width="16" height="12" rx="3"/><rect x="278" y="366" width="16" height="12" rx="3"/><rect x="310" y="366" width="16" height="12" rx="3"/><rect x="342" y="366" width="16" height="12" rx="3"/><rect x="374" y="366" width="16" height="12" rx="3"/><rect x="406" y="366" width="12" height="12" rx="3"/></g>
+<path d="M290 262c0-8 9-13 16-9l60 35c7 4 7 14 0 18l-60 35c-7 4-16-1-16-9z" fill="#1b120a"/>
+</g>
+</svg>
