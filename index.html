@@ -9,10 +9,12 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}.kisakart{border:1px solid color-mix(in srgb,#ff3b30 45%,transparent);background:linear-gradient(135deg,color-mix(in srgb,#ff3b30 10%,transparent),transparent 60%)}
 .kisakart h3::before{content:"▶ ";color:#ff3b30}
+.okursesi{border:1px solid color-mix(in srgb,#3fa36b 45%,transparent);background:linear-gradient(135deg,color-mix(in srgb,#3fa36b 10%,transparent),transparent 60%)}
+.tkl{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 8px}.tkb{border:1px solid var(--line,#444);background:transparent;color:inherit;border-radius:999px;padding:5px 11px;font:600 12.5px inherit}.tkb.on{border-color:#ffd23f;color:#ffd23f}.tkb.yeni{border-style:dashed}.tkx{border:0;background:none;color:inherit;opacity:.5;margin-left:-6px;font-size:16px}
 </style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="6.7" data-ad="Kareden Videoya" data-tarih="03.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="6.8" data-ad="Kareden Videoya" data-tarih="03.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -468,7 +470,7 @@ body.pvfs #pvFull{display:inline-grid!important}
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 6.7 · 09.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 6.8 · 09.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -591,7 +593,8 @@ body.pvfs #pvFull{display:inline-grid!important}
       <div class="inline" style="justify-content:space-between"><label class="check" style="flex:1;min-width:200px"><input type="checkbox" id="cKbOff">Bu klipte hareket efekti olmasın <span class="note">(daha hızlı kayıt)</span></label><button class="btn small" id="cKbAll">Tüm kliplere uygula</button></div>
       <div class="btns"><button class="btn small" id="cKbMore">Bu klibin hareket hızı, türü, yüze yaklaşma →</button></div>
       </div>
-      <div class="cgrp" id="tkGrp" hidden><h4>Takip eden yazı <small>videodaki bir noktaya (ör. yaprak) yapışır, onunla birlikte hareket eder</small></h4>
+      <div class="cgrp" id="tkGrp" hidden><h4>Takip eden yazı <small>videodaki bir noktaya (ör. yaprak) yapışır, onunla birlikte hareket eder · bir klipte birden fazla olabilir</small></h4>
+        <div id="tkListe"></div>
         <div class="two"><div class="row"><div class="lab"><label for="tkT">Yazı</label></div><input type="text" id="tkT" maxlength="60" placeholder="ör. Kızılcık yaprağı" autocomplete="off"></div>
         <div class="row"><div class="lab"><label for="tkT2">Alt satır <span class="note">(isteğe bağlı)</span></label></div><input type="text" id="tkT2" maxlength="60" placeholder="ör. Ekim · Kabataş" autocomplete="off"></div></div>
         <div class="btns"><button type="button" class="btn small primary" id="tkSec">◎ Noktayı seç ve takip et</button><button type="button" class="btn small" id="tkOrnek" title="Düşen yaprak örnek videosu üretir, ekler ve yazıyı takip ettirir">▶ Örnekle göster</button><button type="button" class="btn small" id="tkIptal" hidden>Durdur</button><button type="button" class="btn small danger" id="tkSil" hidden>Takibi kaldır</button></div>
@@ -871,6 +874,17 @@ body.pvfs #pvFull{display:inline-grid!important}
         <div class="btns"><button class="btn primary" id="extGo">Okumaya başla (kaydedici açık)</button><button class="btn" id="extAdd">Kaydı ekle ve hizala</button><button class="btn small" id="rehGo">Kayıtsız prova</button></div>
       </div>
       <input type="file" id="vFileIn2" accept="audio/*" hidden>
+    </div>
+    <div class="sect okursesi">
+      <h3>🗣 Okur sesiyle seslendir · videoya girer</h3>
+      <p class="note">Okunacak metin kutusundaki yazı, telefonun içinde çalışan Türkçe sesle seslendirilir ve videoya <b>ses kaydı</b> olarak eklenir. Her cümlenin anı bilindiği için altyazı tam zamanında oluşur. Birden fazla kez basarak farklı yerlere farklı seslendirmeler ekleyebilirsin.</p>
+      <div class="two"><div class="row"><label for="psSes">Ses</label><select id="psSes"></select></div>
+      <div class="row"><label>Ton</label><div class="seg" id="psTon"><button type="button" data-v="0">Doğal</button><button type="button" data-v="3">İnce</button><button type="button" data-v="5">Daha ince</button></div></div></div>
+      <div class="row"><div class="lab"><label for="psHiz">Okuma hızı</label><output id="psHizO"></output></div><input type="range" id="psHiz" min="0.75" max="1.4" step="0.05"></div>
+      <label class="check"><input type="checkbox" id="psAlt" checked>Altyazıyı da oluştur (cümleye tam hizalı)</label>
+      <label class="check"><input type="checkbox" id="psAn">Önizlemedeki andan başlat (kapalıysa videonun başından)</label>
+      <div class="btns"><button type="button" class="btn primary" id="psUret">🗣 Metni seslendir ve videoya ekle</button><button type="button" class="btn small" id="psDinle">▶ Dinle</button><button type="button" class="btn small" id="psDur">■</button></div>
+      <p class="note mono" id="psDurum"></p><p class="note mono" id="psNot" aria-live="polite"></p>
     </div>
     <div class="sect">
       <h3>Konuşmayı temizle</h3>
@@ -3570,7 +3584,7 @@ function makeRenderer(ctx, W, H, getSrc){
     if (st.end) return (st.el >= (S.endcard.style === 'cta' ? 5 : 0.7) && bokehAlphaEnd(st.el) === 0) ? 'end' + subKey : null;
     if (st.b) return null;
     const c = S.clips[st.a.i];
-    if (c.kind === 'video' || kbScale(c, st.a.i, 0, 0) !== 1 || KB(c).on || (typeof tkVar === 'function' && tkVar(c))) return null;
+    if (c.kind === 'video' || kbScale(c, st.a.i, 0, 0) !== 1 || KB(c).on || (typeof tkHerhangi === 'function' && tkHerhangi(c))) return null;
     return 'c' + st.a.i + subKey;
   }
   return {render, signature, geo:i => geo.get(i), release(){ if (scratch){ scratch.width = 0; scratch = null; } if (scratch2){ scratch2.width = 0; scratch2 = null; } vbg.forEach(b => b.width = 0); vbg.clear(); }};
@@ -5633,7 +5647,7 @@ function kisaDurum(){
   $('#kisaAyar').hidden = !S.kisa.on;
 }
 async function kisaHazirla(sadeceSes){
-  const tr = S.tracks.find(t => t.voice && t.buffer);
+  const tr = S.tracks.find(t => t.voice && t.buffer && !t.okurSesi) || S.tracks.find(t => t.voice && t.buffer);
   const not = m => { const a = $('#kisaDurum'), b = $('#vTemizNot'); if (a) a.textContent = m; if (b) b.textContent = m; };
   if (!tr){ toast('Önce seslendirme ekle (Seslendirme bölümü)'); showTab('voice'); return; }
   not('Konuşma inceleniyor…'); await sleep(30);
@@ -5806,6 +5820,208 @@ async function klasikUret(key, seconds){
   return out;
 }
 
+const KS = Object.assign({ses:'tr_TR-fahrettin-medium', hiz:1, ton:0}, (() => { try { return JSON.parse(localStorage.getItem('kv.ses') || '{}'); } catch(e){ return {}; } })());
+const ksKaydet = () => { try { localStorage.setItem('kv.ses', JSON.stringify(KS)); } catch(e){} };
+const PiperSes=(function(){
+  const B=window.OKUR_SES_URL||{};
+  const HF=B.hf||'https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/tr/tr_TR/';
+  const ORT=B.ort||'https://cdnjs.cloudflare.com/ajax/libs/onnxruntime-web/1.18.0/';
+  const PW=B.pw||'https://cdn.jsdelivr.net/npm/@diffusionstudio/piper-wasm@1.0.0/build/piper_phonemize';
+  const GLUE=B.glue||'https://cdn.jsdelivr.net/npm/@diffusionstudio/vits-web@1.0.3/dist/piper-DeOu3H9E.js';
+  const CN='okur-ses-1';
+  const SESLER=[['tr_TR-fahrettin-medium','Fahrettin'],['tr_TR-fettah-medium','Fettah'],['tr_TR-dfki-medium','DFKI']];
+  const modelUrl=v=>{const p=v.split('-');return HF+p[1]+'/'+p[2]+'/'+v+'.onnx'};
+  const ORTF=['ort-wasm-simd.wasm','ort-wasm.wasm'];
+  const bu=(b,t)=>URL.createObjectURL(new Blob([b],{type:t}));
+  function wav(f,sr){const n=f.length,v=new DataView(new ArrayBuffer(44+n*2)),w=(o,s)=>{for(let i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i))};
+    w(0,'RIFF');v.setUint32(4,36+n*2,true);w(8,'WAVEfmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,sr,true);v.setUint32(28,sr*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,'data');v.setUint32(40,n*2,true);
+    let pk=0;for(let i=0;i<n;i++){const a=Math.abs(f[i]);if(a>pk)pk=a}const k=pk>0.98?0.98/pk:1;
+    for(let i=0;i<n;i++){const s=Math.max(-1,Math.min(1,f[i]*k));v.setInt16(44+i*2,s<0?s*32768:s*32767,true)}return v.buffer}
+  /* çıkarım ayrı iş parçacığında (Worker): okuma sırasında sayfa takılmaz */
+  const WSRC=`let ses=null;
+onmessage=async e=>{const d=e.data;try{
+ if(d.t==='init'){importScripts(d.ort);ort.env.wasm.wasmPaths=d.wasm;ort.env.wasm.numThreads=d.thr||1;
+   ses=await ort.InferenceSession.create(d.model,{executionProviders:['wasm']});postMessage({t:'hazir'});return}
+ if(d.t==='run'){const n=d.ids.length,f={input:new ort.Tensor('int64',BigInt64Array.from(d.ids,x=>BigInt(x)),[1,n]),input_lengths:new ort.Tensor('int64',BigInt64Array.from([BigInt(n)]),[1]),scales:new ort.Tensor('float32',Float32Array.from(d.scales),[3])};
+   if(d.sid!=null)f.sid=new ort.Tensor('int64',BigInt64Array.from([BigInt(d.sid)]),[1]);
+   const r=await ses.run(f);const o=r.output.data;const pcm=new Float32Array(o.length);pcm.set(o);postMessage({t:'ses',id:d.id,pcm},[pcm.buffer])}
+}catch(x){postMessage({t:'hata',id:d.id,m:String(x&&x.message||x)})}};`;
+  const P={SESLER,_bek:new Map(),_onb:new Map(),_id:0,_gen:0,au:null,cfg:null,
+    acik(){return true},
+    secili(){return SESLER.some(x=>x[0]===KS.ses)?KS.ses:SESLER[0][0]},
+    ad(v){const x=SESLER.find(z=>z[0]===(v||this.secili()));return x?x[1]:v},
+    async cache(){try{return await caches.open(CN)}catch(e){return null}},
+    async getir(url,tip,ilerle){
+      const c=await this.cache();if(c){try{const r=await c.match(url);if(r){const b=await r.arrayBuffer();ilerle&&ilerle(b.byteLength,b.byteLength);return b}}catch(e){}}
+      let res;try{res=await fetch(url)}catch(e){throw new Error('İnternet bağlantısı gerekli (ilk indirme)')}
+      if(!res.ok)throw new Error('İndirilemedi ('+res.status+'): '+url.split('/').pop());
+      const top=+res.headers.get('Content-Length')||0;let buf;
+      if(res.body&&ilerle){const rd=res.body.getReader(),parts=[];let n=0;for(;;){const {done,value}=await rd.read();if(done)break;parts.push(value);n+=value.length;ilerle(n,top||n)}buf=await new Blob(parts).arrayBuffer()}
+      else buf=await res.arrayBuffer();
+      if(c){try{await c.put(url,new Response(buf.slice(0),{headers:{'Content-Type':tip||'application/octet-stream'}}))}catch(e){console.warn('Okur sesi önbelleği',e)}}
+      return buf},
+    async indirildi(v){const c=await this.cache();if(!c)return false;try{return !!(await c.match(modelUrl(v||this.secili())))&&!!(await c.match(PW+'.data'))}catch(e){return false}},
+    async sil(v){const c=await this.cache();if(!c)return;await c.delete(modelUrl(v));await c.delete(modelUrl(v)+'.json');if(this._v===v)this.kapat()},
+    kapat(){this.dur();try{this._w&&this._w.terminate()}catch(e){}this._w=null;this._haz=null;this._v=null;this._ph=null;
+      this._bek.forEach(b=>b.no(new Error('kapandı')));this._bek.clear();this._onb.clear()},
+    /* her şeyi hazırla (gerekirse indir): ses modeli, dil verisi, çıkarım motoru */
+    hazir(ilerle){const v=this.secili();if(this._haz&&this._v===v)return this._haz;this.kapat();this._v=v;
+      this._haz=(async()=>{
+        const tot={},ilet=(k,n,t)=>{tot[k]=[n,t];if(ilerle){let a=0,b=0;Object.values(tot).forEach(([x,y])=>{a+=x;b+=y||x});ilerle(a,b)}};
+        const [cfgB,model,glue,data,pwasm,ortjs,...ow]=await Promise.all([
+          this.getir(modelUrl(v)+'.json','application/json'),
+          this.getir(modelUrl(v),0,(n,t)=>ilet('m',n,t)),
+          this.getir(GLUE,'text/javascript'),
+          this.getir(PW+'.data',0,(n,t)=>ilet('d',n,t)),
+          this.getir(PW+'.wasm','application/wasm'),
+          this.getir(ORT+'ort.wasm.min.js','text/javascript'),
+          ...ORTF.map(f=>this.getir(ORT+f,'application/wasm'))]);
+        if(this._v!==v)throw new Error('ses değişti');
+        this.cfg=JSON.parse(new TextDecoder().decode(cfgB));
+        const mod=await import(bu(glue,'text/javascript'));
+        const dataU=bu(data,'application/octet-stream'),wasmU=bu(pwasm,'application/wasm'),out=[];
+        const inst=await mod.createPiperPhonemize({print:l=>{try{out.push(JSON.parse(l).phoneme_ids)}catch(e){}},printErr:()=>{},
+          locateFile:f=>f.endsWith('.wasm')?wasmU:f.endsWith('.data')?dataU:f});
+        this._ph={inst,out};
+        const w=new Worker(bu(WSRC,'text/javascript')),wasm={};ORTF.forEach((f,i)=>wasm[f]=bu(ow[i],'application/wasm'));
+        await new Promise((ok,no)=>{w.onmessage=e=>{if(e.data.t==='hazir')ok();else if(e.data.t==='hata')no(new Error(e.data.m))};w.onerror=e=>no(new Error(e.message||'çıkarım motoru açılamadı'));
+          w.postMessage({t:'init',ort:bu(ortjs,'text/javascript'),wasm,model,thr:(self.crossOriginIsolated?Math.min(4,navigator.hardwareConcurrency||2):1)},[model])});
+        w.onmessage=e=>{const d=e.data,b=this._bek.get(d.id);if(!b)return;this._bek.delete(d.id);d.t==='ses'?b.ok(d.pcm):b.no(new Error(d.m))};
+        w.onerror=e=>{this._bek.forEach(b=>b.no(new Error('çıkarım motoru durdu')));this._bek.clear()};
+        this._w=w;return true})();
+      this._haz.catch(()=>{if(this._v===v){this._haz=null}});return this._haz},
+    fonem(metin){const {inst,out}=this._ph;out.length=0;
+      inst.callMain(['-l',(this.cfg.espeak&&this.cfg.espeak.voice)||'tr','--input',JSON.stringify([{text:metin}]),'--espeak_data','/espeak-ng-data']);
+      const ids=[];out.forEach(a=>ids.push(...a));return ids},
+    temiz(t){return String(t||'').replace(/[­​-‏]/g,'').replace(/[“”«»]/g,'"').replace(/[‘’]/g,"'").replace(/\s+/g,' ').trim()},
+    sentez(metin){const t=this.temiz(metin);if(!t||!/[\p{L}\p{N}]/u.test(t))return Promise.resolve(null);
+      const hiz=Math.max(.5,Math.min(2.5,+KS.hiz||1)),ton=Math.pow(2,(+KS.ton||0)/12),key=this.secili()+'|'+hiz+'|'+ton+'|'+t;let e=this._onb.get(key);if(e)return e;
+      e=(async()=>{await this.hazir();const ids=this.fonem(t);if(!ids.length)return null;const inf=this.cfg.inference||{},id=++this._id;
+        const pcm=await new Promise((ok,no)=>{this._bek.set(id,{ok,no});
+          this._w.postMessage({t:'run',id,ids,scales:[inf.noise_scale??.667,(inf.length_scale??1)*ton/hiz,inf.noise_w??.8],sid:Object.keys(this.cfg.speaker_id_map||{}).length?0:null})});
+        const sr=(this.cfg.audio&&this.cfg.audio.sample_rate)||22050;return {url:bu(wav(pcm,sr),'audio/wav'),sure:pcm.length/sr}})();
+      this._onb.set(key,e);e.catch(()=>this._onb.delete(key));
+      while(this._onb.size>10){const k0=this._onb.keys().next().value,o=this._onb.get(k0);this._onb.delete(k0);o.then(x=>{x&&setTimeout(()=>URL.revokeObjectURL(x.url),60000)}).catch(()=>{})}
+      return e},
+    hazirla(metin){if(metin&&this.acik()&&this._haz)this.sentez(metin).catch(()=>{})},
+    /* bir metni seslendir; ilerle(0..1) okunan oranı bildirir. Sonuç: 'bitti' | 'dur' | 'hata' */
+    cal(metin,ilerle){const my=++this._gen;
+      return (async()=>{let r;try{r=await this.sentez(metin)}catch(e){if(my===this._gen)toast('Okur sesi: '+(e.message||e),4500);return 'hata'}
+        if(my!==this._gen)return 'dur';if(!r)return 'bitti';
+        const a=this.au||(this.au=new Audio()),ton=Math.pow(2,(+KS.ton||0)/12),kor=ton===1;try{a.preservesPitch=kor;a.webkitPreservesPitch=kor;a.mozPreservesPitch=kor}catch(e){}a.src=r.url;a.defaultPlaybackRate=ton;a.playbackRate=ton;
+        return await new Promise(res=>{let tm=0;const son=v=>{clearInterval(tm);a.onended=a.onerror=null;if(this._kes===kes)this._kes=null;res(v)};
+          const kes=()=>{try{a.pause()}catch(e){}son('dur')};this._kes=kes;
+          a.onended=()=>{try{ilerle&&ilerle(1)}catch(e){}son('bitti')};a.onerror=()=>son('hata');
+          const p=a.play();(p&&p.then?p:Promise.resolve()).then(()=>{if(ilerle){try{ilerle(0)}catch(e){}tm=setInterval(()=>{if(a.duration&&isFinite(a.duration))try{ilerle(Math.min(1,a.currentTime/a.duration))}catch(e){}},45)}})
+            .catch(e=>{if(my===this._gen)toast('Ses çalınamadı: '+(e.message||e),3500);son('hata')})})})()},
+    dur(){this._gen++;if(this._kes)this._kes()},
+    /* kelime ağırlıkları (hece + noktalama durakları) → orandan kelimeye */
+    kelimeler(t){const W=[];const re=/\S+/g;let m,G=0;while((m=re.exec(t))){const w=m[0];let g=(typeof AK!=='undefined'&&AK.birim)?AK.birim(w,false):Math.max(1,w.length/3);W.push({a:m.index,b:m.index+w.length,g0:G});G+=g}
+      W.forEach(x=>x.G=G);return W},
+    kelimeAt(W,f){if(!W.length)return -1;const h=f*W[0].G;let j=0;for(let i=0;i<W.length;i++){if(W[i].g0<=h)j=i;else break}return j}
+  };
+  return P})();
+/* ================= 6.8: OKUR SESİYLE SESLENDİRME (videoya girer) =================
+   Metin cümle cümle Türkçe sinir ağı sesiyle (Piper, cihazda) üretilir; sesler art arda eklenip videoya
+   seslendirme kaydı olarak konur. Her cümlenin başlangıç/bitiş anı bilindiği için altyazı tam zamanında oluşur. */
+function psCumleler(txt){
+  const out = [];
+  stripCues(txt).split(/\n\s*\n+/).forEach((par, pi) => {
+    const cs = par.replace(/\s*\n\s*/g, ' ').split(/(?<=[.!?…]["”’»)]?)\s+(?=["“«(]?[A-ZÇĞİÖŞÜÂÎÛ0-9])/).map(x => x.trim()).filter(Boolean);
+    cs.forEach((c, ci) => {
+      if (c.length <= 220){ out.push({t:c, par:pi && !ci}); return; }
+      let cur = ''; c.split(/(?<=[,;:])\s+/).forEach(p => { if ((cur + ' ' + p).trim().length > 200 && cur){ out.push({t:cur.trim(), par:pi && !ci && !out.length}); cur = p; } else cur = (cur + ' ' + p).trim(); });
+      if (cur) out.push({t:cur, par:false});
+    });
+  });
+  return out;
+}
+let psCalisiyor = false, psIptal = false;
+async function psUret(){
+  if (psCalisiyor){ psIptal = true; return; }
+  const txt = $('#vText') ? $('#vText').value : '', not = m => { const e = $('#psNot'); if (e) e.textContent = m; };
+  const cs = psCumleler(txt); if (!cs.length){ toast('Önce Okunacak metin kutusuna metni yapıştır'); $('#vText') && $('#vText').focus(); return; }
+  psCalisiyor = true; psIptal = false; const btn = $('#psUret'); if (btn) btn.textContent = '■ Durdur';
+  try {
+    not('Ses hazırlanıyor…');
+    await PiperSes.hazir((n, t) => not('Ses indiriliyor… %' + (t ? Math.round(n/t*100) : 0) + ' (' + Math.round(n/1048576) + ' / ' + Math.round(t/1048576) + ' MB · yalnız ilk sefer)'));
+    const sr = (PiperSes.cfg && PiperSes.cfg.audio && PiperSes.cfg.audio.sample_rate) || 22050, parcalar = [], segs = [];
+    let t = 0.12; const bas = Math.round(sr*0.12);
+    for (let i = 0; i < cs.length; i++){
+      if (psIptal) throw new Error('durduruldu');
+      not(`Seslendiriliyor ${i + 1} / ${cs.length} · “${cs[i].t.slice(0, 40)}${cs[i].t.length > 40 ? '…' : ''}”`);
+      if (i + 1 < cs.length) PiperSes.hazirla(cs[i + 1].t);
+      const r = await PiperSes.sentez(cs[i].t); if (!r) continue;
+      const pcm = await fetch(r.url).then(x => x.arrayBuffer()).then(b => new Int16Array(b, 44));
+      const ara = i ? (cs[i].par ? 0.55 : 0.3) : 0;
+      if (ara){ parcalar.push(new Int16Array(Math.round(sr*ara))); t += ara; }
+      parcalar.push(pcm); const d = pcm.length/sr; segs.push({a:t, b:t + d, t:cs[i].t}); t += d;
+    }
+    const kuyruk = Math.round(sr*0.35), top = bas + parcalar.reduce((s, p) => s + p.length, 0) + kuyruk;
+    const all = new Int16Array(top); let o = bas; parcalar.forEach(p => { all.set(p, o); o += p.length; });
+    const v = new DataView(new ArrayBuffer(44)), w = (q, s) => { for (let i = 0; i < s.length; i++) v.setUint8(q + i, s.charCodeAt(i)); };
+    w(0, 'RIFF'); v.setUint32(4, 36 + top*2, true); w(8, 'WAVEfmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true); v.setUint32(24, sr, true); v.setUint32(28, sr*2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true); w(36, 'data'); v.setUint32(40, top*2, true);
+    const ad = 'Okur sesi – ' + PiperSes.ad() + ' ' + new Date().toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'}).replace(':', '.') + '.wav';
+    const f = new File([v.buffer, all.buffer], ad, {type:'audio/wav', lastModified:Date.now()});
+    const at = $('#psAn') && $('#psAn').checked ? Math.max(0, Math.round(PT*10)/10) : (S.kisa && S.kisa.on ? 0.15 : (introActive(0) ? Math.round((S.intro.dur + 0.2)*10)/10 : 0.3));
+    pushUndo(); await addVoiceFile(f, {at});
+    const tr = S.tracks.find(x => x.file === f); if (!tr){ not('Ses eklenemedi'); return; }
+    tr.okurSesi = true; let m = `${cs.length} cümle seslendirildi (${mmss(effLen(tr))}) · ${mmssd(at)} anından başlıyor`;
+    if (!$('#psAlt') || $('#psAlt').checked){
+      const yeni = []; segs.forEach(sg => { const parca = kvParcala(sg.t, S.sub.style === 'kisa' ? 4 : 9), ag = parca.map(p => p.split(/\s+/).reduce((s, x) => s + kvHece(x) + 0.3, 0)), T = ag.reduce((a, b) => a + b, 0); let acc = 0;
+        parca.forEach((p, i) => { const s0 = sg.a + (sg.b - sg.a)*acc/T; acc += ag[i]; const s1 = sg.a + (sg.b - sg.a)*acc/T; yeni.push({id:uid++, start:Math.round((at + s0)*100)/100, end:Math.round((at + s1 + (i === parca.length - 1 ? 0.15 : -0.02))*100)/100, text:p}); }); });
+      const a0 = at, a1 = at + effLen(tr); S.subs = S.subs.filter(x => x.end <= a0 || x.start >= a1).concat(yeni).sort((a, b) => a.start - b.start); S.sub.on = true;
+      m += ` · ${yeni.length} altyazı tam zamanında`;
+    }
+    if (S.kisa && S.kisa.on && S.clips.some(c => c.kind === 'photo')){
+      const hedef = tr.at + effLen(tr) + 0.4, ph = S.clips.filter(c => c.kind === 'photo'), vid = S.clips.filter(c => c.kind === 'video').reduce((s, c) => s + c.dur, 0), tl0 = timeline();
+      const each = (hedef - vid - tl0.E)/ph.length; if (each >= 0.8){ applyAllDur(Math.round(each*100)/100); m += ` · fotoğraflar ${trNum(each, 1)} sn`; }
+    }
+    renderSubs(); renderTracks(); renderLanes(); updateSummary(); syncUI(); requestRender(); projSave(); not(m); toast('Okur sesi videoya eklendi'); try { kisaDurum(); } catch(e){}
+  } catch(e){ not(e.message === 'durduruldu' ? 'Durduruldu' : 'Olmadı: ' + (e.message || e)); if (e.message !== 'durduruldu') toast('Seslendirme yapılamadı'); }
+  finally { psCalisiyor = false; psIptal = false; const b = $('#psUret'); if (b) b.textContent = '🗣 Metni seslendir ve videoya ekle'; }
+}
+function psUI(){
+  const s = $('#psSes'); if (!s) return;
+  s.innerHTML = PiperSes.SESLER.map(([v, a]) => `<option value="${v}"${PiperSes.secili() === v ? ' selected' : ''}>${a} (Türkçe · erkek)</option>`).join('');
+  $$('#psTon button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.v === (+KS.ton || 0))));
+  $('#psHiz').value = KS.hiz || 1; $('#psHizO').textContent = '×' + trNum(+KS.hiz || 1, 2);
+  PiperSes.indirildi().then(v => { const e = $('#psDurum'); if (e) e.textContent = v ? 'Ses indirilmiş · internetsiz çalışır' : 'İlk kullanımda ≈ 80 MB indirilir (Wi-Fi önerilir) · Okur ile aynı adreste açıksan tekrar indirmez'; });
+}
+function psBagla(){
+  if (!$('#psSes')) return;
+  $('#psSes').addEventListener('change', e => { KS.ses = e.target.value; ksKaydet(); PiperSes.kapat(); psUI(); });
+  $('#psTon').addEventListener('click', e => { const b = e.target.closest('button[data-v]'); if (!b) return; KS.ton = +b.dataset.v; ksKaydet(); psUI(); });
+  $('#psHiz').addEventListener('input', e => { KS.hiz = +e.target.value; ksKaydet(); $('#psHizO').textContent = '×' + trNum(KS.hiz, 2); });
+  $('#psUret').addEventListener('click', psUret);
+  $('#psDinle').addEventListener('click', async () => { const cs = psCumleler($('#vText').value || ''); const t = cs.length ? cs.slice(0, 2).map(x => x.t).join(' ') : 'Merhaba, bu ses videona eklenecek.';
+    $('#psNot').textContent = 'Hazırlanıyor…'; try { await PiperSes.hazir((n, tt) => $('#psNot').textContent = 'Ses indiriliyor… %' + (tt ? Math.round(n/tt*100) : 0)); $('#psNot').textContent = 'Dinleniyor (ilk iki cümle)'; await PiperSes.cal(t); $('#psNot').textContent = ''; psUI(); } catch(e){ $('#psNot').textContent = 'Olmadı: ' + (e.message || e); } });
+  $('#psDur').addEventListener('click', () => { PiperSes.dur(); if (psCalisiyor) psIptal = true; });
+  psUI();
+}
+
+/* ================= 6.8: BİR KLİPTE BİRDEN FAZLA TAKİP EDEN YAZI =================
+   c.tk düzenlenen yazıdır; diğerleri c.tkEk dizisinde durur. Listeden seçilen yazı c.tk ile yer değiştirir. */
+function tkHepsi(c){ return [c && c.tk, ...((c && c.tkEk) || [])].filter(Boolean); }
+function tkHerhangi(c){ return !!c && tkHepsi(c).some(t => t.on !== false && Array.isArray(t.pts) && t.pts.length); }
+function tkListeCiz(){
+  const c = cur(), box = $('#tkListe'); if (!box) return; if (!c){ box.innerHTML = ''; return; }
+  const l = tkHepsi(c), ad = t => (t.txt || '').trim() || '(yazısız)';
+  box.innerHTML = '<div class="tkl">' + l.map((t, i) => `<button type="button" class="tkb${i ? '' : ' on'}" data-tki="${i}" title="${i ? 'Düzenlemek için seç' : 'Şu an düzenlenen'}">${i + 1}. ${esc(ad(t)).slice(0, 22)}${Array.isArray(t.pts) && t.pts.length ? '' : ' · nokta yok'}</button>` + (i ? `<button type="button" class="tkx" data-tkx="${i}" aria-label="Sil">×</button>` : '')).join('') +
+    `<button type="button" class="tkb yeni" data-tkyeni="1">＋ Yeni takip yazısı</button></div>`;
+}
+function tkListeBagla(){
+  const box = $('#tkListe'); if (!box) return;
+  box.addEventListener('click', e => {
+    const c = cur(); if (!c) return; const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.tkyeni){ if (!(c.tk && Array.isArray(c.tk.pts) && c.tk.pts.length)){ toast('Önce bu yazının noktasını seç (◎), sonra yenisini ekle'); return; }
+      pushUndo(); c.tkEk = (c.tkEk || []).concat([c.tk]); c.tk = Object.assign({}, TK_DEF, {stil:c.tk.stil, renk:c.tk.renk, pts:[]}); tkUI(); requestRender(); projSave(); $('#tkT').focus(); toast('Yeni yazı: metni gir, sonra ◎ Noktayı seç'); return; }
+    if (b.dataset.tkx){ const i = +b.dataset.tkx - 1; pushUndo(); c.tkEk.splice(i, 1); tkUI(); requestRender(); projSave(); return; }
+    if (b.dataset.tki && +b.dataset.tki > 0){ const i = +b.dataset.tki - 1, x = c.tkEk[i]; c.tkEk[i] = c.tk; c.tk = x; _tkSig = ''; tkUI(); requestRender(); projSave(); }
+  });
+}
+
+try { psBagla(); tkListeBagla(); } catch(e){ console.warn('6.8 bağlama', e); }
 try { window.__kv = {S:() => S, tl:() => timeline(), effLen:t => effLen(t), kisaGeriAl, genMusic, setPT:v => { PT = v; requestRender(); }}; } catch(e){}
 const MOODS = {
   calm:  {name:'Sakin', bpm:72, prog:[[57,60,64],[53,57,60],[48,52,55],[55,59,62]], kick:false, wave:'triangle', cut:1600},
@@ -7578,7 +7794,7 @@ async function projSaveNow(){
       id: PID, when: now, sel: S.sel, kp: S.kp || {}, settings: settingsSnap(), cover:{title:S.cover.title, band:S.cover.band || '', band2:S.cover.band2 || ''}, hook:{on:S.hook.on, text:S.hook.text}, exp: S.exported || null,
       pub:{topic:$('#pTopic').value, place:$('#pPlace').value, chan:$('#pChan').value, kw:$('#pKw').value, kwo:$('#pKwOpt').value},
       clips: S.clips.map(c => ({fkey:c.fkey, kind:c.kind, rot:c.rot || 0, af:!!c.autoFilled, name:c.name, date:c.date, dur:c.dur, zoom:c.zoom, ox:c.ox, oy:c.oy, kbOff:c.kbOff, hf:!!c.hasFace, fv:c.fv || 0, ffx:c.fx, ffy:c.fy, ffh:c.faceH, vin:c.vin, vout:c.vout, vol:c.vol, mute:c.mute,
-        w:c.w, h:c.h, a0:c.aspect0, sd:c.srcDur, fix:c.fix, th:thumbURL(c), kbr:c.kbr, kbm:c.kbm, kbf:c.kbf, kbOn:!!c.kbOn, hs:c.headSrc || '', tk:c.tk || null})),
+        w:c.w, h:c.h, a0:c.aspect0, sd:c.srcDur, fix:c.fix, th:thumbURL(c), kbr:c.kbr, kbm:c.kbm, kbf:c.kbf, kbOn:!!c.kbOn, hs:c.headSrc || '', tk:c.tk || null, tkEk:(c.tkEk && c.tkEk.length) ? c.tkEk : null})),
       subs: S.subs.map(x => ({start:x.start, end:x.end, text:x.text})),
       intro:{title:S.intro.title, sub:S.intro.sub, band:S.intro.band || '', band2:S.intro.band2 || '', ek:S.intro.ek}, script: $('#vText').value,
       tracks: S.tracks.map(t => ({fkey:t.fkey || null, gen:t.gen || null, name:t.name, at:t.at, trim:t.trim, len:t.len, vol:t.vol, fin:t.fin, fout:t.fout, loop:t.loop, voice:!!t.voice}))
@@ -7687,7 +7903,7 @@ async function projRestore(m){
           c = await quickClip(x, f).catch(() => null);
           if (!c){ upgrade = true; c = x.kind === 'video' ? await makeVideo(f) : await makePhoto(f, x.name, x.date); }
           Object.assign(c, {name:x.name, date:x.date, dur:x.dur, zoom:x.zoom, ox:x.ox, oy:x.oy, kbOff:!!x.kbOff, hasFace:!!x.hf, fv:x.fv || 0, fx:x.ffx == null ? null : x.ffx, fy:x.ffy == null ? null : x.ffy, faceH:x.ffh || 0, fkey:x.fkey, headSrc:x.hs || ''});
-          if (x.tk && typeof x.tk === 'object') c.tk = x.tk;
+          if (x.tk && typeof x.tk === 'object') c.tk = x.tk; if (Array.isArray(x.tkEk)) c.tkEk = x.tkEk;
           if (x.kbr != null) c.kbr = x.kbr; if (x.kbm) c.kbm = x.kbm; if (x.kbf != null) c.kbf = x.kbf; if (x.kbOn) c.kbOn = true;
           if (x.rot) setRot(c, x.rot); c.autoFilled = !!x.af;
           if (x.kind === 'video') Object.assign(c, {vin:x.vin, vout:x.vout, vol:x.vol, mute:x.mute});
@@ -8053,7 +8269,9 @@ function tkCiz(g, o, yon, X, Y, el, a, W, H, dx, ornek){
 }
 /* oluşturucudan çağrılır: klip çizildikten sonra */
 function tkKlipCiz(g, c, local, cx, cy, fw, fh, alpha, dx, W, H){
-  if (!tkVar(c) || KPAS('takip')) return;
+  if (KPAS('takip') || !c) return;
+  if (c.tkEk && c.tkEk.length && !c._tkAlt){ for (const t of tkHepsi(c)){ const k = Object.create(c); k.tk = t; k._tkAlt = true; tkKlipCiz(g, k, local, cx, cy, fw, fh, alpha, dx, W, H); } return; }
+  if (!tkVar(c)) return;
   const o = tkAyar(c), vt = c.kind === 'video' ? videoTime(c, local) : local, q = tkNokta(c, vt); if (!q) return;
   const el = c.kind === 'video' ? Math.max(0, vt - Math.max(q.t0, c.vin)) : Math.max(0, local);
   tkCiz(g, o, tkYonu(c, o), cx + (q.x - 0.5)*fw, cy + (q.y - 0.5)*fh, el, alpha*q.a, W, H, dx, false);
@@ -8151,7 +8369,7 @@ function tkUI(){
     else if (var_) tkNotYaz('Yazı fotoğraftaki noktaya sabit; hareket efektiyle birlikte kayar.');
     else tkNotYaz(c.kind === 'video' ? 'Önce yazıyı gir, sonra “Noktayı seç”e basıp önizlemede takip edilecek yere (ör. yaprağın ortasına) dokun.' : 'Fotoğrafta bir noktaya yazı iğnele; hareket efektiyle birlikte kayar.');
   }
-  tkOrnekler(c);
+  tkOrnekler(c); try { tkListeCiz(); } catch(e){}
 }
 function tkOrnekler(c){
   const grid = $('#tkStil'); if (!grid || $('#tkAyar').hidden) return;
