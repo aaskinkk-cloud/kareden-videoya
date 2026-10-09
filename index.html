@@ -7,10 +7,12 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}.kisakart{border:1px solid color-mix(in srgb,#ff3b30 45%,transparent);background:linear-gradient(135deg,color-mix(in srgb,#ff3b30 10%,transparent),transparent 60%)}
+.kisakart h3::before{content:"▶ ";color:#ff3b30}
+</style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="6.6" data-ad="Kareden Videoya" data-tarih="03.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="6.7" data-ad="Kareden Videoya" data-tarih="03.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -466,7 +468,7 @@ body.pvfs #pvFull{display:inline-grid!important}
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 6.6 · 04.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 6.7 · 09.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -641,6 +643,22 @@ body.pvfs #pvFull{display:inline-grid!important}
 
   <!-- LOOK -->
   <section class="panel" data-panel="look" hidden>
+    <div class="sect kisakart" id="kisaSect">
+      <h3>Kısa video · Shorts / Reels</h3>
+      <p class="note">Konuşmalı dikey kısa video düzeni: 9:16, yalnız <b>logo, "takip et" yazısı, altyazı ve müzik</b>. Giriş başlığı, boncuklar, abone hatırlatıcı, kanca ve kapanış kapanır (mod kapatılınca geri gelir).</p>
+      <label class="check"><input type="checkbox" id="kisaOn">Kısa video modunu aç</label>
+      <div id="kisaAyar" hidden>
+        <div class="row"><label for="kisaTakip">"Takip et" yazısı (kanal adın)</label><input type="text" id="kisaTakip" data-k="kisa.takip" placeholder="Örn. @ahmetinbahcesi"></div>
+        <div class="two"><div class="row"><label for="kisaBtn">Düğme yazısı</label><input type="text" id="kisaBtn" data-k="kisa.takipBtn" placeholder="Takip et"></div>
+        <div class="row"><label>Yeri</label><div class="seg" data-k="kisa.takipPos"><button data-v="ust">Üstte</button><button data-v="alt">Altta</button></div></div></div>
+        <div class="row"><label>Konuşma araları</label><div class="seg" data-k="kisa.bosluk" data-num><button data-v="0.12">Sıkı<small>0,12 sn</small></button><button data-v="0.2">Doğal<small>0,2 sn</small></button><button data-v="0.35">Rahat<small>0,35 sn</small></button></div></div>
+        <label class="check"><input type="checkbox" data-k="kisa.iyilestir">Sesi iyileştir (uğultu kes, netlik, dengeli seviye)</label>
+        <label class="check"><input type="checkbox" data-k="kisa.dolgu">"ııı, eee" gibi dolgu seslerini de at (deneysel)</label>
+        <div class="btns"><button class="btn primary" id="kisaHazirla">Seslendirmeyi temizle · altyazıyı hizala</button><button class="btn small" id="kisaGeri">Özgün sese dön</button></div>
+        <p class="note">Altyazı, Seslendirme › Okunacak metin kutusundaki yazıdan oluşur ve temizlenmiş konuşmaya hece hece yerleştirilir; o anda söylenen kelime renklenir. Fotoğraf süreleri konuşmaya eşitlenir.</p>
+        <p class="note mono" id="kisaDurum"></p>
+      </div>
+    </div>
     <div class="sect">
       <h3>Format</h3>
       <div class="seg" data-k="fmt">
@@ -854,6 +872,12 @@ body.pvfs #pvFull{display:inline-grid!important}
       </div>
       <input type="file" id="vFileIn2" accept="audio/*" hidden>
     </div>
+    <div class="sect">
+      <h3>Konuşmayı temizle</h3>
+      <p class="note">Konuşma arasındaki boşlukları kısaltır; nefes, tık ve çıt seslerini atar; isteğe bağlı "ııı, eee" dolgularını çıkarır. Ayarlar Görünüm › Kısa video kartında.</p>
+      <div class="btns"><button class="btn primary" id="vTemiz">Boşlukları ve gereksiz sesleri çıkar</button><button class="btn small" id="vTemizAlt">Temizle + altyazıyı hizala</button><button class="btn small" id="vTemizGeri">Özgün sese dön</button></div>
+      <p class="note mono" id="vTemizNot"></p>
+    </div>
     <details class="sect vdet"><summary>Okuma önerileri ve altyazı</summary>
       <div class="chips" id="cueBtns"></div>
       <div class="btns"><button class="btn primary" id="vCues">Okuma önerilerini ekle</button><button class="btn small" id="vCuesClear">Önerileri temizle</button><button class="btn" id="vSubs">Metinden altyazı oluştur</button></div>
@@ -877,6 +901,8 @@ body.pvfs #pvFull{display:inline-grid!important}
       <div class="btns"><button class="btn primary" id="addAudio">Müzik ekle</button><button class="btn" id="fitMusic2">Fotoğraf sürelerini müziğe eşitle</button></div>
       <div class="row"><span class="note">Telifsiz hazır müzik (bu sayfada üretilir, videonun uzunluğuna göre)</span>
         <div class="btns"><button class="btn small" data-gen="calm">Sakin</button><button class="btn small" data-gen="happy">Neşeli</button><button class="btn small" data-gen="warm">Duygusal</button><button class="btn small" data-gen="drive">Tempolu</button></div></div>
+      <div class="row"><span class="note">Klasik müzik (bu sayfada çalınır; eserler kamu malı, kayıt senin — telifsiz)</span>
+        <div class="btns"><button class="btn small" data-gen="k_alleg">🎻 Hareketli</button><button class="btn small" data-gen="k_adag">🎻 Yavaş</button><button class="btn small" data-gen="k_dram">🥁 Dramatik</button><button class="btn small" data-gen="k_bach">🎹 Piyano</button></div></div>
       <p class="warn">Telefondaki ünlü şarkılar YouTube'da telif uyarısı alır; reklam geliri şarkı sahibine gider veya video engellenebilir. Güvenli seçenek YouTube Studio'daki Ses Kitaplığı ya da buradaki hazır müzik. <a href="https://studio.youtube.com/channel/UC/music" target="_blank" rel="noopener" style="color:var(--audio)">Ses Kitaplığını aç</a></p>
       <label class="check"><input type="checkbox" id="mAuto" data-k="music.autoAdd">Her yeni videoya otomatik neşeli müzik ekle</label>
       <label class="check"><input type="checkbox" id="mFit" data-k="music.autoFit">Müziği videoya otomatik sığdır</label>
@@ -905,7 +931,8 @@ body.pvfs #pvFull{display:inline-grid!important}
       <label class="check"><input type="checkbox" id="subOn" data-k="sub.on">Altyazıları videoya yaz</label>
       <div class="row"><div class="lab"><label for="subSize">Yazı boyutu</label><output data-o="sub.size" data-f="pct"></output></div><input type="range" id="subSize" data-k="sub.size" min="3" max="9" step="0.25"></div>
       <div class="seg" data-k="sub.pos"><button data-v="bottom">Altta</button><button data-v="middle">Ortada</button><button data-v="top">Üstte</button></div>
-      <div class="seg" data-k="sub.style"><button data-v="box">Koyu kutu</button><button data-v="outline">Kenarlı yazı</button><button data-v="yellow">Sarı, kenarlı</button></div>
+      <div class="seg" data-k="sub.style"><button data-v="box">Koyu kutu</button><button data-v="outline">Kenarlı yazı</button><button data-v="yellow">Sarı, kenarlı</button><button data-v="kisa">Kısa video<small>kelime vurgulu</small></button></div>
+      <div class="seg" data-k="sub.renk"><button data-v="#ffd400">Sarı</button><button data-v="#35e06b">Yeşil</button><button data-v="#27d3ff">Mavi</button><button data-v="#ff5fa2">Pembe</button><button data-v="#ffffff">Beyaz</button></div>
     </div>
     <div class="sect" id="subList"></div>
   </section>
@@ -3197,7 +3224,8 @@ const DEF = {
   logo:{src:null, pos:'tl', size:12, opacity:90, margin:2.5, lx:.12, ly:.1, auto:true, glow:true, glowEvery:7},
   cover:{title:'', band:'', band2:'', size:12, pos:'center', fit:'fill', logo:true, style:'bold', hl:'#ffd400', pop:true},
   hook:{on:false, text:'', dur:3, size:7},
-  sub:{on:true, size:5, pos:'bottom', style:'box'}
+  sub:{on:true, size:5, pos:'bottom', style:'box', renk:'#ffd400'},
+  kisa:{on:false, takip:'', takipBtn:'Takip et', takipPos:'ust', renk:'#ff3b30', bosluk:0.2, dolgu:false, iyilestir:true, eski:null}
 };
 const S = Object.assign(JSON.parse(JSON.stringify(DEF)), {clips:[], sel:0, tracks:[], subs:[], kp:{}});
 const KPAS = k => !!(S.kp && S.kp[k]);   /* katman pasif mi (silmeden kapatma) */
@@ -3209,7 +3237,7 @@ const LS = {
   get(k){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch(e){ return null; } },
   set(k,v){ try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch(e){ return false; } }
 };
-const SKEYS = ['fmt','res','fps','quality','fadeIn','fadeOut','photoDur','autoFix','guides','autoFill','dedupe'], OKEYS = ['bg','kb','tr','color','music','logo','cover','hook','endcard','sub','intro','bokeh','remind','voice'];
+const SKEYS = ['fmt','res','fps','quality','fadeIn','fadeOut','photoDur','autoFix','guides','autoFill','dedupe'], OKEYS = ['bg','kb','tr','color','music','logo','cover','hook','endcard','sub','intro','bokeh','remind','voice','kisa'];
 const BUILTIN = {
   'YouTube anı videosu': {note:'16:9 · 1080p · 5 sn fotoğraf · eriyerek geçiş · bitiş ekranı', fmt:'16:9', res:1080, fps:30, quality:'mid', photoDur:5, kb:{on:true, rate:3, mode:'auto'}, tr:{type:'melt', dur:0.8}, color:{b:100, c:100, s:100}, endcard:{on:true, dur:10}, hook:{dur:3, size:7}},
   'YouTube Shorts': {note:'9:16 · 1080p · 2,5 sn · eriyerek geçiş · kanca 2,5 sn', fmt:'9:16', res:1080, fps:30, quality:'mid', photoDur:2.5, kb:{on:true, rate:5, mode:'in'}, tr:{type:'melt', dur:0.4}, color:{b:100, c:100, s:100}, endcard:{on:false}, hook:{dur:2.5, size:8}, guides:true},
@@ -3522,6 +3550,7 @@ function makeRenderer(ctx, W, H, getSrc){
     if (S.fadeIn && t < tl.F && !pvStatic) fade = 1 - t/tl.F;
     if (fade > 0){ ctx.fillStyle = `rgba(0,0,0,${clamp(fade,0,1)})`; ctx.fillRect(0, 0, W, H); }
     drawSubs(ctx, W, H, t);
+    drawTakip(ctx, W, H, t);
     drawIntro(ctx, W, H, t);
     drawHook(ctx, W, H, t);
     drawRemind(ctx, W, H, t);
@@ -3534,6 +3563,8 @@ function makeRenderer(ctx, W, H, getSrc){
     if (introActive(t) || (S.intro.blurIn && t < S.intro.blurDur + 0.05) || remindActive(t) || bokehAlphaMain(t, tl) > 0 || logoGlowActive(t)) return null;
     const sb = activeSub(t);
     if (sb && (t - sb.start < 0.2 || sb.end - t < 0.2)) return null;
+    if (sb && S.sub.style === 'kisa') return null;
+    if (takipAnim(t)) return null;
     const subKey = sb ? '|s' + sb.id : '';
     const st = frameState(t, tl);
     if (st.end) return (st.el >= (S.endcard.style === 'cta' ? 5 : 0.7) && bokehAlphaEnd(st.el) === 0) ? 'end' + subKey : null;
@@ -4223,6 +4254,7 @@ function activeSub(t){
 }
 function drawSubs(g, W, H, t){
   const x = activeSub(t); if (!x) return;
+  if (S.sub.style === 'kisa'){ drawSubsKisa(g, W, H, t, x); return; }
   const a = Math.min(1, (t - x.start)/0.2, (x.end - t)/0.2); if (a <= 0) return;
   const short = Math.min(W, H), fs = Math.round(short * S.sub.size/100 * (W >= H ? 1 : 1.15));
   g.save(); g.globalAlpha = a;
@@ -5234,6 +5266,12 @@ function fitToMusic(){
 }
 $('#fitMusic').addEventListener('click', fitToMusic);
 $('#fitMusic2').addEventListener('click', fitToMusic);
+$('#kisaOn').addEventListener('change', e => kisaUygula(e.target.checked));
+$('#kisaHazirla').addEventListener('click', () => kisaHazirla(false));
+$('#kisaGeri').addEventListener('click', kisaGeriAl);
+$('#vTemiz').addEventListener('click', () => kisaHazirla(true));
+$('#vTemizAlt').addEventListener('click', () => kisaHazirla(false));
+$('#vTemizGeri').addEventListener('click', kisaGeriAl);
 const coll = new Intl.Collator('tr', {numeric:true, sensitivity:'base'});
 $('#sortName').addEventListener('click', () => { pushUndo(); const c = cur(); S.clips.sort((a,b) => coll.compare(a.name, b.name)); S.sel = Math.max(0, S.clips.indexOf(c)); renderStrip(); clipChanged(true); });
 $('#sortDate').addEventListener('click', () => { pushUndo(); const c = cur(); S.clips.sort((a,b) => a.date - b.date); S.sel = Math.max(0, S.clips.indexOf(c)); renderStrip(); clipChanged(true); });
@@ -5481,14 +5519,304 @@ $('#audioIn').addEventListener('change', async e => {
   }
   stripStatus(''); renderTracks(); updateSummary(); projSave();
 });
+/* ================= 6.7: KISA VİDEO (Shorts · Reels) ================= */
+/* --- konuşma temizleme: boşluklar, nefes/tık sesleri, (isteğe bağlı) ııı-eee dolguları --- */
+function kvWav(buf){
+  const ch = Math.min(2, buf.numberOfChannels), n = buf.length, sr = buf.sampleRate, v = new DataView(new ArrayBuffer(44 + n*ch*2));
+  const w = (o, s) => { for (let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); };
+  w(0, 'RIFF'); v.setUint32(4, 36 + n*ch*2, true); w(8, 'WAVEfmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, ch, true); v.setUint32(24, sr, true); v.setUint32(28, sr*ch*2, true); v.setUint16(32, ch*2, true); v.setUint16(34, 16, true); w(36, 'data'); v.setUint32(40, n*ch*2, true);
+  const D = []; for (let c = 0; c < ch; c++) D.push(buf.getChannelData(c));
+  let o = 44; for (let i = 0; i < n; i++) for (let c = 0; c < ch; c++){ const s = Math.max(-1, Math.min(1, D[c][i])); v.setInt16(o, s < 0 ? s*32768 : s*32767, true); o += 2; }
+  return new Blob([v.buffer], {type:'audio/wav'});
+}
+function kvKonusmaBul(buf, a0, a1, opt){
+  const sr = buf.sampleRate, hop = Math.round(sr*0.01), N = Math.max(1, Math.floor((a1 - a0)/hop));
+  const L = buf.getChannelData(0), R = buf.numberOfChannels > 1 ? buf.getChannelData(1) : L;
+  const db = new Float32Array(N), zc = new Float32Array(N);
+  for (let f = 0; f < N; f++){
+    let e = 0, z = 0, p = 0; const s = a0 + f*hop;
+    for (let j = s; j < s + hop; j++){ const x = (L[j] + R[j])*0.5; e += x*x; if ((x >= 0) !== (p >= 0)) z++; p = x; }
+    db[f] = 10*Math.log10(e/hop + 1e-12); zc[f] = z/hop;
+  }
+  const so = Array.from(db).sort((a, b) => a - b), floor = so[Math.floor(N*0.15)], peak = so[Math.floor(N*0.97)];
+  const thr = Math.max(floor + 9, peak - 30, -55);
+  const on = new Uint8Array(N); for (let f = 0; f < N; f++) on[f] = db[f] > thr ? 1 : 0;
+  /* kısa delikleri doldur (sessiz harfler), kısa patlamaları at (tık, çıt) */
+  let segs = [], s = -1;
+  for (let f = 0; f <= N; f++){ const v = f < N && on[f]; if (v && s < 0) s = f; if (!v && s >= 0){ segs.push([s, f]); s = -1; } }
+  const birlesik = []; for (const g of segs){ const l = birlesik[birlesik.length - 1]; if (l && g[0] - l[1] <= 8) l[1] = g[1]; else birlesik.push(g.slice()); }
+  segs = birlesik.filter(g => g[1] - g[0] >= 7);
+  const ist = {nefes:0, dolgu:0, tik:birlesik.length - segs.length};
+  /* nefes: kısa, alçak, hışırtılı (sıfır geçişi yüksek) */
+  segs = segs.filter(g => { const n = g[1] - g[0]; let m = 0, zz = 0; for (let f = g[0]; f < g[1]; f++){ m += db[f]; zz += zc[f]; } m /= n; zz /= n;
+    if (n < 60 && m < thr + 6 && zz > 0.22){ ist.nefes++; return false; } return true; });
+  /* ııı / eee: iki yanı sessiz, 0.25–1.2 sn, sesi düz ve tek tip (sesli harf uzaması) — deneysel */
+  if (opt.dolgu) segs = segs.filter((g, i) => { const n = g[1] - g[0], on_ = i ? g[0] - segs[i-1][1] : 99, son = i < segs.length - 1 ? segs[i+1][0] - g[1] : 99;
+    if (n < 25 || n > 120 || on_ < 22 || son < 22) return true;
+    let m = 0, z = 0; for (let f = g[0]; f < g[1]; f++){ m += db[f]; z += zc[f]; } m /= n; z /= n;
+    let vm = 0, vz = 0; for (let f = g[0]; f < g[1]; f++){ vm += (db[f] - m)**2; vz += (zc[f] - z)**2; } vm = Math.sqrt(vm/n); vz = Math.sqrt(vz/n)/(z + 1e-6);
+    if (vm < 3.2 && vz < 0.28 && z < 0.12){ ist.dolgu++; return false; } return true; });
+  /* pay bırak: konuşma başı 40 ms, sonu 90 ms */
+  segs = segs.map(g => [Math.max(0, g[0] - 4), Math.min(N, g[1] + 9)]);
+  const top = []; for (const g of segs){ const l = top[top.length - 1]; if (l && g[0] - l[1] <= Math.round(opt.birlestir*100)) l[1] = Math.max(l[1], g[1]); else top.push(g.slice()); }
+  return {segs:top.map(g => [a0 + g[0]*hop, a0 + g[1]*hop]), ist, hop};
+}
+async function kvSesTemizle(tr, opt){
+  opt = Object.assign({bosluk:0.2, dolgu:false, iyilestir:true}, opt || {});
+  opt.birlestir = Math.min(0.16, opt.bosluk*0.8);
+  const src = tr.buffer, sr = src.sampleRate, a0 = Math.round(tr.trim*sr), a1 = Math.min(src.length, Math.round((tr.trim + effLen(tr))*sr));
+  const K = kvKonusmaBul(src, a0, a1, opt);
+  if (!K.segs.length) throw new Error('Kayıtta konuşma bulunamadı');
+  const gap = Math.round(opt.bosluk*sr), lead = Math.round(0.12*sr), tail = Math.round(0.35*sr), fd = Math.round(0.008*sr);
+  const n = K.segs.reduce((s, g) => s + g[1] - g[0], 0) + gap*(K.segs.length - 1) + lead + tail;
+  const ch = Math.min(2, src.numberOfChannels), raw = new AudioBuffer({length:n, numberOfChannels:ch, sampleRate:sr});
+  const yeni = []; let o = lead;
+  for (let c = 0; c < ch; c++){ const d = src.getChannelData(c), out = raw.getChannelData(c); let p = lead;
+    K.segs.forEach((g, i) => { const len = g[1] - g[0]; for (let j = 0; j < len; j++){ let k = 1; if (j < fd) k = j/fd; else if (len - j < fd) k = (len - j)/fd; out[p + j] = d[g[0] + j]*k; } if (c === 0) yeni.push([p/sr, (p + len)/sr]); p += len + gap; }); }
+  let res = raw;
+  if (opt.iyilestir){
+    const oc = new OfflineAudioContext(ch, n, sr), b = oc.createBufferSource(); b.buffer = raw;
+    const hp = oc.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 85; hp.Q.value = 0.7;
+    const pr = oc.createBiquadFilter(); pr.type = 'peaking'; pr.frequency.value = 3200; pr.gain.value = 2.5; pr.Q.value = 0.9;
+    const cp = oc.createDynamicsCompressor(); cp.threshold.value = -24; cp.knee.value = 8; cp.ratio.value = 3.2; cp.attack.value = 0.006; cp.release.value = 0.18;
+    b.connect(hp); hp.connect(pr); pr.connect(cp); cp.connect(oc.destination); b.start(); res = await oc.startRendering();
+  }
+  /* seviye: konuşma kısımlarında ortalama ≈ -18 dBFS, tepe -1 dBFS */
+  { let e = 0, m = 0, pk = 0; const d = res.getChannelData(0);
+    for (const [x, y] of yeni){ for (let i = Math.round(x*sr); i < Math.round(y*sr); i += 4){ e += d[i]*d[i]; m++; } }
+    for (let c = 0; c < res.numberOfChannels; c++){ const q = res.getChannelData(c); for (let i = 0; i < q.length; i++){ const a = Math.abs(q[i]); if (a > pk) pk = a; } }
+    const rms = Math.sqrt(e/Math.max(1, m)), k = Math.min(0.89/Math.max(1e-6, pk), 0.126/Math.max(1e-6, rms));
+    for (let c = 0; c < res.numberOfChannels; c++){ const q = res.getChannelData(c); for (let i = 0; i < q.length; i++) q[i] *= k; } }
+  return {buffer:res, segs:yeni, eski:(a1 - a0)/sr, yeniSure:n/sr, ist:K.ist};
+}
+/* --- altyazı: metni konuşma bölümlerine hece ağırlığıyla yerleştir (yalnız konuşulan süre sayılır) --- */
+const kvHece = w => Math.max(1, (w.match(/[aeıioöuüâîûAEIİOÖUÜÂÎÛ]/g) || []).length + (w.match(/\d/g) || []).length*1.5);
+function kvParcala(txt, maxK){
+  const out = [];
+  txt.split(/\n+/).forEach(p => { const ws = p.trim().split(/\s+/).filter(Boolean); let cur = [];
+    ws.forEach((w, i) => { cur.push(w); const son = /[.!?…:;]["”’»)]?$/.test(w), vir = /[,]$/.test(w), uz = cur.join(' ').length;
+      if (son || (vir && cur.length >= 2) || cur.length >= maxK || uz >= 24){ out.push(cur.join(' ')); cur = []; } });
+    if (cur.length) out.push(cur.join(' ')); });
+  return out;
+}
+function kvAltyaziHizala(tr, segs, txt){
+  const parca = kvParcala(stripCues(txt), 4); if (!parca.length) return 0;
+  const ag = parca.map(p => p.split(/\s+/).reduce((s, w) => s + kvHece(w) + (/[.!?…]$/.test(w) ? 1.2 : /[,;:]$/.test(w) ? 0.6 : 0.15), 0));
+  const top = ag.reduce((a, b) => a + b, 0), konus = segs.reduce((s, g) => s + g[1] - g[0], 0);
+  const zamanAt = q => { let k = q*konus; for (const g of segs){ const l = g[1] - g[0]; if (k <= l) return g[0] + k; k -= l; } return segs[segs.length - 1][1]; };
+  let acc = 0; const subs = [];
+  parca.forEach((p, i) => { const s = zamanAt(acc/top), e = zamanAt((acc + ag[i])/top); acc += ag[i];
+    subs.push({id:uid++, start:Math.round((tr.at + s)*100)/100, end:Math.round((tr.at + Math.max(s + 0.35, e) - 0.02)*100)/100, text:p, k:1}); });
+  /* aradaki küçük boşlukları kapat: yazı titremesin */
+  for (let i = 0; i < subs.length - 1; i++){ if (subs[i+1].start - subs[i].end < 0.35) subs[i].end = subs[i+1].start - 0.01; }
+  S.subs = subs; return subs.length;
+}
+/* --- mod aç/kapa --- */
+const KISA_ESKI = ['fmt', 'fadeIn'], KISA_OESKI = [['intro','on'],['intro','blurIn'],['bokeh','mode'],['remind','on'],['endcard','on'],['hook','on'],['sub','on'],['sub','style'],['sub','pos'],['sub','size'],['music','duck'],['music','duckLevel'],['logo','hide']];
+function kisaUygula(on){
+  pushUndo();
+  if (on){
+    const e = {}; KISA_ESKI.forEach(k => e[k] = S[k]); KISA_OESKI.forEach(([a, b]) => e[a + '.' + b] = S[a][b]); S.kisa.eski = e;
+    S.fmt = '9:16'; S.fadeIn = false; S.intro.on = false; S.intro.blurIn = false; S.bokeh.mode = 'off'; S.remind.on = false; S.endcard.on = false; S.hook.on = false;
+    S.sub.on = true; S.sub.style = 'kisa'; S.sub.pos = 'bottom'; S.sub.size = Math.max(S.sub.size, 6); S.music.duck = true; S.music.duckLevel = Math.min(S.music.duckLevel, 20); S.logo.hide = false;
+    if (!(S.kisa.takip || '').trim()){ const ch = ($('#pChan') && $('#pChan').value.trim()) || ''; S.kisa.takip = ch ? '@' + ch.toLocaleLowerCase('tr').replace(/\s+/g, '') : ''; }
+  } else if (S.kisa.eski){
+    const e = S.kisa.eski; KISA_ESKI.forEach(k => { if (k in e) S[k] = e[k]; }); KISA_OESKI.forEach(([a, b]) => { if ((a + '.' + b) in e) S[a][b] = e[a + '.' + b]; }); S.kisa.eski = null;
+  }
+  S.kisa.on = !!on; resizePreview(); refitAuto(); syncUI(); renderLanes(); renderStrip(); renderSubs(); requestRender(); saveLast(); projSave(); kisaDurum();
+  toast(on ? 'Kısa video modu: 9:16 · yalnız logo, takip yazısı, altyazı ve müzik' : 'Kısa video modu kapandı; önceki ayarlar geri geldi', 3000);
+}
+function kisaDurum(){
+  const el = $('#kisaDurum'); if (!el) return; const tl = timeline(), sn = tl.total, v = S.tracks.find(t => t.voice && t.buffer);
+  const sure = sn ? `Süre ${mmss(sn)} · ` + (sn <= 60 ? 'kısa video için ideal' : sn <= 180 ? 'Shorts ve Reels sınırı içinde (en çok 3 dk)' : '⚠ 3 dakikayı aşıyor: Shorts/Reels olarak yayınlanmaz') : '';
+  el.textContent = [sure, v ? `Seslendirme ${mmss(effLen(v))}${v.temiz ? ' (temizlendi)' : ''}` : 'Seslendirme yok', S.subs.length ? S.subs.length + ' altyazı' : ''].filter(Boolean).join(' · ');
+  $('#kisaAyar').hidden = !S.kisa.on;
+}
+async function kisaHazirla(sadeceSes){
+  const tr = S.tracks.find(t => t.voice && t.buffer);
+  const not = m => { const a = $('#kisaDurum'), b = $('#vTemizNot'); if (a) a.textContent = m; if (b) b.textContent = m; };
+  if (!tr){ toast('Önce seslendirme ekle (Seslendirme bölümü)'); showTab('voice'); return; }
+  not('Konuşma inceleniyor…'); await sleep(30);
+  try {
+    pushUndo();
+    const kaynak = tr.temizKaynak || {buffer:tr.buffer, trim:tr.trim, len:tr.len, file:tr.file, fkey:tr.fkey, name:tr.name};
+    const r = await kvSesTemizle({buffer:kaynak.buffer, trim:kaynak.trim, len:kaynak.len}, {bosluk:S.kisa.bosluk, dolgu:!!S.kisa.dolgu, iyilestir:S.kisa.iyilestir !== false});
+    const f = new File([kvWav(r.buffer)], 'Seslendirme (temiz).wav', {type:'audio/wav', lastModified:Date.now()});
+    Object.assign(tr, {temizKaynak:kaynak, buffer:r.buffer, peaks:peaks(r.buffer), file:f, fkey:null, trim:0, len:0, temiz:true, name:'Seslendirme (temiz)', fin:0.02, fout:0.25, _act:null});
+    if (S.kisa.on) tr.at = 0.15;
+    mixCache = {sig:'', buf:null};
+    let m = `Konuşma ${mmss(r.eski)} → ${mmss(r.yeniSure)} (${trNum(r.eski - r.yeniSure, 1)} sn boşluk çıkarıldı`;
+    const ek = []; if (r.ist.nefes) ek.push(r.ist.nefes + ' nefes'); if (r.ist.tik) ek.push(r.ist.tik + ' tık/çıt'); if (r.ist.dolgu) ek.push(r.ist.dolgu + ' ııı/eee'); if (ek.length) m += ', ' + ek.join(', ') + ' atıldı';
+    m += ')';
+    if (!sadeceSes){
+      const txt = $('#vText') ? $('#vText').value : '';
+      if (txt.trim()){ const n = kvAltyaziHizala(tr, r.segs, txt); S.sub.on = true; if (S.kisa.on) S.sub.style = 'kisa'; m += ` · ${n} altyazı konuşmaya hizalandı`; }
+      else m += ' · Altyazı için okuduğun metni Seslendirme › Okunacak metin kutusuna yapıştır';
+      if (S.kisa.on && S.clips.some(c => c.kind === 'photo')){
+        const hedef = tr.at + effLen(tr) + 0.4, ph = S.clips.filter(c => c.kind === 'photo'), vid = S.clips.filter(c => c.kind === 'video').reduce((s, c) => s + c.dur, 0), tl0 = timeline();
+        const each = (hedef - vid - tl0.E)/ph.length; if (each >= 0.8){ applyAllDur(Math.round(each*100)/100); m += ` · fotoğraflar ${trNum(each, 1)} sn`; }
+      }
+    }
+    renderTracks(); renderLanes(); renderSubs(); updateSummary(); syncUI(); requestRender(); projSave(); kisaDurum(); not(m); toast('Seslendirme temizlendi', 2200);
+  } catch(e){ console.warn(e); not('Temizlenemedi: ' + (e.message || e)); toast('Seslendirme temizlenemedi'); }
+}
+function kisaGeriAl(){
+  const tr = S.tracks.find(t => t.voice && t.temizKaynak); if (!tr){ toast('Geri alınacak temizleme yok'); return; }
+  const k = tr.temizKaynak; Object.assign(tr, {buffer:k.buffer, peaks:peaks(k.buffer), trim:k.trim, len:k.len, file:k.file, fkey:k.fkey, name:k.name, temiz:false, temizKaynak:null, _act:null});
+  mixCache = {sig:'', buf:null}; renderTracks(); renderLanes(); updateSummary(); requestRender(); projSave(); kisaDurum(); toast('Özgün seslendirmeye dönüldü');
+}
+/* --- çizim: kelime vurgulu kısa video altyazısı --- */
+function drawSubsKisa(g, W, H, t, x){
+  const dur = x.end - x.start, el = t - x.start, a = Math.min(1, el/0.08, (x.end - t)/0.12); if (a <= 0) return;
+  const short = Math.min(W, H), fs = Math.round(short*S.sub.size/100*1.32), ws = x.text.trim().split(/\s+/);
+  const ag = ws.map(w => kvHece(w) + 0.3), top = ag.reduce((p, q) => p + q, 0); let ak = 0, aktif = ws.length - 1;
+  for (let i = 0; i < ws.length; i++){ ak += ag[i]; if (el < dur*ak/top){ aktif = i; break; } }
+  g.save(); g.globalAlpha = a;
+  g.font = `900 ${fs}px Montserrat, Archivo, Arial, sans-serif`; g.textBaseline = 'middle';
+  const bos = g.measureText(' ').width, maxW = W*0.72, satir = [[]]; let gen = 0;
+  ws.forEach((w, i) => { const u = w.toLocaleUpperCase('tr'), mw = g.measureText(u).width; if (gen && gen + bos + mw > maxW){ satir.push([]); gen = 0; } satir[satir.length - 1].push({u, mw, i}); gen += (gen ? bos : 0) + mw; });
+  const lh = fs*1.18, bh = satir.length*lh, pop = 1 + 0.12*Math.max(0, 1 - el/0.14);
+  let cy = S.sub.pos === 'top' ? H*0.2 + bh/2 : S.sub.pos === 'middle' ? H*0.5 : H*(W >= H ? 0.82 : 0.66) - bh/2;
+  g.translate(W/2, cy); g.scale(pop, pop); g.translate(-W/2, -cy);
+  const renk = S.sub.renk || '#ffd400';
+  satir.forEach((L, li) => {
+    const sw = L.reduce((s, q, k) => s + q.mw + (k ? bos : 0), 0); let xx = (W - sw)/2; const yy = cy - bh/2 + lh*(li + 0.5);
+    L.forEach(q => {
+      const on = q.i === aktif, gec = q.i < aktif;
+      g.save();
+      if (on){ const s = 1.08; g.translate(xx + q.mw/2, yy); g.scale(s, s); g.translate(-(xx + q.mw/2), -yy);
+        const px = fs*0.16, r = fs*0.2; g.fillStyle = 'rgba(0,0,0,.35)'; g.beginPath(); g.roundRect ? g.roundRect(xx - px, yy - fs*0.6, q.mw + px*2, fs*1.2, r) : g.rect(xx - px, yy - fs*0.6, q.mw + px*2, fs*1.2); g.fill(); }
+      g.lineJoin = 'round'; g.lineWidth = Math.max(3, fs*0.2); g.strokeStyle = 'rgba(0,0,0,.92)'; g.shadowColor = 'rgba(0,0,0,.55)'; g.shadowBlur = fs*0.25; g.shadowOffsetY = fs*0.06;
+      g.strokeText(q.u, xx, yy); g.shadowBlur = 0; g.shadowOffsetY = 0;
+      g.fillStyle = on ? renk : gec ? '#ffffff' : 'rgba(255,255,255,.92)'; g.fillText(q.u, xx, yy);
+      g.restore(); xx += q.mw + bos; });
+  });
+  g.restore();
+}
+/* --- takip yazısı katmanı --- */
+function takipAnim(t){ if (!S.kisa || !S.kisa.on || !(S.kisa.takip || '').trim() || KPAS('takip')) return false; const p = (t - 1.2) % 7; return t < 1.4 || (t > 1.2 && p >= 0 && p < 1.1); }
+function drawTakip(g, W, H, t){
+  if (!S.kisa || !S.kisa.on || KPAS('takip')) return; const txt = (S.kisa.takip || '').trim(); if (!txt) return;
+  const short = Math.min(W, H), fs = short*0.044, kin = easeOut(clamp((t - 0.25)/0.6, 0, 1)); if (kin <= 0) return;
+  const btn = S.kisa.takipBtn || 'Takip et';
+  g.save(); g.font = `700 ${fs}px Archivo, Arial, sans-serif`; const w1 = g.measureText(txt).width; g.font = `800 ${fs*0.92}px Archivo, Arial, sans-serif`; const w2 = g.measureText(btn).width;
+  const pad = fs*0.6, bw = w2 + pad*1.6, h = fs*2.1, w = w1 + pad*2.2 + bw, x = (W - w)/2;
+  const y = S.kisa.takipPos === 'alt' ? H*(W >= H ? 0.88 : 0.755) : H*(W >= H ? 0.05 : 0.095);
+  g.globalAlpha = kin; g.translate(0, (1 - kin)*-h*0.6);
+  const yuv = (xx, yy, ww, hh, r) => { g.beginPath(); if (g.roundRect) g.roundRect(xx, yy, ww, hh, r); else g.rect(xx, yy, ww, hh); };
+  g.fillStyle = 'rgba(12,13,16,.55)'; yuv(x, y, w, h, h/2); g.fill(); g.strokeStyle = 'rgba(255,255,255,.22)'; g.lineWidth = Math.max(1, fs*0.06); g.stroke();
+  g.fillStyle = '#fff'; g.textBaseline = 'middle'; g.textAlign = 'left'; g.font = `700 ${fs}px Archivo, Arial, sans-serif`; g.fillText(txt, x + pad, y + h/2);
+  const bx = x + w - bw - fs*0.3, by = y + fs*0.3, bh = h - fs*0.6, p = (t - 1.2) % 7, nab = (t > 1.2 && p < 1.1) ? Math.sin(p/1.1*Math.PI) : 0;
+  g.save(); g.translate(bx + bw/2, by + bh/2); g.scale(1 + nab*0.07, 1 + nab*0.07); g.translate(-(bx + bw/2), -(by + bh/2));
+  g.fillStyle = S.kisa.renk || '#ff3b30'; yuv(bx, by, bw, bh, bh/2); g.fill();
+  if (nab > 0){ g.save(); yuv(bx, by, bw, bh, bh/2); g.clip(); const sx = bx - bw + (p/1.1)*bw*3; const gr = g.createLinearGradient(sx, 0, sx + bw*0.6, 0); gr.addColorStop(0, 'rgba(255,255,255,0)'); gr.addColorStop(0.5, 'rgba(255,255,255,.45)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = gr; g.fillRect(bx, by, bw, bh); g.restore(); }
+  g.fillStyle = '#fff'; g.textAlign = 'center'; g.font = `800 ${fs*0.92}px Archivo, Arial, sans-serif`; g.fillText(btn, bx + bw/2, by + bh/2 + fs*0.02);
+  g.restore(); g.restore();
+}
+
+/* ================= 6.7: KLASİK MÜZİK (bu sayfada üretilir, telifsiz) =================
+   Hareketli: Barok tarzı allegro (özgün) · Yavaş: Pachelbel'in Kanon armonisi üzerine adagio (kamu malı eser)
+   Dramatik: re minör ostinato, timpani ve bakır vurgular (özgün) · Piyano: Bach, Prelüd Do majör BWV 846 açılışı (kamu malı eser) */
+async function klasikUret(key, seconds){
+  const sr = 48000, len = Math.max(20, seconds), oc = new OfflineAudioContext(2, Math.ceil((len + 3)*sr), sr);
+  const master = oc.createGain(); master.gain.value = 0.62; master.connect(oc.destination);
+  /* salon yankısı */
+  const ir = oc.createBuffer(2, Math.round(sr*2.6), sr); for (let c = 0; c < 2; c++){ const d = ir.getChannelData(c); for (let i = 0; i < d.length; i++){ const k = i/d.length; d[i] = (Math.random()*2 - 1)*Math.pow(1 - k, 3.2)*(i < sr*0.012 ? i/(sr*0.012) : 1); } }
+  const rev = oc.createConvolver(); rev.buffer = ir; const rg = oc.createGain(); rg.gain.value = key === 'k_dram' ? 0.32 : 0.42; rev.connect(rg); rg.connect(master);
+  const kuru = oc.createGain(); kuru.gain.value = 0.85; kuru.connect(master);
+  const cik = (node, pan) => { const p = oc.createStereoPanner(); p.pan.value = pan || 0; node.connect(p); p.connect(kuru); p.connect(rev); };
+  const f = m => 440*Math.pow(2, (m - 69)/12);
+  function yay(m, t, d, v, pan, op){ op = op || {};   /* yaylılar */
+    const g = oc.createGain(), lp = oc.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = op.parlak || 2400; lp.Q.value = 0.5;
+    const at = op.at != null ? op.at : Math.min(0.25, d*0.3), rl = op.rl != null ? op.rl : Math.min(0.35, d*0.5);
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(v, t + at); g.gain.setValueAtTime(v*(op.sus || 0.85), Math.max(t + at, t + d - rl*0.3)); g.gain.linearRampToValueAtTime(0, t + d + rl);
+    (d < 0.35 ? [0] : [-7, 7]).forEach(dt => { const o = oc.createOscillator(); o.type = 'sawtooth'; o.frequency.value = f(m); o.detune.value = dt;
+      if (d > 0.6){ const lf = oc.createOscillator(), lg = oc.createGain(); lf.frequency.value = 5.4; lg.gain.setValueAtTime(0, t); lg.gain.linearRampToValueAtTime(f(m)*0.004, t + Math.min(0.6, d*0.5)); lf.connect(lg); lg.connect(o.frequency); lf.start(t); lf.stop(t + d + rl + 0.05); }
+      o.connect(lp); o.start(t); o.stop(t + d + rl + 0.05); });
+    lp.connect(g); cik(g, pan); }
+  function piy(m, t, d, v, pan){   /* piyano */
+    const g = oc.createGain(), dec = Math.max(0.6, 2.6 - (m - 48)*0.03);
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(v, t + 0.006); g.gain.exponentialRampToValueAtTime(v*0.25, t + dec*0.35); g.gain.exponentialRampToValueAtTime(0.0008, t + Math.max(d, 0.3) + dec*0.6);
+    [[1, 'triangle', 1], [2, 'sine', 0.35], [3, 'sine', 0.12]].forEach(([h, ty, a]) => { const o = oc.createOscillator(), og = oc.createGain(); o.type = ty; o.frequency.value = f(m)*h; o.detune.value = h > 1 ? 2 : 0; og.gain.value = a; o.connect(og); og.connect(g); o.start(t); o.stop(t + Math.max(d, 0.3) + dec*0.6 + 0.05); });
+    cik(g, pan); }
+  function klv(m, t, v, pan){   /* klavsen */
+    const g = oc.createGain(), bp = oc.createBiquadFilter(); bp.type = 'highpass'; bp.frequency.value = 400;
+    g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.7);
+    const o = oc.createOscillator(); o.type = 'sawtooth'; o.frequency.value = f(m); o.connect(bp); bp.connect(g); o.start(t); o.stop(t + 0.75); cik(g, pan); }
+  function tim(m, t, v){   /* timpani */
+    const g = oc.createGain(), o = oc.createOscillator(); o.type = 'sine'; o.frequency.setValueAtTime(f(m)*1.04, t); o.frequency.exponentialRampToValueAtTime(f(m), t + 0.12);
+    g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(0.001, t + 1.6); o.connect(g); o.start(t); o.stop(t + 1.65);
+    const nb = oc.createBuffer(1, Math.round(sr*0.12), sr), nd = nb.getChannelData(0); for (let i = 0; i < nd.length; i++) nd[i] = (Math.random()*2 - 1)*(1 - i/nd.length);
+    const ns = oc.createBufferSource(), nl = oc.createBiquadFilter(), ng = oc.createGain(); ns.buffer = nb; nl.type = 'lowpass'; nl.frequency.value = 700; ng.gain.value = v*0.6; ns.connect(nl); nl.connect(ng); ng.connect(g); ns.start(t); cik(g, 0); }
+  function bak(ms, t, d, v){   /* bakır vurgusu (akor) */
+    ms.forEach((m, i) => { const g = oc.createGain(), lp = oc.createBiquadFilter(), o = oc.createOscillator(); o.type = 'sawtooth'; o.frequency.value = f(m);
+      lp.type = 'lowpass'; lp.frequency.setValueAtTime(500, t); lp.frequency.linearRampToValueAtTime(2600, t + 0.08); lp.frequency.exponentialRampToValueAtTime(900, t + d);
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(v, t + 0.03); g.gain.exponentialRampToValueAtTime(v*0.3, t + d); g.gain.linearRampToValueAtTime(0, t + d + 0.25);
+      o.connect(lp); lp.connect(g); o.start(t); o.stop(t + d + 0.3); cik(g, (i - 1)*0.25); }); }
+  if (key === 'k_alleg'){
+    const bpm = 132, b = 60/bpm, bar = b*4;   /* Re majör: D G A D | Bm G Em A */
+    const P = [[50,[62,66,69]],[55,[62,67,71]],[57,[61,64,69]],[50,[62,66,69]],[47,[59,62,66]],[55,[62,67,71]],[52,[59,64,67]],[57,[61,64,67]]];
+    const nb = Math.ceil(len/bar);
+    for (let k = 0; k < nb; k++){ const [bs, ch] = P[k % P.length], t0 = k*bar, ileri = Math.floor(k/P.length)%2 === 1;
+      for (let q = 0; q < 4; q++){ yay(bs - 12, t0 + q*b, b*0.7, 0.05, -0.3, {at:0.015, rl:0.08}); if (q % 2 === 0) klv(bs + 12, t0 + q*b, 0.03, 0.2); }
+      ch.forEach((m, i) => yay(m, t0, bar*0.98, 0.012, (i - 1)*0.35, {at:0.12}));
+      const sc = [0, 2, 4, 5, 7, 9, 11, 12].map(x => x + 62), up = [ch[0] + 12, ch[1] + 12, ch[2] + 12, ch[1] + 12];
+      for (let s = 0; s < 16; s++){ let m; if (ileri && s < 8 && k % 2 === 0) m = sc[(s + (ch[0] - 62 + 24)) % 8] + (s > 5 ? 0 : 0); else m = up[s % 4] + (s >= 8 && k % 2 ? 12 : 0);
+        yay(m, t0 + s*b/4, b/4*0.8, 0.026, 0.25, {at:0.008, rl:0.05, parlak:3200, sus:1}); }
+      if (k % 4 === 3) for (let s = 0; s < 8; s++) yay(ch[2] + 12 - s, t0 + bar - b*2 + s*b/4, b/4*0.8, 0.02, -0.15, {at:0.008, rl:0.05, parlak:3000});
+    }
+  } else if (key === 'k_adag'){
+    const bpm = 54, b = 60/bpm;   /* Pachelbel Kanon: D A Bm F#m G D G A (her akor 2 vuruş) */
+    const P = [[50,[62,66,69]],[45,[61,64,69]],[47,[62,66,71]],[42,[61,66,69]],[43,[62,67,71]],[38,[62,66,69]],[43,[62,67,71]],[45,[61,64,69]]];
+    const ust = [78, 76, 74, 73, 71, 69, 71, 73], cyc = b*2*P.length, nc = Math.ceil(len/cyc);
+    for (let c = 0; c < nc; c++) P.forEach(([bs, ch], i) => { const t0 = c*cyc + i*b*2;
+      yay(bs - 12, t0, b*2*0.95, 0.06, -0.25, {at:0.18}); ch.forEach((m, j) => yay(m, t0, b*2*0.98, 0.018, (j - 1)*0.4, {at:0.35, parlak:1800}));
+      if (c >= 1) yay(ust[i], t0, b*2*0.96, 0.03, 0.15, {at:0.3, parlak:2600});
+      if (c >= 2){ const ar = [ch[0] + 12, ch[1] + 12, ch[2] + 12, ch[1] + 12]; for (let s = 0; s < 4; s++) piy(ar[s], t0 + s*b/2, b/2, 0.05, 0.3); }
+    });
+  } else if (key === 'k_dram'){
+    const bpm = 96, b = 60/bpm, bar = b*4;   /* re minör: Dm Bb Gm A | Dm F Gm A */
+    const P = [[38,[62,65,69]],[34,[62,65,70]],[43,[62,67,70]],[45,[61,64,69]],[38,[62,65,69]],[41,[60,65,69]],[43,[62,67,70]],[45,[61,64,69]]];
+    const mel = [[81,2],[82,1],[81,1],[79,2],[77,2],[76,3],[74,1]], nb = Math.ceil(len/bar);
+    for (let k = 0; k < nb; k++){ const [bs, ch] = P[k % P.length], t0 = k*bar, dongu = Math.floor(k/P.length), guc = Math.min(1, 0.55 + 0.15*dongu + 0.05*(k % P.length));
+      for (let s = 0; s < 8; s++) yay(bs, t0 + s*b/2, b/2*0.7, (s % 2 ? 0.035 : 0.055)*guc, -0.2, {at:0.01, rl:0.06, parlak:1400});
+      for (let s = 0; s < 8; s++) yay(bs + 12, t0 + s*b/2, b/2*0.6, 0.02*guc, 0.25, {at:0.01, rl:0.05, parlak:1600});
+      ch.forEach((m, i) => { const g = oc.createGain(), o = oc.createOscillator(), lp = oc.createBiquadFilter(), lf = oc.createOscillator(), lg = oc.createGain(); o.type = 'sawtooth'; o.frequency.value = f(m + 12); lp.type = 'lowpass'; lp.frequency.value = 3200;
+        lf.frequency.value = 12; lg.gain.value = 0.004*guc; g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(0.006*guc, t0 + 0.05); g.gain.setValueAtTime(0.006*guc, t0 + bar - 0.05); g.gain.linearRampToValueAtTime(0, t0 + bar + 0.05);
+        lf.connect(lg); lg.connect(g.gain); o.connect(lp); lp.connect(g); o.start(t0); o.stop(t0 + bar + 0.1); lf.start(t0); lf.stop(t0 + bar + 0.1); cik(g, (i - 1)*0.45); });
+      tim(bs < 40 ? bs + 12 : bs, t0, 0.5*guc); if (k % 2) tim(bs < 40 ? bs + 12 : bs, t0 + b*2, 0.3*guc);
+      if (k % 4 === 0) bak(ch.map(m => m - 12), t0, 0.5, 0.03*guc);
+      if (k % P.length === P.length - 1){ for (let r = 0; r < 12; r++) tim(45, t0 + bar - b + r*b/12, 0.06 + r*0.02); }
+      if (dongu >= 1 && k % 4 === 0){ let tt = t0; mel.forEach(([m, d]) => { yay(m - (k % 8 === 4 ? 5 : 0), tt, d*b*0.95, 0.032*guc, 0.1, {at:0.06, parlak:3000}); tt += d*b; }); }
+    }
+  } else {   /* k_bach: BWV 846 */
+    const bpm = 66, s16 = 60/bpm/4, bar = s16*16;
+    const A = [[60,64,67,72,76],[60,62,69,74,77],[59,62,67,74,77],[60,64,67,72,76],[60,64,69,76,81],[60,62,66,69,74],[59,62,67,74,79],[59,60,64,67,72],[57,60,64,67,72],[60,62,66,69,74],[59,62,67,74,77],[60,64,67,72,76]];
+    const nb = Math.ceil(len/bar);
+    for (let k = 0; k < nb; k++){ const n = A[k % A.length], t0 = k*bar, pat = [0, 1, 2, 3, 4, 2, 3, 4];
+      for (let h = 0; h < 2; h++){ piy(n[0], t0 + h*s16*8, s16*8, 0.07, -0.2); piy(n[1], t0 + h*s16*8 + s16, s16*7, 0.055, -0.1);
+        for (let s = 2; s < 8; s++) piy(n[pat[s]], t0 + h*s16*8 + s*s16, s16*1.6, 0.05, 0.15); }
+    }
+  }
+  /* son: yumuşak kısılma */
+  const out = await oc.startRendering();
+  { let pk = 0, e = 0, n = 0; for (let c = 0; c < 2; c++){ const d = out.getChannelData(c); for (let i = 0; i < d.length; i += 3){ const a = Math.abs(d[i]); if (a > pk) pk = a; e += d[i]*d[i]; n++; } }
+    const k = Math.min(0.89/Math.max(1e-6, pk), 0.14/Math.max(1e-6, Math.sqrt(e/n)));
+    const fadeN = Math.round(sr*2.5), st = Math.max(0, Math.round(len*sr) - fadeN); for (let c = 0; c < 2; c++){ const d = out.getChannelData(c); for (let i = 0; i < d.length; i++) d[i] *= k*(i < st ? 1 : Math.max(0, 1 - (i - st)/fadeN)); } }
+  return out;
+}
+
+try { window.__kv = {S:() => S, tl:() => timeline(), effLen:t => effLen(t), kisaGeriAl, genMusic, setPT:v => { PT = v; requestRender(); }}; } catch(e){}
 const MOODS = {
   calm:  {name:'Sakin', bpm:72, prog:[[57,60,64],[53,57,60],[48,52,55],[55,59,62]], kick:false, wave:'triangle', cut:1600},
   happy: {name:'Neşeli', bpm:112, prog:[[60,64,67],[55,59,62],[57,60,64],[53,57,60]], kick:true, wave:'triangle', cut:2600},
   warm:  {name:'Duygusal', bpm:66, prog:[[57,60,64],[53,57,60],[60,64,67],[55,59,62]], kick:false, wave:'triangle', cut:1300},
+  k_alleg:{name:'Klasik · Hareketli', klasik:true}, k_adag:{name:'Klasik · Yavaş (Kanon)', klasik:true}, k_dram:{name:'Klasik · Dramatik', klasik:true}, k_bach:{name:'Klasik · Piyano (Bach)', klasik:true},
   drive: {name:'Tempolu', bpm:124, prog:[[52,55,59],[48,52,55],[55,59,62],[50,54,57]], kick:true, wave:'sawtooth', cut:1900}
 };
 const mtof = m => 440*Math.pow(2, (m - 69)/12);
 async function genMusic(key, seconds){
+  if (MOODS[key] && MOODS[key].klasik) return klasikUret(key, seconds);
   const M = MOODS[key], sr = 48000, beat = 60/M.bpm, bar = beat*4, cyc = bar*M.prog.length;
   const len = Math.max(cyc*2, Math.ceil(seconds/cyc)*cyc);
   const oc = new OfflineAudioContext(2, Math.ceil(len*sr), sr);
@@ -6171,6 +6499,7 @@ const TOGGLES = [
   ['Kanca yazısı', () => S.hook.on && !!(S.hook.text || '').trim(), v => { S.hook.on = v; if (v && !(S.hook.text || '').trim()) S.hook.text = 'Sonuna kadar izle'; }, null],
   ['Altyazı', () => S.sub.on, v => S.sub.on = v, null],
   ['Abone hatırlatıcı', () => S.remind.on, v => S.remind.on = v, 'remind'],
+  ['Takip et yazısı', () => !!(S.kisa && S.kisa.on && (S.kisa.takip || '').trim()), v => { if (!S.kisa.on){ $('#kisaOn').checked = true; kisaUygula(true); } if (v && !(S.kisa.takip || '').trim()){ showTab('look'); toast('Takip yazısını yaz (ör. @kanaladın)'); $('#kisaTakip').focus(); } else if (!v) S.kisa.takip = ''; }, null],
   ['Logo', () => !!S.logo.src && !S.logo.hide, v => { if (!S.logo.src){ showTab('logo'); toast('Önce logo seç'); return; } S.logo.hide = !v; }, null],
   ['Kapanış', () => S.endcard.on, v => S.endcard.on = v, 'end']
 ];
@@ -6549,6 +6878,7 @@ function changed(k){
 }
 function fmtOut(v, f){ return f === 'pct' ? trNum(v, 1) + '%' : f === 's' ? trNum(v, 1) + ' sn' : f === 'x' ? '×' + trNum(v, 2) : f === 'wpm' ? trNum(v, 0) + ' kelime/dk' : f === 'px' ? trNum(v, 0) + ' px' : String(v); }
 function syncUI(){
+  try { $('#kisaOn').checked = !!S.kisa.on; kisaDurum(); } catch(e){}
   $$('[data-k]').forEach(el => {
     const v = getP(S, el.dataset.k);
     if (el.classList.contains('seg')) el.querySelectorAll('button[data-v]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v) === String(v) ? 'true' : 'false'));
