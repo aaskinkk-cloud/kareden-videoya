@@ -14,7 +14,7 @@
 </style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="6.9" data-ad="Kareden Videoya" data-tarih="03.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="7.0" data-ad="Kareden Videoya" data-tarih="03.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -470,7 +470,7 @@ body.pvfs #pvFull{display:inline-grid!important}
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 6.9 · 09.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 7.0 · 09.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -656,11 +656,10 @@ body.pvfs #pvFull{display:inline-grid!important}
         <div class="row"><label>Yeri</label><div class="seg" data-k="kisa.takipPos"><button data-v="ust">Üstte</button><button data-v="alt">Altta</button></div></div></div>
         <div class="row"><label>Konuşma araları</label><div class="seg" data-k="kisa.bosluk" data-num><button data-v="0.12">Sıkı<small>0,12 sn</small></button><button data-v="0.2">Doğal<small>0,2 sn</small></button><button data-v="0.35">Rahat<small>0,35 sn</small></button></div></div>
         <label class="check"><input type="checkbox" data-k="kisa.iyilestir">Sesi iyileştir (uğultu kes, netlik, dengeli seviye)</label>
-        <label class="check"><input type="checkbox" data-k="kisa.dolgu">"ııı, eee" gibi dolgu seslerini de at (deneysel)</label>
-        <div class="btns"><button type="button" class="btn primary" id="kisaTrBasla">🎙 Videodan altyazı çıkar</button></div><p class="note mono" id="kisaTrNot"></p>
-        <p class="note">Videonun kendi konuşması: yazıya döker, sessizlik ve ııı/eee'leri keser, kelime kelime altyazı yapar (ayrıntı: Altyazı sekmesi). Ayrı seslendirme kaydı için:</p>
-        <div class="btns"><button class="btn primary" id="kisaHazirla">Seslendirmeyi temizle · altyazıyı hizala</button><button class="btn small" id="kisaGeri">Özgün sese dön</button></div>
-        <p class="note">Altyazı, Seslendirme › Okunacak metin kutusundaki yazıdan oluşur ve temizlenmiş konuşmaya hece hece yerleştirilir; o anda söylenen kelime renklenir. Fotoğraf süreleri konuşmaya eşitlenir.</p>
+        <label class="check" hidden><input type="checkbox" data-k="kisa.dolgu">"ııı, eee" gibi dolgu seslerini de at (deneysel)</label>
+        <div class="btns"><button type="button" class="btn primary" data-git="subs">Altyazı ve konuşma temizleme →</button></div>
+        <div class="btns" hidden><button class="btn primary" id="kisaHazirla">Seslendirmeyi temizle · altyazıyı hizala</button><button class="btn small" id="kisaGeri">Özgün sese dön</button></div>
+        <p class="note">Altyazı ve sessizlik/ııı-eee kesme tek yerde: <b>Altyazı</b> sekmesi › Altyazıyı otomatik oluştur. Videonun kendi konuşması ya da seslendirmen kelime kelime yazıya dökülür; o anda söylenen kelime renklenir.</p>
         <p class="note mono" id="kisaDurum"></p>
       </div>
     </div>
@@ -889,17 +888,22 @@ body.pvfs #pvFull{display:inline-grid!important}
       <p class="note mono" id="psDurum"></p><p class="note mono" id="psNot" aria-live="polite"></p>
     </div>
     <div class="sect">
+      <h3>Seslendirmeden sonra</h3>
+      <p class="note">Kaydını ekledikten sonra boşlukları/ııı-eee'leri temizlemek ve kelime kelime altyazı için: <b>Altyazı</b> sekmesi › kaynak <b>🎤 Seslendirme</b>. Okunacak metin kutusu doluysa kelimeler senin yazımınla oturur.</p>
+      <div class="btns"><button type="button" class="btn primary" data-git="subs">Altyazı ve temizleme →</button></div>
+    </div>
+    <div class="sect" hidden>
       <h3>Konuşmayı temizle</h3>
       <p class="note">Konuşma arasındaki boşlukları kısaltır; nefes, tık ve çıt seslerini atar; isteğe bağlı "ııı, eee" dolgularını çıkarır. Ayarlar Görünüm › Kısa video kartında.</p>
       <div class="btns"><button class="btn primary" id="vTemiz">Boşlukları ve gereksiz sesleri çıkar</button><button class="btn small" id="vTemizAlt">Temizle + altyazıyı hizala</button><button class="btn small" id="vTemizGeri">Özgün sese dön</button></div>
       <p class="note mono" id="vTemizNot"></p>
     </div>
-    <details class="sect vdet"><summary>Okuma önerileri ve altyazı</summary>
+    <details class="sect vdet"><summary>Okuma önerileri</summary>
       <div class="chips" id="cueBtns"></div>
-      <div class="btns"><button class="btn primary" id="vCues">Okuma önerilerini ekle</button><button class="btn small" id="vCuesClear">Önerileri temizle</button><button class="btn" id="vSubs">Metinden altyazı oluştur</button></div>
+      <div class="btns"><button class="btn primary" id="vCues">Okuma önerilerini ekle</button><button class="btn small" id="vCuesClear">Önerileri temizle</button><button class="btn" id="vSubs" hidden>Metinden altyazı oluştur</button></div>
       <p class="note" id="vNote"></p>
     </details>
-    <details class="sect vdet"><summary>Asistan okusun (yalnız dinleme / prova)</summary>
+    <details class="sect vdet" hidden><summary>Asistan okusun (yalnız dinleme / prova)</summary>
       <p class="note">Asistanın sesi videoya girmez (tarayıcılar yapay sesin kaydına izin vermez); videoya giren ses senin okumandır.</p>
       <div class="row"><label for="vVoice">Ses</label><select id="vVoice"></select></div>
       <div class="row"><div class="lab"><label for="vRate">Okuma hızı</label><output data-o="voice.rate" data-f="x"></output></div><input type="range" id="vRate" data-k="voice.rate" min="0.6" max="1.5" step="0.05"></div>
@@ -935,23 +939,26 @@ body.pvfs #pvFull{display:inline-grid!important}
 
   <!-- SUBTITLES -->
   <section class="panel" data-panel="subs" hidden>
+    <div class="sect asrkart">
+      <h3>Altyazıyı otomatik oluştur</h3>
+      <p class="note">Altyazı her zaman <b>konuşmanın gerçek kelime anlarından</b> kurulur; kesme, bölme, kaydırma sonrası sesle birlikte kayar. Kaynağı seç:</p>
+      <div class="seg" id="trKay" role="group" aria-label="Altyazı kaynağı"></div>
+      <p class="note" id="trAciklama"></p>
+      <div class="row" id="trModelSat"><label>Doğruluk</label><div class="seg" id="trModel"><button type="button" data-v="hizli">Hızlı<small>≈80 MB</small></button><button type="button" data-v="dogru">Daha doğru<small>≈250 MB · yavaş</small></button></div></div>
+      <label class="check" id="trKesSat"><input type="checkbox" id="trKes">Sessizlikleri ve ııı/eee seslerini kes (kelimelerin başı-sonu korunur · ara: Kısa video › Konuşma araları)</label>
+      <label class="check" id="trIyiSat"><input type="checkbox" id="trIyi">Sesi iyileştir (uğultu kes, netlik, dengeli seviye)</label>
+      <div class="btns"><button type="button" class="btn primary" id="trBasla">▶ Altyazıyı oluştur</button><button type="button" class="btn small" id="trGeri" hidden>Özgün kayda dön</button><button type="button" class="btn small" id="trSil">Otomatik altyazıyı sil</button></div>
+      <p class="note mono" id="trNot" aria-live="polite"></p>
+      <div id="trMetinKutu" hidden><div class="row"><label for="trMetin">Konuşma metni · yanlış kelimeyi düzelt, zamanlar korunur</label><textarea id="trMetin" rows="6" spellcheck="true"></textarea></div>
+      <div class="btns"><button type="button" class="btn small" id="trDuzelt">Düzeltmeyi altyazıya uygula</button><button type="button" class="btn small" id="trKopya">Metni kopyala (açıklama için)</button></div></div>
+      <p class="note">Konuşma telefonun içinde yazıya dökülür; ses dışarı gitmez. İlk kullanımda model indirilir (Wi-Fi önerilir), sonra internetsiz çalışır. Elle değiştirdiğin satır sabitlenir. Okur sesiyle eklenen seslendirmenin altyazısı kendiliğinden oluşur.</p>
+    </div>
     <div class="sect">
-      <p class="note">Altyazılar videonun üstüne yazılır. Videoda konuşma varsa aşağıdaki <b>🎙 Videodan altyazı çıkar</b> ile otomatik oluşur; elle eklemek için önizlemede istediğin ana gel, "Şu anda altyazı ekle"ye dokun.</p>
+      <p class="note">Otomatik altyazı için aşağıdaki <b>Altyazıyı otomatik oluştur</b> kartını kullan. Elle satır eklemek için önizlemede istediğin ana gel, "Şu anda altyazı ekle"ye dokun.</p>
       <div class="btns"><button class="btn primary" id="subAdd">Şu anda altyazı ekle</button><button class="btn" id="subPerClip">Her klibe bir satır oluştur</button></div>
       <div class="btns"><button class="btn small" id="subImport">SRT yükle</button><button class="btn small" id="subExport">SRT olarak kaydet</button><button class="btn small" id="subCopy">SRT metnini kopyala</button><button class="btn small danger" id="subClear">Tümünü sil</button></div>
       <input type="file" id="srtIn" accept=".srt,.txt,text/plain" hidden>
       <p class="note" id="subNote"></p>
-    </div>
-    <div class="sect asrkart">
-      <h3>🎙 Videonun sesinden altyazı</h3>
-      <p class="note">Videodaki konuşma telefonun içinde yazıya dökülür (ses dışarı gitmez), her kelime sesle eş zamanlı altyazı olur. İstersen sessizlikler ve "ııı, eee" sesleri videodan kesilir; kelimelerin başı ve sonu korunur. Sonradan klibi kessen, bölsen ya da yerini değiştirsen de altyazı sesle birlikte kayar.</p>
-      <div class="row"><label>Doğruluk</label><div class="seg" id="trModel"><button type="button" data-v="hizli">Hızlı<small>≈80 MB</small></button><button type="button" data-v="dogru">Daha doğru<small>≈250 MB · yavaş</small></button></div></div>
-      <label class="check"><input type="checkbox" id="trKes">Sessizlikleri ve ııı/eee seslerini videodan kes (ara uzunluğu: Kısa video › Konuşma araları)</label>
-      <div class="btns"><button type="button" class="btn primary" id="trBasla">🎙 Videodan altyazı çıkar</button><button type="button" class="btn small" id="trSil">Otomatik altyazıyı sil</button></div>
-      <p class="note mono" id="trNot"></p>
-      <div id="trMetinKutu" hidden><div class="row"><label for="trMetin">Konuşma metni · yanlış kelimeyi düzelt, zamanlar korunur</label><textarea id="trMetin" rows="6" spellcheck="true"></textarea></div>
-      <div class="btns"><button type="button" class="btn small" id="trDuzelt">Düzeltmeyi altyazıya uygula</button><button type="button" class="btn small" id="trKopya">Metni kopyala (açıklama için)</button></div></div>
-      <p class="note">İlk kullanımda konuşma tanıma modeli indirilir (Wi-Fi önerilir), sonra internetsiz çalışır. 1 dakikalık video telefonda yaklaşık 1–3 dakikada yazıya dökülür. Elle düzelttiğin altyazı satırı sabitlenir, yeniden hizalanmaz.</p>
     </div>
     <div class="sect">
       <h3>Görünüm</h3>
@@ -4966,7 +4973,7 @@ function renderSubs(){
 $('#subList').addEventListener('input', e => {
   const d = e.target.closest('[data-sid]'); if (!d) return; const x = S.subs.find(q => q.id === +d.dataset.sid); if (!x) return;
   const f = e.target.dataset.f;
-  if (x.oto){ x.oto = false; delete x.ws; } if (f === 'text') x.text = e.target.value;
+  if (x.oto){ x.oto = false; delete x.ws; } delete x.kay; if (f === 'text') x.text = e.target.value;
   if (f === 'start'){ x.start = clamp(+e.target.value || 0, 0, Math.max(0, x.end - 0.2)); }
   if (f === 'end'){ x.end = Math.max(x.start + 0.2, +e.target.value || 0); }
   requestRender(); projSave();
@@ -5980,12 +5987,10 @@ async function psUret(){
     pushUndo(); await addVoiceFile(f, {at});
     const tr = S.tracks.find(x => x.file === f); if (!tr){ not('Ses eklenemedi'); return; }
     tr.okurSesi = true; let m = `${cs.length} cümle seslendirildi (${mmss(effLen(tr))}) · ${mmssd(at)} anından başlıyor`;
-    if (!$('#psAlt') || $('#psAlt').checked){
-      const yeni = []; segs.forEach(sg => { const parca = kvParcala(sg.t, S.sub.style === 'kisa' ? 4 : 9), ag = parca.map(p => p.split(/\s+/).reduce((s, x) => s + kvHece(x) + 0.3, 0)), T = ag.reduce((a, b) => a + b, 0); let acc = 0;
-        parca.forEach((p, i) => { const s0 = sg.a + (sg.b - sg.a)*acc/T; acc += ag[i]; const s1 = sg.a + (sg.b - sg.a)*acc/T; yeni.push({id:uid++, start:Math.round((at + s0)*100)/100, end:Math.round((at + s1 + (i === parca.length - 1 ? 0.15 : -0.02))*100)/100, text:p}); }); });
-      const a0 = at, a1 = at + effLen(tr); S.subs = S.subs.filter(x => x.end <= a0 || x.start >= a1).concat(yeni).sort((a, b) => a.start - b.start); S.sub.on = true;
-      m += ` · ${yeni.length} altyazı tam zamanında`;
-    }
+    { const W = []; segs.forEach(sg => { const ws = stripCues(sg.t).split(/\s+/).filter(Boolean), ag = ws.map(w => kvHece(w) + 0.3), T = ag.reduce((x, y) => x + y, 0); let ac = 0;
+        ws.forEach((w, k) => { const a = sg.a + (sg.b - sg.a)*ac/T; ac += ag[k]; W.push({w, a:Math.round(a*1000)/1000, b:Math.round((sg.a + (sg.b - sg.a)*ac/T)*1000)/1000}); }); });
+      tr.trw = W; tr.trwM = 'okur';
+      if (!$('#psAlt') || $('#psAlt').checked){ const n = trAltyaziYenile(true); S.sub.on = true; if (S.kisa && S.kisa.on) S.sub.style = 'kisa'; m += ` · ${n} altyazı satırı sesle eş zamanlı`; } }
     if (S.kisa && S.kisa.on && S.clips.some(c => c.kind === 'photo')){
       const hedef = tr.at + effLen(tr) + 0.4, ph = S.clips.filter(c => c.kind === 'photo'), vid = S.clips.filter(c => c.kind === 'video').reduce((s, c) => s + c.dur, 0), tl0 = timeline();
       const each = (hedef - vid - tl0.E)/ph.length; if (each >= 0.8){ applyAllDur(Math.round(each*100)/100); m += ` · fotoğraflar ${trNum(each, 1)} sn`; }
@@ -6035,155 +6040,57 @@ function tkListeBagla(){
 }
 
 try { psBagla(); tkListeBagla(); } catch(e){ console.warn('6.8 bağlama', e); }
-/* ================= 6.9: VİDEONUN SESİNDEN ALTYAZI (konuşmayı yazıya dökme) + SESSİZLİK / ııı-eee KESME =================
-   Konuşma telefonun içinde Whisper (açık kaynak konuşma tanıma) ile yazıya dökülür; ses hiçbir sunucuya gitmez.
-   Her kelimenin, kaynak videodaki anı saklanır (c.trw = [{w, a, b, f}] · a/b kaynak dosya saniyesi, f: dolgu sesi).
-   Altyazı bu kaynak anlarından üretilir; klip kesilse, bölünse, sırası değişse de kelimeler sesle birlikte kayar. */
-const TR_TF = 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1';
-const TR_MODEL = {hizli:{id:'Xenova/whisper-base', mb:80, ad:'Hızlı'}, dogru:{id:'Xenova/whisper-small', mb:250, ad:'Daha doğru'}};
+/* ================= 7.0: SES VE ALTYAZI · TEK AKIŞ =================
+   Altyazının tek kaynağı KELİME ANLARIDIR:
+     · Video klip  → c.trw  (kaynak video saniyesi)        · Videonun kendi konuşması (Whisper ile yazıya dökülür)
+     · Ses kaydı   → tr.trw (kaydın kendi saniyesi)        · Kendi seslendirmen (Whisper) ya da Okur sesi (cümle anları kesin)
+   Otomatik altyazı satırları (x.oto) her değişiklikte bu anlardan yeniden kurulur: klip kesilir/bölünür/taşınır,
+   ses kaydı kaydırılır → altyazı sesle birlikte kayar. Elle düzeltilen satır sabitlenir (x.oto kalkar).
+   Seslendirme varsa o bölümde video konuşmasının altyazısı gösterilmez (iki satır üst üste binmez). */
+const TR_TF = 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1/dist/transformers.min.js';
+const TR_MODEL = {hizli:{id:'Xenova/whisper-base', mb:80}, dogru:{id:'Xenova/whisper-small', mb:250}};
 const TR_DOLGU = /^(ı+|i+|e+|ö+|a{2,}|ıh+|eh+|öh+|hı+|hm+|mm+|ım+|em+|aa+h*|ee+h*|hmm+|ııh*)$/i;
 const TR_HAYAL = /altyaz[ıi]\s*m\.?\s*k|izledi[ğg]iniz i[çc]in te[şs]ekk[üu]r|abone olmay[ıi] unutmay[ıi]n|^\s*\[.*\]\s*$|^\s*\(.*\)\s*$|^♪+$/i;
-const TRA = Object.assign({model:'hizli', kes:true}, LS.get('kv.asr') || {});
+const TRA = Object.assign({model:'hizli', kes:true, kay:''}, LS.get('kv.asr') || {});
 const trKaydet = () => LS.set('kv.asr', TRA);
 let trAsr = null, trAsrAd = '', trCalisiyor = false, trIptal = false, trSig = '', trZam = 0;
-const trNot = m => { ['#trNot', '#kisaTrNot'].forEach(s => { const e = $(s); if (e) e.textContent = m; }); };
+const trNot = m => { const e = $('#trNot'); if (e) e.textContent = m; };
 const trAnahtar = c => c.fkey || (c.file ? c.file.name + '|' + c.file.size + '|' + c.file.lastModified : 'k' + c.id);
+const trSesler = () => S.tracks.filter(t => t.voice && t.buffer);
 async function trMotor(bildir){
-  if (window.KV_ASR) return window.KV_ASR;   /* test/yedek motor */
+  if (window.KV_ASR) return window.KV_ASR;
   const m = TR_MODEL[TRA.model] || TR_MODEL.hizli;
   if (trAsr && trAsrAd === m.id) return trAsr;
   bildir('Konuşma tanıma hazırlanıyor…');
   const T = await import(/* @vite-ignore */ TR_TF);
   T.env.allowLocalModels = false;
-  try { T.env.backends.onnx.wasm.proxy = true; } catch(e){}
   const yuk = {};
   const p = await T.pipeline('automatic-speech-recognition', m.id, {progress_callback: x => {
     if (x && x.status === 'progress' && x.file){ yuk[x.file] = [x.loaded || 0, x.total || 0];
       const L = Object.values(yuk).reduce((s, v) => s + v[0], 0), Tt = Object.values(yuk).reduce((s, v) => s + v[1], 0);
       bildir('Konuşma tanıma modeli indiriliyor… ' + Math.round(L/1048576) + ' / ' + Math.max(Math.round(Tt/1048576), m.mb) + ' MB · yalnız ilk sefer'); } }});
-  trAsr = async (f32) => { const o = await p(f32, {language:'turkish', task:'transcribe', return_timestamps:'word', chunk_length_s:30});
-    return (o && o.chunks || []).map(c => ({text:c.text, timestamp:c.timestamp})); };
+  let kelimeOlur = true;
+  trAsr = async (f32) => {
+    if (kelimeOlur){ try { const o = await p(f32, {language:'turkish', task:'transcribe', return_timestamps:'word', chunk_length_s:30});
+      return (o && o.chunks || []).map(c => ({text:c.text, timestamp:c.timestamp})); } catch(e){ console.warn('kelime zamanı yok, cümle zamanına geçildi', e); kelimeOlur = false; } }
+    /* yedek: cümle anları → kelimelere hece ağırlığıyla bölünür */
+    const o = await p(f32, {language:'turkish', task:'transcribe', return_timestamps:true, chunk_length_s:30}), out = [];
+    (o && o.chunks || []).forEach(c => { const ws = String(c.text || '').trim().split(/\s+/).filter(Boolean); if (!ws.length || !c.timestamp) return;
+      const a = +c.timestamp[0] || 0, b = c.timestamp[1] == null ? a + ws.length*0.35 : +c.timestamp[1], ag = ws.map(w => kvHece(w) + 0.3), T = ag.reduce((x, y) => x + y, 0); let ac = 0;
+      ws.forEach((w, i) => { const s0 = a + (b - a)*ac/T; ac += ag[i]; out.push({text:w, timestamp:[s0, a + (b - a)*ac/T]}); }); });
+    return out; };
   trAsrAd = m.id; return trAsr;
 }
-/* kaynak sesi 16 kHz tek kanala indir */
 async function tr16k(buf){
   const sr = 16000, n = Math.ceil(buf.duration*sr), oc = new OfflineAudioContext(1, Math.max(1, n), sr), s = oc.createBufferSource();
   s.buffer = buf; s.connect(oc.destination); s.start(); return (await oc.startRendering()).getChannelData(0);
-}
-/* 20 ms enerji dizisi */
-function trEnerji(x, sr){ const w = Math.round(sr*0.02), n = Math.floor(x.length/w), e = new Float32Array(n);
-  for (let i = 0; i < n; i++){ let s = 0; for (let j = i*w; j < (i + 1)*w; j += 2) s += x[j]*x[j]; e[i] = Math.sqrt(s/(w/2)); } return e; }
-function trEsik(e){ const s = Array.from(e).filter(v => v > 1e-5).sort((a, b) => a - b); if (!s.length) return 0.01;
-  const gurultu = s[Math.floor(s.length*0.15)], konusma = s[Math.floor(s.length*0.9)]; return Math.max(0.004, gurultu*2.2, konusma*0.06); }
-/* ≤ 25 sn parçalar; kesim en sessiz yerden (kelime bölünmez) */
-function trParcala(e, toplam){ const out = []; let bas = 0; const k = 0.02;
+}function trEnerji(x, sr){ const w = Math.round(sr*0.02), n = Math.floor(x.length/w), e = new Float32Array(n);
+  for (let i = 0; i < n; i++){ let s = 0; for (let j = i*w; j < (i + 1)*w; j += 2) s += x[j]*x[j]; e[i] = Math.sqrt(s/(w/2)); } return e; }function trEsik(e){ const s = Array.from(e).filter(v => v > 1e-5).sort((a, b) => a - b); if (!s.length) return 0.01;
+  const gurultu = s[Math.floor(s.length*0.15)], konusma = s[Math.floor(s.length*0.9)]; return Math.max(0.004, gurultu*2.2, konusma*0.06); }function trParcala(e, toplam){ const out = []; let bas = 0; const k = 0.02;
   while (toplam - bas > 26){ const i0 = Math.round((bas + 16)/k), i1 = Math.min(e.length - 1, Math.round((bas + 25)/k)); let en = i0, enS = Infinity;
     for (let i = i0; i <= i1; i++){ let t = 0; for (let q = -5; q <= 5; q++) t += e[Math.max(0, Math.min(e.length - 1, i + q))]; if (t < enS){ enS = t; en = i; } }
     out.push([bas, en*k]); bas = en*k; }
-  out.push([bas, toplam]); return out; }
-async function trCikar(){
-  if (trCalisiyor){ trIptal = true; trNot('Durduruluyor…'); return; }
-  const vids = S.clips.filter(c => c.kind === 'video');
-  if (!vids.length){ toast('Önce video ekle'); return; }
-  if (!navigator.onLine && !window.KV_ASR && !trAsr){ trNot('İlk kullanımda model indirmek için internet gerekir'); }
-  trCalisiyor = true; trIptal = false; trDugme(); const bildir = m => trNot(m);
-  try {
-    const kaynak = new Map(); vids.forEach(c => { const k = trAnahtar(c); if (!kaynak.has(k)) kaynak.set(k, []); kaynak.get(k).push(c); });
-    const asr = await trMotor(bildir); let sira = 0, topKelime = 0, sesYok = 0;
-    for (const [k, cs] of kaynak){
-      sira++; const c = cs[0];
-      if (c.trw && c.trwM === (window.KV_ASR ? 'test' : TRA.model)){ cs.forEach(x => { x.trw = c.trw; x.trwM = c.trwM; }); topKelime += c.trw.length; continue; }
-      bildir(`Video ${sira}/${kaynak.size}: ses okunuyor…`); await ensureClipAudio(c);
-      if (!c.audio || c.audio === 'none'){ sesYok++; continue; }
-      if (c.audio.duration > 20*60) throw new Error('Video 20 dakikadan uzun; önce kırp ya da böl');
-      const x = await tr16k(c.audio), e = trEnerji(x, 16000), esik = trEsik(e), parca = trParcala(e, x.length/16000), kel = [];
-      for (let p = 0; p < parca.length; p++){
-        if (trIptal) throw new Error('durduruldu');
-        const [a, b] = parca[p]; bildir(`Video ${sira}/${kaynak.size}: konuşma yazıya dökülüyor %${Math.round(p/parca.length*100)} (${mmss(a)} / ${mmss(x.length/16000)})`);
-        let enerjiVar = false; for (let i = Math.floor(a/0.02); i < Math.min(e.length, b/0.02); i++) if (e[i] > esik){ enerjiVar = true; break; }
-        if (!enerjiVar) continue;
-        const r = await asr(x.subarray(Math.round(a*16000), Math.round(b*16000)), 16000);
-        r.forEach(w => { const t = String(w.text || '').trim(); if (!t || !w.timestamp) return; let s0 = a + (+w.timestamp[0] || 0), s1 = a + (w.timestamp[1] == null ? (+w.timestamp[0] || 0) + 0.3 : +w.timestamp[1]);
-          if (s1 <= s0) s1 = s0 + 0.12; s1 = Math.min(s1, b + 0.05); kel.push({w:t, a:Math.round(s0*1000)/1000, b:Math.round(s1*1000)/1000}); });
-        await sleep(5);
-      }
-      /* sessizlikte uydurulan sözler ve dolgu sesleri */
-      const temiz = kel.filter(w => { if (TR_HAYAL.test(w.w)) return false; let mx = 0; for (let i = Math.floor(w.a/0.02); i <= Math.min(e.length - 1, w.b/0.02); i++) mx = Math.max(mx, e[i]); return mx > esik*0.8; });
-      temiz.forEach(w => { const yal = w.w.replace(/[.,!?…;:"'“”‘’()-]/g, ''); if (yal.length <= 5 && TR_DOLGU.test(yal)) w.f = 1; });
-      /* kelime sınırlarını enerjiye göre genişlet: baş ve son heceler kesilmesin */
-      temiz.forEach((w, i) => { const once = i ? temiz[i - 1].b : 0, sonra = i < temiz.length - 1 ? temiz[i + 1].a : x.length/16000;
-        let s = Math.floor(w.a/0.02); for (let q = 0; q < 10 && s > 0 && e[s - 1] > esik*0.7 && (s - 1)*0.02 > once; q++) s--;
-        let t = Math.ceil(w.b/0.02); for (let q = 0; q < 12 && t < e.length - 1 && e[t] > esik*0.7 && (t + 1)*0.02 < sonra; q++) t++;
-        w.a = Math.min(w.a, s*0.02); w.b = Math.max(w.b, t*0.02); });
-      cs.forEach(x2 => { x2.trw = temiz; x2.trwM = window.KV_ASR ? 'test' : TRA.model; }); topKelime += temiz.length;
-    }
-    if (!topKelime){ bildir(sesYok ? 'Videoların sesi okunamadı (sessiz ya da desteklenmeyen biçim)' : 'Konuşma bulunamadı'); return; }
-    pushUndo(); let m = `${topKelime} kelime yazıya döküldü`;
-    if (TRA.kes){ const r = trKes(); if (r.kesilen > 0.05) m += ` · ${trNum(r.kesilen, 1)} sn sessizlik / ııı-eee kesildi (${r.parca} parça)`; }
-    const n = trAltyaziYenile(true); S.sub.on = true; if (S.kisa && S.kisa.on) S.sub.style = 'kisa';
-    m += ` · ${n} altyazı satırı, sesle eş zamanlı`;
-    trMetinCiz(); renderStrip(); markStrip(S.sel); updateSummary(); renderLanes(); renderSubs(); syncUI(); requestRender(); projSave();
-    bildir(m + '. Geri almak için ↶'); toast('Altyazı hazır', 2200);
-  } catch(e){ console.warn(e); trNot(e.message === 'durduruldu' ? 'Durduruldu' : 'Olmadı: ' + (e.message || e) + (/import|fetch|network|Failed/i.test(String(e.message)) ? ' · İnternet bağlantısını kontrol et (model ilk seferde indirilir)' : '')); }
-  finally { trCalisiyor = false; trIptal = false; trDugme(); }
-}
-function trDugme(){ ['#trBasla', '#kisaTrBasla'].forEach(s => { const b = $(s); if (b) b.textContent = trCalisiyor ? '■ Durdur' : '🎙 Videodan altyazı çıkar'; }); }
-/* sessizlik + dolgu kesimi: konuşma adaları tutulur, kelimeler korunur */
-function trKes(){
-  const X = Math.max(0.18, +S.kisa.bosluk || 0.2), arti = X*0.6, eksi = X*0.4, ilkPay = 0.25, sonPay = 0.35;
-  let kesilen = 0, parcaTop = 0; const yeni = [];
-  S.clips.forEach(c => {
-    if (c.kind !== 'video' || !c.trw || !c.trw.length){ yeni.push(c); return; }
-    const W = c.trw.filter(w => (w.a + w.b)/2 >= c.vin && (w.a + w.b)/2 <= c.vout);
-    const gercek = W.filter(w => !w.f);
-    if (!gercek.length){ yeni.push(c); return; }
-    const ada = []; let cur = [Math.max(c.vin, gercek[0].a - ilkPay), gercek[0].b];
-    for (let i = 1; i < gercek.length; i++){
-      const p = gercek[i - 1], q = gercek[i], bosluk = q.a - p.b, dolguVar = W.some(w => w.f && w.a >= p.b - 0.05 && w.b <= q.a + 0.05);
-      if (bosluk > X + 0.25 || (dolguVar && bosluk > 0.25)){ cur[1] = p.b + Math.max(0.12, arti); ada.push(cur); cur = [q.a - Math.max(0.08, eksi), q.b]; }
-      else cur[1] = q.b;
-    }
-    cur[1] = Math.min(c.vout, cur[1] + sonPay); ada.push(cur);
-    const tutulan = ada.map(([a, b]) => [Math.max(c.vin, Math.round(a*100)/100), Math.min(c.vout, Math.round(b*100)/100)]).filter(([a, b]) => b - a >= 0.2);
-    const once = c.vout - c.vin, sonra = tutulan.reduce((s, [a, b]) => s + b - a, 0);
-    if (once - sonra < 0.15 || !tutulan.length){ yeni.push(c); return; }
-    kesilen += once - sonra; parcaTop += tutulan.length;
-    tutulan.forEach(([a, b], i) => { const d = i ? Object.assign({}, c, {id:uid++, el:null, msel:false}) : c; d.vin = a; d.vout = b; d.dur = Math.round((b - a)*100)/100; d.kes = true; yeni.push(d); });
-  });
-  if (kesilen > 0.05){ S.clips = yeni; S.sel = clamp(S.sel, 0, S.clips.length - 1); if (S.kisa && S.kisa.on && S.tr.type !== 'none'){ S.tr.type = 'none'; toast('Kısa videoda kesimler arası geçiş efekti kapatıldı', 2600); } mixCache = {sig:'', buf:null}; }
-  return {kesilen, parca:parcaTop};
-}
-/* altyazıyı kaynak kelime anlarından yeniden kur (yalnız otomatik satırlar; elle düzenlenenlere dokunulmaz) */
-function trAltyaziYenile(zorla){
-  const tl = timeline(), K = [];
-  S.clips.forEach((c, i) => { if (c.kind !== 'video' || !c.trw) return;
-    c.trw.forEach(w => { if (w.f) return; const o = (w.a + w.b)/2; if (o < c.vin || o > c.vout) return;
-      K.push({w:w.w, t0:tl.starts[i] + Math.max(0, w.a - c.vin), t1:tl.starts[i] + Math.min(c.dur, w.b - c.vin), k:i}); }); });
-  if (!K.length && !zorla) return 0;
-  const kisa = S.sub.style === 'kisa' || (S.kisa && S.kisa.on), maxK = kisa ? 4 : 7, maxH = kisa ? 22 : 40, yeni = [];
-  let g = [];
-  const bitir = () => { if (!g.length) return; yeni.push({id:uid++, start:g[0].t0, end:g[g.length - 1].t1, text:g.map(q => q.w).join(' '), oto:true, ws:g.map(q => [Math.round(q.t0*1000)/1000, Math.round(q.t1*1000)/1000])}); g = []; };
-  K.forEach((q, i) => { g.push(q); const s = K[i + 1], uz = g.map(z => z.w).join(' ').length;
-    if (!s || /[.!?…:;]["”’»)]?$/.test(q.w) || (/,$/.test(q.w) && g.length >= 2) || g.length >= maxK || uz >= maxH || s.t0 - q.t1 > 0.7 || s.k !== q.k && s.t0 - q.t1 > 0.25) bitir(); });
-  yeni.forEach((x, i) => { const s = yeni[i + 1]; x.start = Math.max(0, Math.round((x.start - 0.04)*100)/100); x.end = Math.round(Math.min(x.end + 0.25, s ? s.start - 0.02 : tl.clipsTotal)*100)/100; if (x.end < x.start + 0.25) x.end = x.start + 0.25; });
-  S.subs = S.subs.filter(x => !x.oto).concat(yeni);
-  trSig = trImza(); return yeni.length;
-}
-const trImza = () => S.clips.map(c => c.kind === 'video' && c.trw ? c.id + ':' + c.vin + ':' + c.dur : 'f' + c.dur).join('|');
-/* her çizim isteğinde ucuz kontrol: klipler değiştiyse otomatik altyazı yeniden hizalanır */
-function trKontrol(){
-  if (!S.subs.length || !S.subs.some(x => x.oto)) return;
-  const s = trImza(); if (s === trSig) return; trSig = s;
-  clearTimeout(trZam); trZam = setTimeout(() => { trAltyaziYenile(); try { renderSubs(); } catch(e){} requestRender(); projSave(); }, 200);
-}
-/* konuşma metni: göster, kopyala, düzelt (zamanlar korunur) */
-function trMetinCiz(){
-  const t = $('#trMetin'); if (!t) return; const kaynak = new Set(), parca = [];
-  S.clips.forEach(c => { if (c.kind === 'video' && c.trw && !kaynak.has(c.trw)){ kaynak.add(c.trw); parca.push(c.trw.filter(w => !w.f).map(w => w.w).join(' ')); } });
-  t.value = parca.join('\n\n'); $('#trMetinKutu').hidden = !parca.length;
-}
-/* düzeltilmiş kelimeleri eski kelimelere hizala (benzer kelime eşleşir, eklenen kelime komşularının arasına yerleşir) */
-function trHizala(eski, yeniK){
+  out.push([bas, toplam]); return out; }function trHizala(eski, yeniK){
   const nz = w => String(w).toLocaleLowerCase('tr').replace(/[^a-zçğıöşü0-9]/g, ''), M = eski.length, N = yeniK.length, W = N + 1;
   const ea = eski.map(w => nz(w.w)), ya = yeniK.map(nz), D = new Float32Array((M + 1)*W), B = new Uint8Array((M + 1)*W);
   const fark = (a, b) => a === b ? 0 : (a.length >= 3 && b.length >= 3 && a.slice(0, 3) === b.slice(0, 3)) ? 0.4 : 1;
@@ -6197,33 +6104,229 @@ function trHizala(eski, yeniK){
     const sol = k ? out[k - 1].b : (eski[0] ? eski[0].a : 0), sag = e < N ? out[e].a : (eski[M - 1] ? eski[M - 1].b : sol + 0.5), adim = Math.max(0.05, (sag - sol)/(e - k));
     for (let q = k; q < e; q++){ out[q].a = Math.round((sol + adim*(q - k))*1000)/1000; out[q].b = Math.round((sol + adim*(q - k + 1))*1000)/1000; } k = e - 1; }
   return out;
+}/* bir ses tamponunu yazıya dök → [{w, a, b, f}] (tamponun kendi saniyesi) */
+async function trYaziyaDok(buf, asr, bildir, etiket){
+  const x = await tr16k(buf), e = trEnerji(x, 16000), esik = trEsik(e), parca = trParcala(e, x.length/16000), kel = [];
+  for (let p = 0; p < parca.length; p++){
+    if (trIptal) throw new Error('durduruldu');
+    const [a, b] = parca[p]; bildir(`${etiket}: konuşma yazıya dökülüyor %${Math.round(p/parca.length*100)} (${mmss(a)} / ${mmss(x.length/16000)})`);
+    let enerjiVar = false; for (let i = Math.floor(a/0.02); i < Math.min(e.length, b/0.02); i++) if (e[i] > esik){ enerjiVar = true; break; }
+    if (!enerjiVar) continue;
+    const r = await asr(x.subarray(Math.round(a*16000), Math.round(b*16000)), 16000);
+    r.forEach(w => { const t = String(w.text || '').trim(); if (!t || !w.timestamp) return; let s0 = a + (+w.timestamp[0] || 0), s1 = a + (w.timestamp[1] == null ? (+w.timestamp[0] || 0) + 0.3 : +w.timestamp[1]);
+      if (s1 <= s0) s1 = s0 + 0.12; s1 = Math.min(s1, b + 0.05); kel.push({w:t, a:s0, b:s1}); });
+    await sleep(5);
+  }
+  const temiz = kel.filter(w => { if (TR_HAYAL.test(w.w)) return false; let mx = 0; for (let i = Math.floor(w.a/0.02); i <= Math.min(e.length - 1, w.b/0.02); i++) mx = Math.max(mx, e[i]); return mx > esik*0.8; });
+  temiz.forEach(w => { const yal = w.w.replace(/[.,!?…;:"'“”‘’()-]/g, ''); if (yal.length <= 5 && TR_DOLGU.test(yal)) w.f = 1; });
+  /* kelime sınırlarını sesin enerjisine göre genişlet: baş ve son heceler kesilmesin */
+  temiz.forEach((w, i) => { const once = i ? temiz[i - 1].b : 0, sonra = i < temiz.length - 1 ? temiz[i + 1].a : x.length/16000;
+    let s = Math.floor(w.a/0.02); for (let q = 0; q < 10 && s > 0 && e[s - 1] > esik*0.7 && (s - 1)*0.02 > once; q++) s--;
+    let t = Math.ceil(w.b/0.02); for (let q = 0; q < 12 && t < e.length - 1 && e[t] > esik*0.7 && (t + 1)*0.02 < sonra; q++) t++;
+    w.a = Math.round(Math.min(w.a, s*0.02)*1000)/1000; w.b = Math.round(Math.max(w.b, t*0.02)*1000)/1000; });
+  return temiz;
 }
-function trDuzelt(){
-  const t = $('#trMetin'); if (!t) return; const bloklar = t.value.split(/\n\s*\n/), kaynak = []; const gor = new Set();
-  S.clips.forEach(c => { if (c.kind === 'video' && c.trw && !gor.has(c.trw)){ gor.add(c.trw); kaynak.push(c.trw); } });
-  if (bloklar.length !== kaynak.length){ toast('Videoların metinleri arasındaki boş satırları silme'); return; }
-  pushUndo();
-  kaynak.forEach((trw, bi) => {
-    const eski = trw.filter(w => !w.f), yeniK = bloklar[bi].trim().split(/\s+/).filter(Boolean); if (!eski.length || !yeniK.length) return;
-    const yeni = trHizala(eski, yeniK);
-    trw.splice(0, trw.length, ...yeni.concat(trw.filter(w => w.f)).sort((x, y) => x.a - y.a));
+/* konuşma adaları: tutulacak bölümler [a,b] (lo–hi aralığında). Kelimeler korunur, uzun sessizlik ve ııı/eee atılır */
+function trAdalar(W, lo, hi){
+  const X = Math.max(0.18, +S.kisa.bosluk || 0.2), arti = Math.max(0.12, X*0.6), eksi = Math.max(0.08, X*0.4);
+  const ic = W.filter(w => (w.a + w.b)/2 >= lo && (w.a + w.b)/2 <= hi), g = ic.filter(w => !w.f);
+  if (!g.length) return null;
+  const ada = []; let cur = [Math.max(lo, g[0].a - 0.25), g[0].b];
+  for (let i = 1; i < g.length; i++){ const p = g[i - 1], q = g[i], bos = q.a - p.b, dolgu = ic.some(w => w.f && w.a >= p.b - 0.05 && w.b <= q.a + 0.05);
+    if (bos > X + 0.25 || (dolgu && bos > 0.25)){ cur[1] = p.b + arti; ada.push(cur); cur = [q.a - eksi, q.b]; } else cur[1] = q.b; }
+  cur[1] = Math.min(hi, cur[1] + 0.35); ada.push(cur);
+  return ada.map(([a, b]) => [Math.max(lo, Math.round(a*100)/100), Math.min(hi, Math.round(b*100)/100)]).filter(([a, b]) => b - a >= 0.2);
+}
+function trVideoKes(){
+  let kesilen = 0, parcaTop = 0; const yeni = [];
+  S.clips.forEach(c => {
+    if (c.kind !== 'video' || !c.trw || !c.trw.length){ yeni.push(c); return; }
+    const ada = trAdalar(c.trw, c.vin, c.vout); if (!ada || !ada.length){ yeni.push(c); return; }
+    const once = c.vout - c.vin, sonra = ada.reduce((s, [a, b]) => s + b - a, 0);
+    if (once - sonra < 0.15){ yeni.push(c); return; }
+    kesilen += once - sonra; parcaTop += ada.length;
+    ada.forEach(([a, b], i) => { const d = i ? Object.assign({}, c, {id:uid++, el:null, msel:false}) : c; d.vin = a; d.vout = b; d.dur = Math.round((b - a)*100)/100; d.kes = true; yeni.push(d); });
   });
+  if (kesilen > 0.05){ S.clips = yeni; S.sel = clamp(S.sel, 0, S.clips.length - 1); if (S.kisa && S.kisa.on && S.tr.type !== 'none'){ S.tr.type = 'none'; toast('Kısa videoda kesimler arası geçiş efekti kapatıldı', 2600); } mixCache = {sig:'', buf:null}; }
+  return {kesilen, parca:parcaTop};
+}
+/* ses kaydını adalardan yeniden kur (+ isteğe bağlı iyileştirme), kelime anlarını yeni kayda taşı */
+async function trSesKes(src, W, iyilestir){
+  const sr = src.sampleRate, lo = 0, hi = src.duration, ada = trAdalar(W, lo, hi) || [[lo, hi]];
+  const fd = Math.round(0.008*sr), parcalar = ada.map(([a, b]) => [Math.round(a*sr), Math.min(src.length, Math.round(b*sr))]);
+  const n = parcalar.reduce((s, [a, b]) => s + b - a, 0), ch = Math.min(2, src.numberOfChannels), raw = new AudioBuffer({length:Math.max(1, n), numberOfChannels:ch, sampleRate:sr});
+  for (let c = 0; c < ch; c++){ const d = src.getChannelData(c), out = raw.getChannelData(c); let p = 0;
+    parcalar.forEach(([a, b]) => { const len = b - a; for (let j = 0; j < len; j++){ let k = 1; if (j < fd) k = j/fd; else if (len - j < fd) k = (len - j)/fd; out[p + j] = d[a + j]*k; } p += len; }); }
+  const harita = []; { let o = 0; ada.forEach(([a, b]) => { harita.push([a, b, o]); o += (Math.min(src.length, Math.round(b*sr)) - Math.round(a*sr))/sr; }); }
+  const tasi = t => { for (const [a, b, o] of harita) if (t >= a - 0.001 && t <= b + 0.001) return o + Math.max(0, t - a); return null; };
+  const yeniW = []; W.forEach(w => { if (w.f) return; const a = tasi(w.a), b = tasi(w.b), m = tasi((w.a + w.b)/2); if (m == null) return;
+    yeniW.push({w:w.w, a:Math.round((a == null ? m : a)*1000)/1000, b:Math.round((b == null ? m + 0.1 : b)*1000)/1000}); });
+  let res = raw;
+  if (iyilestir){
+    const oc = new OfflineAudioContext(ch, raw.length, sr), b = oc.createBufferSource(); b.buffer = raw;
+    const hp = oc.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 85; hp.Q.value = 0.7;
+    const pr = oc.createBiquadFilter(); pr.type = 'peaking'; pr.frequency.value = 3200; pr.gain.value = 2.5; pr.Q.value = 0.9;
+    const cp = oc.createDynamicsCompressor(); cp.threshold.value = -24; cp.knee.value = 8; cp.ratio.value = 3.2; cp.attack.value = 0.006; cp.release.value = 0.18;
+    b.connect(hp); hp.connect(pr); pr.connect(cp); cp.connect(oc.destination); b.start(); res = await oc.startRendering();
+    let e = 0, m = 0, pk = 0; const d = res.getChannelData(0);
+    yeniW.forEach(w => { for (let i = Math.round(w.a*sr); i < Math.min(d.length, Math.round(w.b*sr)); i += 4){ e += d[i]*d[i]; m++; } });
+    for (let c = 0; c < res.numberOfChannels; c++){ const q = res.getChannelData(c); for (let i = 0; i < q.length; i++){ const a = Math.abs(q[i]); if (a > pk) pk = a; } }
+    const rms = Math.sqrt(e/Math.max(1, m)), k = Math.min(0.89/Math.max(1e-6, pk), 0.126/Math.max(1e-6, rms));
+    for (let c = 0; c < res.numberOfChannels; c++){ const q = res.getChannelData(c); for (let i = 0; i < q.length; i++) q[i] *= k; }
+  }
+  return {buffer:res, trw:yeniW, eski:src.duration, yeni:res.duration};
+}
+/* okunacak metin varsa: tanınan kelimelerin anları, senin metninin yazımıyla birleşir */
+function trMetneUydur(W){
+  const txt = ($('#vText') && $('#vText').value || '').trim(); if (!txt) return {W, uydu:false};
+  const yeniK = stripCues(txt).split(/\s+/).filter(Boolean), g = W.filter(w => !w.f); if (!g.length || !yeniK.length) return {W, uydu:false};
+  const h = trHizala(g, yeniK); return {W:h.concat(W.filter(w => w.f)).sort((x, y) => x.a - y.a), uydu:true};
+}
+/* ---------- tek düğme: seçili kaynaktan altyazı ---------- */
+let trSecim = false;
+function trKaynaklar(){
+  const L = []; trSesler().forEach(t => L.push({k:'ses:' + t.id, ad:'🎤 ' + (t.okurSesi ? 'Okur sesi' : 'Seslendirme') + ' · ' + mmss(effLen(t)), t}));
+  if (S.clips.some(c => c.kind === 'video')) L.push({k:'video', ad:'🎬 Videonun kendi sesi'});
+  L.push({k:'metin', ad:'📝 Yalnız metin (ses yok, zaman tahmini)'}); return L;
+}
+function trKayCiz(){
+  const box = $('#trKay'); if (!box) return; const L = trKaynaklar();
+  if (!trSecim || !L.some(x => x.k === TRA.kay)) TRA.kay = L[0].k;
+  box.innerHTML = L.map(x => `<button type="button" data-v="${x.k}" aria-pressed="${x.k === TRA.kay}">${esc(x.ad)}</button>`).join('');
+  const s = L.find(x => x.k === TRA.kay), ses = s && s.k.indexOf('ses:') === 0, okur = ses && s.t.okurSesi;
+  $('#trKesSat').hidden = !(s && (s.k === 'video' || ses)) || okur; $('#trIyiSat').hidden = !ses || okur; $('#trModelSat').hidden = !s || s.k === 'metin' || okur;
+  $('#trGeri').hidden = !(ses && s.t.temizKaynak);
+  $('#trAciklama').textContent = !s ? '' : s.k === 'video' ? 'Videodaki konuşma yazıya dökülür; her kelime sesle eş zamanlı altyazı olur. İstersen sessizlik ve ııı/eee videodan kesilir.'
+    : okur ? 'Okur sesinde cümle anları kesin bilinir; altyazı eklenirken zaten oluştu. Yeniden kurmak için dokun.'
+    : ses ? 'Senin seslendirmen yazıya dökülür. Okunacak metin kutusu doluysa kelimeler senin yazımınla, sesin gerçek anlarına oturur. İstersen sessizlik ve ııı/eee kayıttan kesilir.'
+    : 'Ses yokken: Okunacak metin videonun süresine yayılır (zamanlar tahminidir).';
+}
+async function trCikar(){
+  if (trCalisiyor){ trIptal = true; trNot('Durduruluyor…'); return; }
+  const L = trKaynaklar(), s = L.find(x => x.k === TRA.kay) || L[0];
+  if (!S.clips.length){ toast('Önce fotoğraf/video ekle'); return; }
+  if (s.k === 'metin'){ trMetinden(); return; }
+  trCalisiyor = true; trIptal = false; trDugme(); const bildir = m => trNot(m);
+  try {
+    if (s.k === 'video') await trVideodan(bildir); else await trSesten(s.t, bildir);
+  } catch(e){ console.warn(e); trNot(e.message === 'durduruldu' ? 'Durduruldu' : 'Olmadı: ' + (e.message || e) + (/import|fetch|network|Failed|load/i.test(String(e.message)) ? ' · İnternet bağlantısını kontrol et (konuşma tanıma modeli ilk seferde indirilir)' : '')); }
+  finally { trCalisiyor = false; trIptal = false; trDugme(); trKayCiz(); }
+}
+async function trVideodan(bildir){
+  const vids = S.clips.filter(c => c.kind === 'video'), kaynak = new Map();
+  vids.forEach(c => { const k = trAnahtar(c); if (!kaynak.has(k)) kaynak.set(k, []); kaynak.get(k).push(c); });
+  const asr = await trMotor(bildir); let sira = 0, top = 0, sesYok = 0;
+  for (const [k, cs] of kaynak){ sira++; const c = cs[0], M = window.KV_ASR ? 'test' : TRA.model;
+    if (c.trw && c.trwM === M){ cs.forEach(x => { x.trw = c.trw; x.trwM = M; }); top += c.trw.length; continue; }
+    bildir(`Video ${sira}/${kaynak.size}: ses okunuyor…`); await ensureClipAudio(c);
+    if (!c.audio || c.audio === 'none'){ sesYok++; continue; }
+    if (c.audio.duration > 20*60) throw new Error('Video 20 dakikadan uzun; önce kırp ya da böl');
+    const W = await trYaziyaDok(c.audio, asr, bildir, `Video ${sira}/${kaynak.size}`);
+    cs.forEach(x => { x.trw = W; x.trwM = M; }); top += W.length; }
+  if (!top){ bildir(sesYok ? 'Videoların sesi okunamadı (sessiz ya da desteklenmeyen biçim)' : 'Videoda konuşma bulunamadı'); return; }
+  pushUndo(); let m = `${top} kelime yazıya döküldü`;
+  if (TRA.kes){ const r = trVideoKes(); if (r.kesilen > 0.05) m += ` · ${trNum(r.kesilen, 1)} sn sessizlik / ııı-eee kesildi`; }
+  trBitir(m);
+}
+async function trSesten(tr, bildir){
+  if (tr.okurSesi && tr.trw){ trBitir('Okur sesinin altyazısı yeniden kuruldu'); return; }
+  const asr = await trMotor(bildir), k = tr.temizKaynak || {buffer:tr.buffer, trim:tr.trim, len:tr.len, file:tr.file, fkey:tr.fkey, name:tr.name};
+  let src = k.buffer; if (k.trim > 0 || k.len > 0){ const sr = src.sampleRate, a = Math.round(k.trim*sr), b = Math.min(src.length, Math.round((k.trim + (k.len > 0 ? k.len : src.duration))*sr)), ch = src.numberOfChannels, nb = new AudioBuffer({length:Math.max(1, b - a), numberOfChannels:ch, sampleRate:sr}); for (let c = 0; c < ch; c++) nb.getChannelData(c).set(src.getChannelData(c).subarray(a, b)); src = nb; }
+  let W = await trYaziyaDok(src, asr, bildir, 'Seslendirme');
+  if (!W.length){ bildir('Kayıtta konuşma bulunamadı'); return; }
+  const u = trMetneUydur(W); W = u.W; pushUndo();
+  let m = `${W.filter(w => !w.f).length} kelime ${u.uydu ? 'senin metninle eşleşti' : 'yazıya döküldü'}`;
+  if (TRA.kes || S.kisa.iyilestir !== false){
+    bildir('Kayıt temizleniyor…'); const r = await trSesKes(src, TRA.kes ? W : [{w:'', a:0, b:src.duration}], S.kisa.iyilestir !== false);
+    const f = new File([kvWav(r.buffer)], 'Seslendirme (temiz).wav', {type:'audio/wav', lastModified:Date.now()});
+    Object.assign(tr, {temizKaynak:k, buffer:r.buffer, peaks:peaks(r.buffer), file:f, fkey:null, trim:0, len:0, temiz:true, name:'Seslendirme (temiz)', fin:0.02, fout:0.25, _act:null, trw:TRA.kes ? r.trw : W.filter(w => !w.f), trwM:'ses'});
+    if (TRA.kes && r.eski - r.yeni > 0.05) m += ` · ${trNum(r.eski - r.yeni, 1)} sn sessizlik / ııı-eee kesildi`;
+    if (S.kisa.on) tr.at = 0.15; mixCache = {sig:'', buf:null};
+  } else { tr.trw = W.filter(w => !w.f).map(w => ({w:w.w, a:w.a + (k.trim || 0), b:w.b + (k.trim || 0)})); tr.trwM = 'ses'; }
+  if (S.kisa.on && S.clips.some(c => c.kind === 'photo')){
+    const hedef = tr.at + effLen(tr) + 0.4, ph = S.clips.filter(c => c.kind === 'photo'), vid = S.clips.filter(c => c.kind === 'video').reduce((s, c) => s + c.dur, 0), tl0 = timeline();
+    const each = (hedef - vid - tl0.E)/ph.length; if (each >= 0.8){ applyAllDur(Math.round(each*100)/100); m += ` · fotoğraflar ${trNum(each, 1)} sn`; }
+  }
+  trBitir(m);
+}
+function trBitir(m){
+  const n = trAltyaziYenile(true); S.sub.on = true; if (S.kisa && S.kisa.on) S.sub.style = 'kisa';
+  trMetinCiz(); renderStrip(); markStrip(S.sel); renderTracks(); updateSummary(); renderLanes(); renderSubs(); syncUI(); requestRender(); projSave();
+  trNot(m + ` · ${n} altyazı satırı, sesle eş zamanlı. Geri almak için ↶`); toast('Altyazı hazır', 2200);
+}
+function trSesGeri(){
+  const tr = trSesler().find(t => 'ses:' + t.id === TRA.kay && t.temizKaynak); if (!tr){ toast('Geri alınacak temizleme yok'); return; }
+  const k = tr.temizKaynak; Object.assign(tr, {buffer:k.buffer, peaks:peaks(k.buffer), trim:k.trim, len:k.len, file:k.file, fkey:k.fkey, name:k.name, temiz:false, temizKaynak:null, _act:null, trw:null});
+  S.subs = S.subs.filter(x => !x.oto); trAltyaziYenile(); mixCache = {sig:'', buf:null}; renderTracks(); renderLanes(); renderSubs(); updateSummary(); requestRender(); projSave(); trKayCiz(); trMetinCiz();
+  trNot('Özgün kayda dönüldü; altyazı için yeniden oluştur'); }
+function trMetinden(){
+  const txt = stripCues(($('#vText') && $('#vText').value) || '').trim(); if (!txt){ toast('Önce Seslendirme › Okunacak metin kutusuna yaz'); showTab('voice'); return; }
+  const parca = kvParcala(txt, S.sub.style === 'kisa' ? 4 : 9), tl = timeline(), a = introActive(0) ? S.intro.dur + 0.2 : 0.4, b = Math.max(a + 1, (tl.clipsTotal || tl.total) - 0.3);
+  const ag = parca.map(p => p.split(/\s+/).reduce((s, w) => s + kvHece(w) + 0.3, 0)), T = ag.reduce((x, y) => x + y, 0); let ac = 0;
+  const yeni = parca.map((p, i) => { const s0 = a + (b - a)*ac/T; ac += ag[i]; return {id:uid++, start:Math.round(s0*100)/100, end:Math.round((a + (b - a)*ac/T - 0.05)*100)/100, text:p, kay:'metin'}; });
+  S.subs = S.subs.filter(x => x.kay !== 'metin').concat(yeni); S.sub.on = true; renderSubs(); syncUI(); requestRender(); projSave();
+  trNot(`${yeni.length} satır videonun süresine yayıldı (zamanlar tahmini; ses varsa ses kaynağını seç)`);
+}
+function trDugme(){ const b = $('#trBasla'); if (b) b.textContent = trCalisiyor ? '■ Durdur' : '▶ Altyazıyı oluştur'; }
+/* ---------- altyazıyı kelime anlarından kur ---------- */
+function trAltyaziYenile(zorla){
+  const tl = timeline(), K = [], sesAralik = [];
+  trSesler().forEach(t => { if (!t.trw || !t.trw.length) return; const lo = t.trim || 0, hi = lo + effLen(t);
+    t.trw.forEach(w => { const o = (w.a + w.b)/2; if (o < lo || o > hi) return; K.push({w:w.w, t0:t.at + (w.a - lo), t1:t.at + Math.min(hi, w.b) - lo, k:'t' + t.id}); });
+    sesAralik.push([t.at, t.at + effLen(t)]); });
+  S.clips.forEach((c, i) => { if (c.kind !== 'video' || !c.trw || c.mute) return;
+    c.trw.forEach(w => { if (w.f) return; const o = (w.a + w.b)/2; if (o < c.vin || o > c.vout) return; const t0 = tl.starts[i] + Math.max(0, w.a - c.vin);
+      if (sesAralik.some(([a, b]) => t0 >= a && t0 <= b)) return;
+      K.push({w:w.w, t0, t1:tl.starts[i] + Math.min(c.dur, w.b - c.vin), k:'c' + i}); }); });
+  K.sort((x, y) => x.t0 - y.t0);
+  if (!K.length && !zorla){ trSig = trImza(); return 0; }
+  const kisa = S.sub.style === 'kisa' || (S.kisa && S.kisa.on), maxK = kisa ? 4 : 7, maxH = kisa ? 22 : 40, yeni = []; let g = [];
+  const bitir = () => { if (!g.length) return; yeni.push({id:uid++, start:g[0].t0, end:g[g.length - 1].t1, text:g.map(q => q.w).join(' '), oto:true, ws:g.map(q => [Math.round(q.t0*1000)/1000, Math.round(q.t1*1000)/1000])}); g = []; };
+  K.forEach((q, i) => { g.push(q); const s = K[i + 1], uz = g.map(z => z.w).join(' ').length;
+    if (!s || /[.!?…:;]["”’»)]?$/.test(q.w) || (/,$/.test(q.w) && g.length >= 2) || g.length >= maxK || uz >= maxH || s.t0 - q.t1 > 0.7 || (s.k !== q.k && (s.k[0] !== q.k[0] || s.t0 - q.t1 > 0.25))) bitir(); });
+  yeni.forEach((x, i) => { const s = yeni[i + 1]; x.start = Math.max(0, Math.round((x.start - 0.04)*100)/100); x.end = Math.round(Math.min(x.end + 0.25, s ? s.start - 0.02 : tl.total)*100)/100; if (x.end < x.start + 0.25) x.end = x.start + 0.25; });
+  /* elle sabitlenen satırlarla çakışan otomatik satır yazılmaz */
+  const sabit = S.subs.filter(x => !x.oto);
+  S.subs = sabit.concat(yeni.filter(x => !sabit.some(y => y.kay !== 'metin' && x.start < y.end - 0.05 && x.end > y.start + 0.05)));
+  trSig = trImza(); return yeni.length;
+}
+const trImza = () => S.clips.map(c => c.kind === 'video' && c.trw ? c.id + ':' + c.vin + ':' + c.dur + ':' + (c.mute ? 1 : 0) : 'f' + c.dur).join('|') + '#' + trSesler().map(t => t.trw ? t.id + ':' + t.at + ':' + t.trim + ':' + t.len : '').join('|');
+function trKontrol(){
+  if (!S.subs.some(x => x.oto) && !trSesler().some(t => t.trw)) return;
+  const s = trImza(); if (s === trSig) return; trSig = s;
+  clearTimeout(trZam); trZam = setTimeout(() => { trAltyaziYenile(); try { renderSubs(); } catch(e){} requestRender(); projSave(); }, 200);
+}
+/* konuşma metni: göster, kopyala, düzelt (zamanlar korunur) */
+function trListeler(){ const L = [], gor = new Set();
+  trSesler().forEach(t => { if (t.trw && t.trw.length && !gor.has(t.trw)){ gor.add(t.trw); L.push(t.trw); } });
+  S.clips.forEach(c => { if (c.kind === 'video' && c.trw && c.trw.length && !gor.has(c.trw)){ gor.add(c.trw); L.push(c.trw); } }); return L; }
+function trMetinCiz(){ const t = $('#trMetin'); if (!t) return; const L = trListeler(); t.value = L.map(W => W.filter(w => !w.f).map(w => w.w).join(' ')).join('\n\n'); $('#trMetinKutu').hidden = !L.length; }
+function trDuzelt(){
+  const bloklar = $('#trMetin').value.split(/\n\s*\n/), L = trListeler();
+  if (bloklar.length !== L.length){ toast('Kayıtların metinleri arasındaki boş satırları silme'); return; }
+  pushUndo();
+  L.forEach((W, bi) => { const eski = W.filter(w => !w.f), yk = bloklar[bi].trim().split(/\s+/).filter(Boolean); if (!eski.length || !yk.length) return;
+    const yeni = trHizala(eski, yk); W.splice(0, W.length, ...yeni.concat(W.filter(w => w.f)).sort((x, y) => x.a - y.a)); });
   const n = trAltyaziYenile(true); renderSubs(); requestRender(); projSave(); toast(`Düzeltme uygulandı · ${n} satır, zamanlar korundu`);
 }
 function trBagla(){
-  const b = $('#trBasla'); if (!b) return;
-  b.addEventListener('click', trCikar); const k = $('#kisaTrBasla'); if (k) k.addEventListener('click', trCikar);
+  if (!$('#trBasla')) return;
+  $('#trBasla').addEventListener('click', trCikar);
+  $('#trKay').addEventListener('click', e => { const x = e.target.closest('button[data-v]'); if (!x) return; TRA.kay = x.dataset.v; trSecim = true; trKayCiz(); });
   $$('#trModel button').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.v === TRA.model)));
   $('#trModel').addEventListener('click', e => { const x = e.target.closest('button[data-v]'); if (!x) return; TRA.model = x.dataset.v; trKaydet(); $$('#trModel button').forEach(y => y.setAttribute('aria-pressed', String(y === x))); });
   $('#trKes').checked = !!TRA.kes; $('#trKes').addEventListener('change', e => { TRA.kes = e.target.checked; trKaydet(); });
+  $('#trIyi').checked = S.kisa.iyilestir !== false; $('#trIyi').addEventListener('change', e => { S.kisa.iyilestir = e.target.checked; projSave(); });
+  $('#trGeri').addEventListener('click', trSesGeri);
   $('#trKopya').addEventListener('click', async () => { try { await navigator.clipboard.writeText($('#trMetin').value); toast('Metin kopyalandı'); } catch(e){ $('#trMetin').select(); toast('Uzun basıp kopyala'); } });
   $('#trDuzelt').addEventListener('click', trDuzelt);
-  $('#trSil').addEventListener('click', () => { if (!confirm('Otomatik altyazı satırları silinsin mi? (Kesimler kalır; ↶ ile geri alınır)')) return; S.subs = S.subs.filter(x => !x.oto); renderSubs(); requestRender(); projSave(); });
-  trMetinCiz();
+  $('#trSil').addEventListener('click', () => { if (!confirm('Otomatik altyazı satırları silinsin mi? (↶ ile geri alınmaz; yeniden oluşturabilirsin)')) return; S.subs = S.subs.filter(x => !x.oto && x.kay !== 'metin'); S.clips.forEach(c => { if (c.trw) c.trw = null; }); trSesler().forEach(t => { t.trw = null; }); trSig = trImza(); renderSubs(); requestRender(); projSave(); trMetinCiz(); });
+  $$('[data-git="subs"]').forEach(b => b.addEventListener('click', () => { showTab('subs'); setTimeout(() => { const k = $('.asrkart'); if (k) k.scrollIntoView({block:'start', behavior:'smooth'}); }, 80); }));
+  trKayCiz(); trMetinCiz();
 }
 
-try { trBagla(); } catch(e){ console.warn('6.9 bağlama', e); }
-try { window.__kv = {S:() => S, tl:() => timeline(), effLen:t => effLen(t), kisaGeriAl, genMusic, trKes, trAltyaziYenile, trCikar, setPT:v => { PT = v; requestRender(); }}; } catch(e){}
+try { trBagla(); } catch(e){ console.warn('7.0 bağlama', e); }
+try { window.__kv = {S:() => S, tl:() => timeline(), effLen:t => effLen(t), kisaGeriAl, genMusic, trVideoKes, trAltyaziYenile, trCikar, trSesten, setPT:v => { PT = v; requestRender(); }}; } catch(e){}
 const MOODS = {
   calm:  {name:'Sakin', bpm:72, prog:[[57,60,64],[53,57,60],[48,52,55],[55,59,62]], kick:false, wave:'triangle', cut:1600},
   happy: {name:'Neşeli', bpm:112, prog:[[60,64,67],[55,59,62],[57,60,64],[53,57,60]], kick:true, wave:'triangle', cut:2600},
@@ -7458,7 +7561,7 @@ function ustYerlestir(){
 })();
 
 /* ---------- tabs ---------- */
-function showTab(t){
+function showTab(t){ try { if (t === 'subs') trKayCiz(); } catch(e){}
   activeTab = t;
   if (t === 'pub') autoPubSoon();
   if (t === 'cover' && !coverCands.length && S.clips.length && !$('#covGo').disabled) setTimeout(buildCovers, 50);
@@ -7996,9 +8099,9 @@ async function projSaveNow(){
       pub:{topic:$('#pTopic').value, place:$('#pPlace').value, chan:$('#pChan').value, kw:$('#pKw').value, kwo:$('#pKwOpt').value},
       clips: S.clips.map(c => ({fkey:c.fkey, kind:c.kind, rot:c.rot || 0, af:!!c.autoFilled, name:c.name, date:c.date, dur:c.dur, zoom:c.zoom, ox:c.ox, oy:c.oy, kbOff:c.kbOff, hf:!!c.hasFace, fv:c.fv || 0, ffx:c.fx, ffy:c.fy, ffh:c.faceH, vin:c.vin, vout:c.vout, vol:c.vol, mute:c.mute,
         w:c.w, h:c.h, a0:c.aspect0, sd:c.srcDur, fix:c.fix, th:thumbURL(c), kbr:c.kbr, kbm:c.kbm, kbf:c.kbf, kbOn:!!c.kbOn, hs:c.headSrc || '', tk:c.tk || null, tkEk:(c.tkEk && c.tkEk.length) ? c.tkEk : null, trw:c.trw || null, trwM:c.trwM || null, kes:c.kes ? 1 : 0})),
-      subs: S.subs.map(x => ({start:x.start, end:x.end, text:x.text, oto:x.oto ? 1 : 0, ws:x.oto ? x.ws : null})),
+      subs: S.subs.map(x => ({start:x.start, end:x.end, text:x.text, oto:x.oto ? 1 : 0, ws:x.oto ? x.ws : null, kay:x.kay || null})),
       intro:{title:S.intro.title, sub:S.intro.sub, band:S.intro.band || '', band2:S.intro.band2 || '', ek:S.intro.ek}, script: $('#vText').value,
-      tracks: S.tracks.map(t => ({fkey:t.fkey || null, gen:t.gen || null, name:t.name, at:t.at, trim:t.trim, len:t.len, vol:t.vol, fin:t.fin, fout:t.fout, loop:t.loop, voice:!!t.voice}))
+      tracks: S.tracks.map(t => ({fkey:t.fkey || null, gen:t.gen || null, name:t.name, at:t.at, trim:t.trim, len:t.len, vol:t.vol, fin:t.fin, fout:t.fout, loop:t.loop, voice:!!t.voice, trw:t.trw || null, trwM:t.trwM || null, okurSesi:!!t.okurSesi}))
     };
     const sum = {id:PID, when:now, name:projName(), n:S.clips.length, nv:S.clips.filter(c => c.kind === 'video').length, dur:tl.total, thumb:coverThumb(), exp:S.exported || null, fk:[...need.keys()]};
     await idb('meta', 'readwrite', st => { st.put(meta, 'p:' + PID); st.put(sum, 's:' + PID); });
@@ -8114,7 +8217,7 @@ async function projRestore(m){
       return c;
     }, fast ? 8 : 3);
     out.forEach(c => { if (c){ savedFiles.add(c.fkey); S.clips.push(c); } });
-    S.subs = (m.subs || []).map(x => ({id:uid++, start:x.start, end:x.end, text:x.text, oto:!!x.oto, ws:Array.isArray(x.ws) ? x.ws : undefined})); try { trSig = trImza(); trMetinCiz(); } catch(e){}
+    S.subs = (m.subs || []).map(x => ({id:uid++, start:x.start, end:x.end, text:x.text, oto:!!x.oto, ws:Array.isArray(x.ws) ? x.ws : undefined, kay:x.kay || undefined}));
     S.sel = clamp(m.sel || 0, 0, Math.max(0, S.clips.length - 1));
     $('#startNote').textContent = 'Seçtiğin dosyalar telefonundan dışarı gönderilmez; video bu sayfada, telefonunda hazırlanır.';
     renderSubs(); renderStrip(); markStrip(S.sel); syncClipUI(); syncUI(); updateSummary(); seekToClip(S.sel);
@@ -8133,6 +8236,7 @@ async function projRestore(m){
       }
       stripStatus(''); renderTracks(); renderLanes(); updateSummary();
     }
+    try { trSig = trImza(); trMetinCiz(); trKayCiz(); } catch(e){}
     setTimeout(async () => { const stale = S.clips.filter(c => c.autoFilled && (c.fv || 0) < 3); if (!stale.length) return; for (const c of stale){ try { await smartFill(c); } catch(e){} await sleep(0); } requestRender(); syncClipUI(); projSave(); headsByClaude(stale.filter(c => !c.hasFace && isTall(c))); }, 800);
   } catch(e){ toast('Proje açılamadı'); }
   finally { projLoading = false; if (upgrade) projSave(); }
