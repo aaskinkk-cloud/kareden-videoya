@@ -14,7 +14,7 @@
 </style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="7.0" data-ad="Kareden Videoya" data-tarih="03.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="7.1" data-ad="Kareden Videoya" data-tarih="03.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -466,11 +466,35 @@ body.pvfs #pvFull{display:inline-grid!important}
   .pvbuyut svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
   .stage.cmp .pvbuyut{display:grid}
 }
+/* 7.1 basit mod + akıllı düzeltme */
+#pvBasit[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+html:not(.basit) #hizliKart{display:none}
+html.basit .ileri{display:none!important}
+html.basit .tabs .tab:not([data-tab="photo"]):not([data-tab="voice"]):not([data-tab="music"]):not([data-tab="subs"]):not([data-tab="out"]){display:none}
+html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voice"]):not([data-tab="music"]):not([data-tab="subs"]):not([data-tab="out"]){display:none}
+@media (min-width:720px){html.basit .tabs{grid-template-columns:repeat(5,minmax(0,1fr))}}
+#hizliKart{border-color:var(--accent)}
+#hizliKart .hzBas{font-weight:700;font-size:13px;letter-spacing:.04em;color:var(--accent);margin-bottom:8px}
+#hizliKart .hizliAdim{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#hizliKart .hizliAdim .btn{display:flex;align-items:center;gap:8px;justify-content:flex-start;text-align:left;min-height:48px;line-height:1.2}
+#hizliKart .hizliAdim .btn b{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--raise);color:var(--accent);font-size:13px}
+#hizliKart .hizliAdim .btn.primary b{background:rgba(0,0,0,.18);color:inherit}
+#hizliKart .hizliAdim .btn small{display:block;font-size:11px;opacity:.7;font-weight:400}
+.dzKutu{margin:8px 0;border:1px solid var(--line2);border-radius:10px;padding:10px;background:var(--raise)}
+.dzListe{display:grid;gap:6px;max-height:46vh;overflow-y:auto;margin:6px 0 8px}
+.dzSat{display:flex;gap:8px;align-items:flex-start;font-size:14px;line-height:1.35;padding:6px 4px;border-bottom:1px solid var(--line)}
+.dzSat input{margin-top:3px;flex:none;width:18px;height:18px}
+.dzSat i{color:var(--faint);font-style:normal}
+.dzSat del{color:var(--danger);text-decoration:line-through}
+.dzSat ins{color:var(--audio);text-decoration:none;font-weight:700}
+.dzSat:has(input:not(:checked)) ins{opacity:.4;text-decoration:line-through}
+.dzSat:has(input:not(:checked)) del{text-decoration:none;color:var(--ink)}
+.pvtools #pvBasit svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
 </style>
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 7.0 · 09.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 7.1 · 09.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -6326,6 +6350,163 @@ function trBagla(){
 }
 
 try { trBagla(); } catch(e){ console.warn('7.0 bağlama', e); }
+
+/* ---------- 7.1 · akıllı metin düzeltme (konuşma metni → altyazı) ---------- */
+const DZ_KEY = 'kv2.duzSozluk';
+const dzOku = () => { try { const o = JSON.parse(localStorage.getItem(DZ_KEY) || '{}'); return o && typeof o === 'object' ? o : {}; } catch(e){ return {}; } };
+const dzYaz = o => { try { localStorage.setItem(DZ_KEY, JSON.stringify(o)); } catch(e){} };
+const dzNz = w => String(w).toLocaleLowerCase('tr').replace(/[^a-zçğıöşüâîû0-9\s]/g, '').replace(/\s+/g, ' ').trim();
+const dzEsc = x => String(x).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+/* yaygın yazım/tanıma hataları (yalnız kesin olanlar; anlamı değiştirmez) */
+const DZ_SABIT = {'birşey':'bir şey','herşey':'her şey','hiçbirşey':'hiçbir şey','şuan':'şu an','yada':'ya da','malesef':'maalesef','maalesefki':'maalesef ki','yanlız':'yalnız','yalnış':'yanlış','herkeze':'herkese','orjinal':'orijinal','eşortman':'eşofman','kirbit':'kibrit','tşk':'teşekkürler','tamammı':'tamam mı','değilmi':'değil mi','varmı':'var mı','yokmu':'yok mu','olurmu':'olur mu','hiçmi':'hiç mi','nasılmı':'nasıl mı'};
+let dzOrj = [], dzHunk = [], dzKaynak = '';
+const dzBloklar = () => trListeler().map(W => W.filter(w => !w.f).map(w => w.w).join(' '));
+function dzSirala(bloklar){ /* kendi kurallarımız: öğrenilen sözlük + sabit liste + büyük harf/noktalama */
+  const soz = Object.assign({}, DZ_SABIT, dzOku()), anah = Object.keys(soz).sort((a, b) => b.split(' ').length - a.split(' ').length);
+  return bloklar.map(b => {
+    let t = b.split(/\s+/).filter(Boolean);
+    for (const k of anah){ const kk = k.split(' '), n = kk.length;
+      for (let i = 0; i + n <= t.length; i++){
+        if (t.slice(i, i + n).map(dzNz).join(' ') !== k) continue;
+        const son = (t[i + n - 1].match(/[.,!?…:;"”’»)]+$/) || [''])[0], bas = t[i];
+        let r = soz[k].split(' '); if (/^\p{Lu}/u.test(bas)) r[0] = r[0].charAt(0).toLocaleUpperCase('tr') + r[0].slice(1);
+        r[r.length - 1] += son; t.splice(i, n, ...r); i += r.length - 1; }
+    }
+    t = t.map((w, i) => (i === 0 || /[.!?…]["”’»)]?$/.test(t[i - 1])) ? w.charAt(0).toLocaleUpperCase('tr') + w.slice(1) : w);
+    return t.join(' ').replace(/\s+([.,!?…:;])/g, '$1');
+  });
+}
+function dzFark(a, b){ /* kelime düzeyinde fark → [{tip:'=',k:[..]} | {tip:'~',e:[..],y:[..]}] */
+  const M = a.length, N = b.length, W = N + 1, L = new Uint16Array((M + 1)*W);
+  for (let i = M - 1; i >= 0; i--) for (let j = N - 1; j >= 0; j--) L[i*W + j] = a[i] === b[j] ? L[(i + 1)*W + j + 1] + 1 : Math.max(L[(i + 1)*W + j], L[i*W + j + 1]);
+  const out = []; let i = 0, j = 0, e = [], y = [];
+  const kapat = () => { if (e.length || y.length){ out.push({tip:'~', e, y}); e = []; y = []; } };
+  while (i < M || j < N){
+    if (i < M && j < N && a[i] === b[j]){ kapat(); const s = out[out.length - 1]; if (s && s.tip === '=') s.k.push(a[i]); else out.push({tip:'=', k:[a[i]]}); i++; j++; }
+    else if (j < N && (i >= M || L[i*W + j + 1] >= L[(i + 1)*W + j])) y.push(b[j++]);
+    else e.push(a[i++]);
+  }
+  kapat(); return out;
+}
+function dzGoster(yeni, kaynak){
+  dzOrj = dzBloklar(); dzKaynak = kaynak || '';
+  if (yeni.length !== dzOrj.length){ trNot('Düzeltilmiş metindeki blok sayısı tutmadı; kayıtlar arasındaki boş satırları koru'); return; }
+  dzHunk = dzOrj.map((o, bi) => dzFark(o.split(/\s+/).filter(Boolean), String(yeni[bi]).split(/\s+/).filter(Boolean)));
+  const kutu = $('#dzKutu'), n = dzHunk.reduce((s, H) => s + H.filter(h => h.tip === '~').length, 0);
+  if (!n){ kutu.hidden = true; toast('Değişiklik yok'); return; }
+  let html = `<p class="note"><b>${n} değişiklik</b>${dzKaynak ? ' · ' + dzEsc(dzKaynak) : ''}. İstemediğinin işaretini kaldır, sonra uygula. Zamanlar korunur.</p><div class="dzListe">`;
+  dzHunk.forEach((H, bi) => H.forEach((h, hi) => { if (h.tip !== '~') return;
+    const onc = (H[hi - 1] && H[hi - 1].tip === '=') ? H[hi - 1].k.slice(-3).join(' ') : '', son = (H[hi + 1] && H[hi + 1].tip === '=') ? H[hi + 1].k.slice(0, 3).join(' ') : '';
+    html += `<label class="dzSat"><input type="checkbox" checked data-b="${bi}" data-h="${hi}"><span><i>${dzEsc(onc)}</i> <del>${dzEsc(h.e.join(' ') || '∅')}</del> → <ins>${dzEsc(h.y.join(' ') || '∅')}</ins> <i>${dzEsc(son)}</i></span></label>`; }));
+  html += '</div><div class="btns"><button type="button" class="btn primary" id="dzUygula">✓ Seçilenleri uygula · altyazıyı yenile</button><button type="button" class="btn small" id="dzVazgec">Vazgeç</button></div>';
+  kutu.innerHTML = html; kutu.hidden = false;
+  $('#dzUygula').addEventListener('click', dzUygula);
+  $('#dzVazgec').addEventListener('click', () => { kutu.hidden = true; trMetinCiz(); });
+  kutu.scrollIntoView({block:'nearest', behavior:'smooth'});
+}
+function dzUygula(){
+  const sec = new Set($$('#dzKutu input[type=checkbox]').filter(c => c.checked).map(c => c.dataset.b + ':' + c.dataset.h));
+  const soz = dzOku(); let ogr = 0;
+  const metin = dzHunk.map((H, bi) => H.map((h, hi) => {
+    if (h.tip === '=') return h.k.join(' ');
+    if (!sec.has(bi + ':' + hi)) return h.e.join(' ');
+    const ek = dzNz(h.e.join(' ')), yk = h.y.join(' ').replace(/[.,!?…:;"”’»)]+$/, '');
+    if (ek && h.e.length <= 3 && h.y.length && h.y.length <= 4 && ek !== dzNz(yk)){ soz[ek] = yk.charAt(0).toLocaleLowerCase('tr') + yk.slice(1); ogr++; }
+    return h.y.join(' ');
+  }).filter(Boolean).join(' ')).join('\n\n');
+  const k = Object.keys(soz); if (k.length > 400) k.slice(0, k.length - 400).forEach(x => delete soz[x]);
+  if (ogr) dzYaz(soz);
+  $('#trMetin').value = metin; $('#dzKutu').hidden = true; trDuzelt(); dzSozNot();
+}
+function dzSozNot(){ const n = Object.keys(dzOku()).length, e = $('#dzSozNot'); if (e) e.innerHTML = n ? `Öğrenilen düzeltme: ${n} · sonraki videolarda kendiliğinden uygulanır <button type="button" class="btn small" id="dzSozSil">Unut</button>` : ''; const b = $('#dzSozSil'); if (b) b.onclick = () => { if (confirm('Öğrenilen düzeltmeler silinsin mi?')){ dzYaz({}); dzSozNot(); } }; }
+const DZ_ISTEM = n => `Aşağıdaki metin, Türkçe bir YouTube videosundaki konuşmanın otomatik yazıya dökümüdür. Konuşmacı bazı kelimeleri net söylemediği için tanıma hataları var. Görevin yalnızca bu hataları düzeltip konuşmacının gerçekte söylediği hâle getirmek.
+Kurallar:
+- Anlamı, üslubu ve kelime sırasını koru. Yeniden yazma, özetleme, cümle ekleme ya da çıkarma yapma.
+- Bozuk ya da anlamsız kelimeyi, bağlama en uygun ve sesçe en yakın kelimeyle değiştir (örnek: "orlanıyorum" → "zorlanıyorum", "ortakademeye" → "orta kademeye").
+- Bitişik/ayrı yazım, büyük harf ve noktalama hatalarını düzelt. Marka, model ve sayıları olduğu gibi bırak, yalnızca bariz yazım hatasını düzelt.
+- Emin olmadığın yeri değiştirme.
+- Metin ${n} bloktan oluşuyor (bloklar boş satırla ayrılı). Çıktıda da tam ${n} blok olsun, sırası aynı.`;
+async function dzAkilli(){
+  const L = dzBloklar(); if (!L.length){ toast('Önce altyazıyı oluştur'); return; }
+  const b = $('#dzAkilli'); b.disabled = true;
+  try {
+    let smp = null; try { smp = sampler; } catch(e){ smp = null; }
+    if (smp){
+      trNot('Claude metni anlamına göre düzeltiyor…');
+      const r = await smp.json(DZ_ISTEM(L.length) + `\nYalnızca şu biçimde JSON döndür: {"bloklar":["..."]}\n\nMETİN:\n` + L.join('\n\n'), {modelTier:'default'});
+      if (r && Array.isArray(r.bloklar) && r.bloklar.length === L.length){ trNot(''); dzGoster(dzSirala(r.bloklar.map(String)), 'Claude önerisi + öğrenilen düzeltmeler'); return; }
+      trNot('Claude yanıtı uygun değildi; kurallarla düzeltildi');
+    }
+    dzGoster(dzSirala(L), smp ? '' : 'Kurallar ve öğrenilen düzeltmeler (anlam düzeltmesi için "Claude için kopyala")');
+  } catch(e){ trNot('Claude\'a ulaşılamadı; kurallarla düzeltildi'); dzGoster(dzSirala(L), 'Kurallar'); }
+  finally { b.disabled = false; }
+}
+async function dzKopyala(){
+  const L = dzBloklar(); if (!L.length){ toast('Önce altyazıyı oluştur'); return; }
+  const t = DZ_ISTEM(L.length) + '\nYalnızca düzeltilmiş metni yaz; açıklama ekleme.\n\nMETİN:\n' + L.join('\n\n');
+  try { await navigator.clipboard.writeText(t); toast('Kopyalandı → Claude\'a yapıştır, yanıtı kopyala, "Yanıtı yapıştır"a dokun', 5000); }
+  catch(e){ $('#trMetin').value = t; $('#trMetin').select(); toast('Kutudaki yazıyı uzun basıp kopyala', 4000); }
+}
+async function dzYapistir(){
+  let t = ''; try { t = await navigator.clipboard.readText(); } catch(e){}
+  if (!t){ toast('Pano okunamadı: düzeltilmiş metni kutuya yapıştırıp "Farkları göster"e dokun', 5000); $('#trMetin').focus(); return; }
+  $('#trMetin').value = t.trim(); dzGoster($('#trMetin').value.trim().split(/\n\s*\n/), 'Yapıştırılan metin');
+}
+function dzBagla(){
+  const kutu = $('#trMetinKutu'); if (!kutu || $('#dzAkilli')) return;
+  const bt = $('#trDuzelt').parentElement;
+  const d = document.createElement('div'); d.className = 'btns';
+  d.innerHTML = '<button type="button" class="btn primary" id="dzAkilli">🪄 Akıllı düzelt</button><button type="button" class="btn small" id="dzFarkBtn">Farkları göster</button><button type="button" class="btn small" id="dzKopyaBtn">Claude için kopyala</button><button type="button" class="btn small" id="dzYapBtn">Yanıtı yapıştır</button>';
+  kutu.insertBefore(d, bt);
+  const k = document.createElement('div'); k.id = 'dzKutu'; k.className = 'dzKutu'; k.hidden = true; kutu.insertBefore(k, bt);
+  const n = document.createElement('p'); n.className = 'note'; n.id = 'dzSozNot'; kutu.appendChild(n);
+  $('#dzAkilli').addEventListener('click', dzAkilli);
+  $('#dzFarkBtn').addEventListener('click', () => dzGoster($('#trMetin').value.trim().split(/\n\s*\n/), 'Kutudaki düzeltmen'));
+  $('#dzKopyaBtn').addEventListener('click', dzKopyala);
+  $('#dzYapBtn').addEventListener('click', dzYapistir);
+  const lb = kutu.querySelector('label[for="trMetin"]'); if (lb) lb.textContent = 'Konuşma metni · 🪄 ile düzelt ya da elle düzelt; zamanlar korunur';
+  dzSozNot();
+}
+try { dzBagla(); } catch(e){ console.warn('7.1 düzeltme', e); }
+
+/* ---------- 7.1 · Basit mod: aynı uygulama, yalnız temel bölümler görünür (ayarlar ve özellikler aynen çalışır) ---------- */
+const BASIT_KEY = 'kv2.basit', BASIT_SEKME = ['photo', 'voice', 'music', 'subs', 'out'];
+function basitIsaretle(){
+  const h3 = (panel, bas) => $$(`[data-panel="${panel}"] > .sect > h3:first-child`).filter(h => h.textContent.trim().startsWith(bas)).forEach(h => h.parentElement.classList.add('ileri'));
+  const h4 = bas => $$('[data-panel="photo"] .cgrp > h4').filter(h => h.textContent.trim().startsWith(bas)).forEach(h => h.parentElement.classList.add('ileri'));
+  ['Takip eden yazı', 'Ek reels yazısı', 'Sıra'].forEach(h4);
+  ['Yeni eklenen klipler', 'Tüm fotoğraflar'].forEach(b => h3('photo', b));
+  ['Seslendirmeden sonra'].forEach(b => h3('voice', b));
+  ['Başka cihaza taşı', 'Hazır ayarlar'].forEach(b => h3('out', b));
+  ['#mNorm', '#mEnd', '#mDuck', '#mDuckL', '#mFit', '#subPerClip', '#subImport', '#vFromStart', '#vWpm', '#vFont', '#psTon', '#psAn', '#trModel', '#trSil'].forEach(s => { const e = $(s); if (!e) return; const r = e.closest('.row, label.check, .two') || e; r.classList.add('ileri'); });
+  $$('[data-panel="voice"] details.vdet').forEach(d => d.classList.add('ileri'));
+  const sk = $('[data-k="voice.sessiz"]'); if (sk) (sk.closest('.row') || sk).classList.add('ileri');
+  const lanes = $('#lanes'); if (lanes) lanes.classList.add('ileri');
+}
+function basitUygula(on, sessiz){
+  document.documentElement.classList.toggle('basit', on);
+  const pb = $('#pvBasit'); if (pb){ pb.setAttribute('aria-pressed', String(on)); pb.dataset.lb = on ? 'Tüm ayarlar' : 'Basit mod'; pb.title = on ? 'Tüm ayarları göster' : 'Basit moda geç'; pb.setAttribute('aria-label', pb.title); }
+  try { LS.set(BASIT_KEY, on); } catch(e){}
+  if (on && !BASIT_SEKME.includes(activeTab)) showTab('photo');
+  if (on) $$('.panel > .sect.ileri').forEach(s => s.classList.remove('kapali'));
+  if (!sessiz) toast(on ? 'Basit mod: temel bölümler görünüyor. Gizlenen ayarlar aynen çalışmaya devam eder.' : 'Tam görünüm: tüm bölümler açık', 3500);
+}
+function basitBagla(){
+  if ($('#pvBasit')) return;
+  const pt = $('#pvTools'); if (pt){ const pb = document.createElement('button'); pb.type = 'button'; pb.id = 'pvBasit'; pb.className = 'btn small pvi'; pb.dataset.lb = 'Basit mod';
+    pb.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h6"/></svg>';
+    pb.addEventListener('click', () => basitUygula(!document.documentElement.classList.contains('basit'))); pt.insertBefore(pb, $('#pvDikey') ? $('#pvDikey').nextSibling : null); }
+  const k = document.createElement('div'); k.className = 'sect hizli'; k.id = 'hizliKart';
+  k.innerHTML = '<div class="hzBas">Hızlı yol · 4 adım</div><div class="hizliAdim"><button type="button" class="btn" data-h="ekle"><b>1</b> Fotoğraf / video ekle</button><button type="button" class="btn" data-h="voice"><b>2</b> Seslendir <small>isteğe bağlı</small></button><button type="button" class="btn" data-h="subs"><b>3</b> Altyazı oluştur</button><button type="button" class="btn primary" data-h="out"><b>4</b> Videoyu oluştur</button></div><p class="note">Müzik, logo, giriş başlığı ve kapanış varsayılan ayarlarla kendiliğinden gelir. Tüm ayarlar için önizlemenin altındaki <b>Tüm ayarlar</b> düğmesine dokun.</p>';
+  const p = $('[data-panel="photo"]'); p.insertBefore(k, $('#clipSect'));
+  k.addEventListener('click', e => { const x = e.target.closest('[data-h]'); if (!x) return; const h = x.dataset.h;
+    if (h === 'ekle'){ const t = $('.addtile'); if (t) t.click(); return; }
+    showTab(h); const pn = $(`[data-panel="${h}"]`);
+    setTimeout(() => { const hedef = h === 'subs' ? $('.asrkart') : h === 'out' ? $('#expGo') : pn; if (h === 'subs' && hedef) hedef.classList.remove('kapali'); if (hedef) hedef.scrollIntoView({block:'start', behavior:'smooth'}); }, 80); });
+  basitIsaretle(); basitUygula(!!LS.get(BASIT_KEY), true);
+}
+setTimeout(() => { try { basitBagla(); } catch(e){ console.warn('7.1 basit', e); } }, 0);
+
 try { window.__kv = {S:() => S, tl:() => timeline(), effLen:t => effLen(t), kisaGeriAl, genMusic, trVideoKes, trAltyaziYenile, trCikar, trSesten, setPT:v => { PT = v; requestRender(); }}; } catch(e){}
 const MOODS = {
   calm:  {name:'Sakin', bpm:72, prog:[[57,60,64],[53,57,60],[48,52,55],[55,59,62]], kick:false, wave:'triangle', cut:1600},
