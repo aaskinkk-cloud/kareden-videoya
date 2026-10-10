@@ -14,7 +14,7 @@
 </style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="7.2" data-ad="Kareden Videoya" data-tarih="03.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="7.3" data-ad="Kareden Videoya" data-tarih="03.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -495,7 +495,7 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 7.2 · 09.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 7.3 · 10.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -8701,7 +8701,7 @@ async function projRestore(m){
   window.pvShow = () => hide(false);
   const fsOn = () => document.body.classList.contains('pvfs');
   const setFs = async on => {
-    document.body.classList.toggle('pvfs', on); { const f = $('#pvFull'), t = on ? 'Tam ekrandan çık' : 'Tam ekran'; f.innerHTML = on ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>' : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>'; f.title = t; f.setAttribute('aria-label', t); } $('#pvFs').textContent = on ? '✕' : '⛶'; $('#pvFs').setAttribute('aria-label', on ? 'Tam ekrandan çık' : 'Tam ekran izle');
+    document.body.classList.toggle('pvfs', on); { const f = $('#pvFull'), t = on ? 'Tam ekrandan çık' : 'Tam ekran'; f.innerHTML = on ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>' : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>'; f.title = t; f.setAttribute('aria-label', t); } { const pf = $('#pvFs'); if (pf){ pf.textContent = on ? '✕' : '⛶'; pf.setAttribute('aria-label', on ? 'Tam ekrandan çık' : 'Tam ekran izle'); } }
     const [W, H] = dims(), wide = W > H*1.05; let locked = false;
     try { if (on && stg.requestFullscreen && document.fullscreenEnabled && !document.fullscreenElement){ await stg.requestFullscreen({navigationUI:'hide'}); }
       else if (!on){ try { screen.orientation && screen.orientation.unlock && screen.orientation.unlock(); } catch(e){} if (document.fullscreenElement === stg) await document.exitFullscreen(); } } catch(e){}
@@ -9861,6 +9861,85 @@ details.vdet[open]>summary::before{content:'▾ '}
     document.body.appendChild(b);
   }
   try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}
+})();
+</script>
+<style id="kv73">
+/* 7.3 · STÜDYO DÜZENİ (telefon): üstte önizleme, ortada yalnız seçili aracın paneli, altta araç çubuğu */
+.kv-panb{display:none}
+body.kv-studyo{overflow:hidden}
+body.kv-studyo .wrap{position:fixed;left:0;right:0;top:0;height:100dvh;display:flex;flex-direction:column;overflow:hidden!important;padding-bottom:0!important;max-width:none}
+body.kv-studyo .wrap>header.top{flex:none;padding-block:calc(env(safe-area-inset-top,0px) + 6px) 4px}
+body.kv-studyo .wrap>#support{flex:none}
+body.kv-studyo #editor{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
+body.kv-studyo:not(.pvfs) .stage{position:relative!important;top:auto!important;flex:none;padding-block:2px 6px}
+body.kv-studyo:not(.pvfs) .viewer{width:min(100%, calc(var(--kvCvH,30vh) * var(--ar,1.778)))!important;transition:width .18s ease}
+body.kv-studyo .stage .pvbuyut{display:none!important}
+body.kv-studyo .kv-pan{flex:1 1 0;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-bottom:var(--kvNav,70px);border-top:1px solid var(--line)}
+body.kv-studyo.kv-kapali .kv-pan{display:none}
+body.kv-studyo.kv-kapali:not(.pvfs) .stage{flex:1 1 auto;display:flex;flex-direction:column;justify-content:center;padding-bottom:var(--kvNav,70px)!important;border-bottom:0}
+body.kv-studyo .kv-panb{display:flex;align-items:center;justify-content:space-between;gap:10px;position:sticky;top:0;z-index:6;background:var(--ground);padding:8px 2px 6px;margin-bottom:4px;border-bottom:1px solid var(--line)}
+.kv-panb b{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.kv-panb .btn{min-height:32px;padding:4px 12px;font-size:13px}
+body.kv-studyo .kv-pan>nav.tabs{display:none!important}
+body.kv-studyo .kv-pan>.panel{padding-top:2px}
+body.kv-studyo:not([data-kvtab="photo"]) .kv-pan>#katman,body.kv-studyo:not([data-kvtab="photo"]) .kv-pan>.strip{display:none!important}
+body.kv-studyo .kv-pan>.strip{margin-top:8px}
+body.kv-studyo .kv-pan>#katman{margin-top:4px}
+body.kv-studyo.kv-klv .transport,body.kv-studyo.kv-klv .pvtools,body.kv-studyo.kv-klv #mininav,body.kv-studyo.kv-klv .minicfg,body.kv-studyo.kv-klv .gesture,body.kv-studyo.kv-klv .wrap>header.top{display:none!important}
+body.kv-studyo.kv-klv .kv-pan{padding-bottom:12px}
+body.kv-studyo #mininav button[aria-current="true"]{box-shadow:0 0 0 2px var(--accent) inset}
+body.kv-studyo.kv-kapali #mininav button[aria-current="true"]{background:var(--panel);color:var(--accent);border-color:var(--accent)}
+@media (orientation:landscape) and (max-height:560px){
+ body.kv-studyo #editor{flex-direction:row;gap:10px}
+ body.kv-studyo:not(.pvfs) .stage{flex:0 0 50%;overflow:auto;border-bottom:0;padding-bottom:var(--kvNav,70px)!important;display:flex;flex-direction:column;justify-content:center}
+ body.kv-studyo .kv-pan{border-top:0;border-left:1px solid var(--line);padding-left:8px}
+}
+</style>
+<script>
+/* 7.3 · STÜDYO DÜZENİ — telefonda (genişlik < 980 ya da yatay telefon) düzenleyici tek sayfa kaydırma yerine:
+   üstte sabit önizleme · ortada yalnız seçili aracın paneli (kendi içinde kayar) · altta araç çubuğu.
+   Aynı araca tekrar dokununca ya da "▾ Kapat" ile panel kapanır, önizleme ekranı doldurur.
+   Yazı alanına dokununca (klavye) önizleme küçülür, çubuklar gizlenir. Masaüstü düzeni değişmez. */
+(() => {
+  const ed = document.getElementById('editor'), wrap = document.querySelector('.wrap'), hdr = document.querySelector('.wrap > header.top'), stg = document.querySelector('.stage'), vw = document.getElementById('viewer'), mini = document.getElementById('mininav');
+  if (!ed || !wrap || !stg || !vw || !mini) return;
+  const kat = document.getElementById('katman'), strip = document.querySelector('.leftcol > .strip'), tabs = document.querySelector('.leftcol > nav.tabs'), panels = [...ed.querySelectorAll(':scope > [data-panel]')];
+  const AD = {photo:'Klipler', tpl:'Şablon', look:'Görünüm · efekt', music:'Müzik', voice:'Ses', subs:'Altyazı', logo:'Logo', cover:'Kapak', pub:'Yayın', out:'Aktar'};
+  const mq = matchMedia('(max-width:979px), (orientation:landscape) and (max-height:560px)');
+  const pan = document.createElement('div'); pan.className = 'kv-pan';
+  const pb = document.createElement('div'); pb.className = 'kv-panb'; pb.innerHTML = '<b id="kvPanAd"></b><button type="button" class="btn small" id="kvPanKapa" title="Paneli kapat, önizlemeyi büyüt">▾ Kapat</button>';
+  const yer = new Map(); let kapali = false, rq = 0; const enH = {};
+  const B = document.body, aktif = () => mq.matches && !ed.hidden;
+  const tasi = on => { if (on){ if (pan.isConnected) return; stg.after(pan); pan.append(pb); [kat, strip, ...panels, tabs].forEach(n => { if (!n) return; const c = document.createComment('kv73'); n.before(c); yer.set(n, c); pan.append(n); }); }
+    else { if (!pan.isConnected) return; yer.forEach((c, n) => c.replaceWith(n)); yer.clear(); pan.remove(); } };
+  const aktTab = () => { const p = panels.find(x => !x.hidden); return p ? p.dataset.panel : 'photo'; };
+  const yaziOdak = () => { const a = document.activeElement; return !!(a && pan.contains(a) && (a.isContentEditable || a.matches('input:not([type=range]):not([type=checkbox]):not([type=radio]):not([type=file]):not([type=button]):not([type=color]),textarea,select'))); };
+  const yerlesim = () => { rq = 0; const st = aktif(); B.classList.toggle('kv-studyo', st); tasi(st);
+    if (!st){ wrap.style.height = ''; wrap.style.top = ''; B.classList.remove('kv-klv', 'kv-kapali'); return; }
+    B.classList.toggle('kv-kapali', kapali);
+    const t = aktTab(); if (B.dataset.kvtab !== t) B.dataset.kvtab = t; const ad = document.getElementById('kvPanAd'); if (ad) ad.textContent = AD[t] || t;
+    const vv = window.visualViewport, H = Math.round(vv ? vv.height : innerHeight); wrap.style.height = H + 'px'; wrap.style.top = Math.round(vv ? vv.offsetTop : 0) + 'px';
+    const yon = innerWidth > innerHeight ? 'y' : 'd'; enH[yon] = Math.max(enH[yon] || 0, innerHeight, H);
+    const klv = !kapali && yaziOdak() && H < enH[yon]*.82; B.classList.toggle('kv-klv', klv);
+    const yatay = innerWidth > innerHeight && innerHeight <= 560, hh = hdr && !klv ? hdr.offsetHeight : 0, nv = klv || mini.hidden ? 0 : mini.offsetHeight;
+    B.style.setProperty('--kvNav', (nv + 16) + 'px');
+    const diger = [...stg.children].filter(c => c !== vw && c.offsetParent !== null && getComputedStyle(c).position !== 'fixed').reduce((t, c) => { const cs = getComputedStyle(c); return t + c.offsetHeight + (parseFloat(cs.marginTop) || 0) + (parseFloat(cs.marginBottom) || 0); }, 0) + 10, kul = H - hh - nv, k = Math.min(1.6, Math.max(.45, window.__pvBuyuk || 1));
+    if (stg.classList.contains('pvhide')) { B.style.setProperty('--kvCvH', '0px'); return; } let cv; if (klv) cv = Math.max(64, Math.min(130, kul*.24)); else if (kapali || yatay) cv = kul - diger - (yatay ? 8 : 12); else cv = Math.max(90, kul*Math.min(.78, .47*k) - diger);
+    B.style.setProperty('--kvCvH', Math.round(Math.max(56, cv)) + 'px'); };
+  const iste = () => { if (!rq) rq = requestAnimationFrame(yerlesim); };
+  const kapat = on => { kapali = on; iste(); if (window.requestRender) try { requestRender(); } catch(e){} };
+  mini.addEventListener('click', e => { if (!aktif()) return; const b = e.target.closest('button[data-tab]'); if (!b) return;
+    if (b.dataset.tab === aktTab() && !kapali){ e.stopImmediatePropagation(); e.preventDefault(); kapat(true); return; }
+    kapat(false); setTimeout(() => { pan.scrollTop = 0; iste(); }, 30); }, true);
+  pb.querySelector('#kvPanKapa').addEventListener('click', () => kapat(true));
+  new MutationObserver(iste).observe(ed, {attributes:true, attributeFilter:['hidden', 'class'], subtree:true});
+  pan.addEventListener('focusin', e => { if (!aktif()) return; const el = e.target; setTimeout(() => { yerlesim(); setTimeout(() => { const pr = pan.getBoundingClientRect(), r = el.getBoundingClientRect(), ph = pb.offsetHeight; if (r.top < pr.top + ph + 6 || r.bottom > pr.bottom - 8) pan.scrollBy({top: r.top - pr.top - ph - 16, behavior:'smooth'}); }, 60); }, 220); });
+  pan.addEventListener('focusout', () => setTimeout(iste, 220));
+  ['#pvSmall', '#pvBig', '#pvHide', '#miniDone'].forEach(q => { const b = document.querySelector(q); if (b) b.addEventListener('click', () => setTimeout(iste, 30)); });
+  if (window.visualViewport){ visualViewport.addEventListener('resize', iste); visualViewport.addEventListener('scroll', iste); }
+  addEventListener('resize', iste); (mq.addEventListener ? mq.addEventListener('change', iste) : mq.addListener(iste));
+  if (document.fonts) document.fonts.ready.then(iste); setTimeout(iste, 300); yerlesim();
+  window.kvStudyo = {yerlesim, kapat, aktif};
 })();
 </script>
 </body>
