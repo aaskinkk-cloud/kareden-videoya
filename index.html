@@ -14,7 +14,7 @@
 </style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="7.3" data-ad="Kareden Videoya" data-tarih="03.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="7.4" data-ad="Kareden Videoya" data-tarih="03.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -495,7 +495,7 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 7.3 · 10.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 7.4 · 17.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -3668,7 +3668,21 @@ function clipRange(c){ const [W, H] = dims(); const fw = Math.min(W, H*c.aspect)
 /* sürükleme/kaydırma sınırı: görüntü kadrajı o eksende dolduruyorsa tam kenara kadar (boşluk görünmez), dolduramıyorsa eski serbestlik (±0,6) */
 function posLim(c){ const [W, H] = dims(); const fw = Math.min(W, H*c.aspect)*(c.zoom || 1), fh = fw/c.aspect, r = clipRange(c); return {x: fw >= W - 0.5 ? r.x : Math.max(r.x, 0.6), y: fh >= H - 0.5 ? r.y : Math.max(r.y, 0.6)}; }
 function clampPos(c){ const r = posLim(c); c.ox = clamp(c.ox, -r.x, r.x); c.oy = clamp(c.oy, -r.y, r.y); }
-function videoTime(c, local){ return c.vin + clamp(local, 0, Math.max(0, c.dur - 0.04)); }
+/* 7.4: geçişte gelen video artık donmuyor. Geçiş süresi (L) boyunca gelen video da oynar:
+   önce kırpılan başlangıçtan önceki görüntü kullanılır (ses aynen kalır); yetmezse bitişten sonraki pay (ses de aynı kayar);
+   o da yoksa klip fark edilmeyecek kadar yavaşlatılır (r < 1). */
+function vMap(c, tl){
+  tl = tl || timeline(); const i = S.clips.indexOf(c), L = (i > 0 && tl.T > 0) ? tl.T : 0;
+  const src = c.srcDur > 0 ? c.srcDur : c.vin + c.dur, pre = Math.min(L, Math.max(0, c.vin)), post = Math.max(0, src - 0.04 - (c.vin + c.dur));
+  const o = Math.min(L - pre, post), have = c.dur + pre + o;
+  return {L, a: c.vin - pre, r: L > 0 ? Math.min(1, have/(c.dur + L)) : 1, end: c.vin + c.dur + o};
+}
+function videoTime(c, local, tl){
+  const m = vMap(c, tl);
+  return clamp(m.a + clamp(local + m.L, 0, c.dur + m.L)*m.r, 0, Math.max(m.a, m.end - 0.04));
+}
+/* klibin kendi sesi, görüntüyle aynı yerden başlar */
+function vAudioOff(c, tl){ return videoTime(c, 0, tl); }
 
 /* ---------- photo preparation ---------- */
 const zb = z => Math.ceil(z*2)/2;
@@ -4733,14 +4747,21 @@ function syncPreviewVideos(tl){
   for (const s of [st.a, st.b]){
     if (!s) continue; const c = S.clips[s.i]; if (c.kind !== 'video') continue;
     vis.add(c.id);
-    const v = pvVideo(c), want = videoTime(c, s.local);
+    const v = pvVideo(c), want = videoTime(c, s.local, tl), r = vMap(c, tl).r;
     if (playing){
-      if (s.local < 0){ if (!v.paused) v.pause(); if (Math.abs(v.currentTime - want) > 0.05 && !v.seeking) v.currentTime = want; }
-      else { if (Math.abs(v.currentTime - want) > 0.3 && !v.seeking) v.currentTime = want; if (v.paused) v.play().catch(() => {}); }
+      if (Math.abs(v.playbackRate - r) > 0.001){ try { v.playbackRate = r; } catch(e){} }
+      if (Math.abs(v.currentTime - want) > 0.3 && !v.seeking) v.currentTime = want;
+      if (v.paused) v.play().catch(() => {});
     } else {
       if (!v.paused) v.pause();
       if (Math.abs(v.currentTime - want) > 0.03 && !v.seeking) v.currentTime = want;
     }
+  }
+  /* 7.4: sıradaki video geçişten ~1 sn önce başlangıç karesine sarılır; geçiş açılırken takılmaz */
+  if (playing && tl.T > 0){
+    const j = (st.b ? st.b.i : st.a.i) + 1, cn = S.clips[j];
+    if (cn && cn.kind === 'video' && !vis.has(cn.id)){ const bas = tl.starts[j] - tl.T;
+      if (PT > bas - 1.2 && PT < bas){ const v = pvVideo(cn), w = videoTime(cn, -tl.T, tl); vis.add(cn.id); if (!v.paused) v.pause(); if (Math.abs(v.currentTime - w) > 0.05 && !v.seeking) v.currentTime = w; } }
   }
   for (const [id, v] of pvVid) if (!vis.has(id) && !v.paused) v.pause();
 }
@@ -4798,7 +4819,7 @@ let ac = null, acSrc = null, clock = null, mixCache = {sig:'', buf:null};
 function effLen(t){ const avail = Math.max(0, t.buffer.duration - t.trim); return t.len > 0 ? Math.min(t.len, avail) : avail; }
 function audioSig(tl){
   return JSON.stringify([tl.total, S.kp || {}, S.music, S.tracks.map(t => [t.id, t.at, t.trim, t.len, t.vol, t.fin, t.fout, t.loop, !!t.voice]),
-    S.clips.map((c,i) => c.kind === 'video' ? [c.id, tl.starts[i], c.vin, c.dur, c.vol, c.mute] : 0), quietIntroDur(), S.intro.sfx && introActive(0) ? JSON.stringify([S.intro.sfxVol, S.intro.anim, S.intro.tpl, S.intro.title, S.intro.band, S.intro.band2, S.intro.ek, S.intro.dur, dims()]) : 0]);
+    S.clips.map((c,i) => c.kind === 'video' ? [c.id, tl.starts[i], c.vin, c.dur, c.vol, c.mute, tl.T, c.srcDur] : 0), quietIntroDur(), S.intro.sfx && introActive(0) ? JSON.stringify([S.intro.sfxVol, S.intro.anim, S.intro.tpl, S.intro.title, S.intro.band, S.intro.band2, S.intro.ek, S.intro.dur, dims()]) : 0]);
 }
 /* başlık efekt sesleri: her yazı öğesinin geliş anına göre (vuuş · tok · pop · tık), çıkışta ters vuuş */
 function baslikSesOlaylari(){
@@ -4909,12 +4930,12 @@ async function mixAudio(total, sr){
     for (const [s, e] of merged){ bus.gain.setValueAtTime(1, Math.max(0, s - 0.35)); bus.gain.linearRampToValueAtTime(lvl, s); bus.gain.setValueAtTime(lvl, e); bus.gain.linearRampToValueAtTime(1, e + 0.45); }
   }
   for (const i of vids){
-    const c = S.clips[i], s = tl.starts[i], e = s + c.dur;
+    const c = S.clips[i], s = tl.starts[i], e = s + c.dur, off = Math.min(vAudioOff(c, tl), Math.max(0, c.audio.duration - 0.05));
     const src = oc.createBufferSource(); src.buffer = c.audio;
     const g = oc.createGain(); src.connect(g); g.connect(qG);
     const v = c.vol/100, f = Math.min(c.kes ? 0.012 : 0.08, c.dur/4);
     g.gain.setValueAtTime(0, s); g.gain.linearRampToValueAtTime(v, s + f); g.gain.setValueAtTime(v, e - f); g.gain.linearRampToValueAtTime(0, e);
-    src.start(s, c.vin, c.dur);
+    src.start(s, off, Math.max(0.01, Math.min(c.dur, c.audio.duration - off)));
   }
   const buf = await oc.startRendering();
   if (S.music.norm) normalizeLoud(buf);
@@ -6557,9 +6578,10 @@ function trAltyaziYenile(zorla){
     t.trw.forEach(w => { const o = (w.a + w.b)/2; if (o < lo || o > hi) return; K.push({w:w.w, t0:t.at + (w.a - lo), t1:t.at + Math.min(hi, w.b) - lo, k:'t' + t.id}); });
     sesAralik.push([t.at, t.at + effLen(t)]); });
   S.clips.forEach((c, i) => { if (c.kind !== 'video' || !c.trw || c.mute) return;
-    c.trw.forEach(w => { if (w.f) return; const o = (w.a + w.b)/2; if (o < c.vin || o > c.vout) return; const t0 = tl.starts[i] + Math.max(0, w.a - c.vin);
+    const v0 = vAudioOff(c, tl);
+    c.trw.forEach(w => { if (w.f) return; const o = (w.a + w.b)/2; if (o < v0 || o > v0 + c.dur) return; const t0 = tl.starts[i] + Math.max(0, w.a - v0);
       if (sesAralik.some(([a, b]) => t0 >= a && t0 <= b)) return;
-      K.push({w:w.w, t0, t1:tl.starts[i] + Math.min(c.dur, w.b - c.vin), k:'c' + i}); }); });
+      K.push({w:w.w, t0, t1:tl.starts[i] + Math.min(c.dur, w.b - v0), k:'c' + i}); }); });
   K.sort((x, y) => x.t0 - y.t0);
   if (!K.length && !zorla){ trSig = trImza(); return 0; }
   const kisa = S.sub.style === 'kisa' || (S.kisa && S.kisa.on), maxK = kisa ? 4 : 7, maxH = kisa ? 22 : 40, yeni = []; let g = [];
@@ -8074,7 +8096,7 @@ async function KvAkis(c, maxSide){
   }
   el.requestVideoFrameCallback(al);
   el.addEventListener('ended', coz); el.addEventListener('pause', () => { if (bekle && el.ended) coz(); });
-  try { el.playbackRate = 1.5; } catch(e){}
+  try { el.playbackRate = 1; } catch(e){}   /* 7.4: 1,5 kat hızda telefon kare atlıyordu (kesik görüntü) */
   async function frameAt(t){
     hedef = t; const tol = 0.02;
     if (sonT < 0 || t < sonT - 0.3 || t > sonT + 1.5){ el.pause(); ring.forEach(b => b.t = -1); sonT = -1; await seekTo(el, t); }
@@ -8356,7 +8378,7 @@ async function runExport(){
             if (!v && kvSwTercih && FAST_VID && !c._noFast) v = await FastVid.open(c, Math.round(Math.max(W, H)*1.25)).catch(() => null);
             if (v) fastN++; else { v = await KvAkis(c, Math.max(W, H)).catch(() => null); if (v) akisN++; else { v = makeVideoEl(c); await waitMeta(v); } }
             exVid.set(c.id, v); }
-          const tV = videoTime(c, s.local), MAXS = Math.round(Math.max(W, H)*1.25);
+          const tV = videoTime(c, s.local, tl), MAXS = Math.round(Math.max(W, H)*1.25);
           if (v.fast){
             try { await v.frameAt(tV); }
             catch(e){ console.warn('hızlı çözme durdu, akış moduna geçiliyor', e); const wasAkis = v.akis; v.close(); c._noFast = true; if (!wasAkis) fastN--; v = wasAkis ? null : await KvAkis(c, Math.max(W, H)).catch(() => null); if (v){ akisN++; exVid.set(c.id, v); await v.frameAt(tV); } else { v = makeVideoEl(c); await waitMeta(v); exVid.set(c.id, v); await seekTo(v, tV); } }
@@ -8390,7 +8412,7 @@ async function runExport(){
       if (!sig || sig !== lastSig) R.render(t, tl);
       lastSig = sig;
       const vf = new VideoFrame(canvas, {timestamp: Math.round(f*1e6/fps), duration: Math.round(1e6/fps)});
-      venc.encode(vf, {keyFrame: f % Math.max(1, Math.round(fps/2)) === 0}); vf.close();
+      venc.encode(vf, {keyFrame: f % Math.max(1, Math.round(fps*2)) === 0}); vf.close();
       while (venc.encodeQueueSize > 4) await waitDeq(venc);
       if (f % 5 === 0) setProg(f/nF, `video karesi ${f}/${nF}`);
       if (f % 12 === 0){ try { pctx.drawImage(canvas, 0, 0, pv.width, pv.height); } catch(e){} }
