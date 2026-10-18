@@ -14,7 +14,7 @@
 </style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="7.6" data-ad="Kareden Videoya" data-tarih="03.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="7.7" data-ad="Kareden Videoya" data-tarih="03.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -495,7 +495,7 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 7.6 · 18.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 7.7 · 18.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -8379,7 +8379,7 @@ async function runExport(){
     canvas = mk(W, H);
     const ctx = canvas.getContext('2d', {alpha:false});
     R = makeRenderer(ctx, W, H, i => exMap.get(i) || null);
-    let lastSig = null, kvSiyahSn = 0, akisN = 0; const kvSiyahAd = new Set(), kvTs = new Map(), kvYol = new Map(); let kvTekrar = 0, kvKare = 0;
+    let lastSig = null, kvSiyahSn = 0, akisN = 0; const kvSiyahAd = new Set(), kvTs = new Map(), kvYol = new Map(); let kvBildi = false; let kvTekrar = 0, kvKare = 0;
     /* 6.3: siyah kare koruması — klibin son sağlam karesi saklanır; görüntü alınamazsa siyah yerine o kare kullanılır */
     const kvSonIyi = new Map(); let kvDonukSn = 0, kvKurtarma = 0;
     S.clips.forEach(c => { c._siyah = false; c._swDenendi = false; });
@@ -8402,7 +8402,9 @@ async function runExport(){
           if (!v){ v = (FAST_VID && !c._noFast) ? await FastVid.open(c, Math.round(Math.max(W, H)*1.25), kvSwTercih).catch(() => null) : null;
             if (v && kvSwTercih) v._sw = true;
             if (!v && kvSwTercih && FAST_VID && !c._noFast) v = await FastVid.open(c, Math.round(Math.max(W, H)*1.25)).catch(() => null);
-            if (v) fastN++; else { kvYol.set(c.id, (c.name || 'video') + ': ' + (!FAST_VID ? 'hızlı çözme ayarla kapatılmış' : c._noFast ? 'hızlı çözücü hata verdi' : (c._fvNeden || 'hızlı çözücü açılamadı')));
+            if (v){ fastN++; if (!kvBildi){ kvBildi = true; toast('⚡ Hızlı video çözme kullanılıyor', 3500); } }
+            else { if (!kvBildi){ kvBildi = true; setTimeout(() => toast('🐢 Akış modu: ' + (kvYol.get(c.id) || '').split(': ').slice(1).join(': '), 7000), 50); }
+              kvYol.set(c.id, (c.name || 'video') + ': ' + (!FAST_VID ? 'hızlı çözme ayarla kapatılmış' : c._noFast ? 'hızlı çözücü hata verdi' : (c._fvNeden || 'hızlı çözücü açılamadı')));
               v = await KvAkis(c, Math.max(W, H)).catch(() => null); if (v) akisN++; else { v = makeVideoEl(c); await waitMeta(v); } }
             exVid.set(c.id, v); }
           const tV = videoTime(c, s.local, tl), MAXS = Math.round(Math.max(W, H)*1.25);
@@ -8445,7 +8447,10 @@ async function runExport(){
       const vf = new VideoFrame(canvas, {timestamp: Math.round(f*1e6/fps), duration: Math.round(1e6/fps)});
       venc.encode(vf, {keyFrame: f % Math.max(1, Math.round(fps*2)) === 0}); vf.close();
       while (venc.encodeQueueSize > 4) await waitDeq(venc);
-      if (f % 5 === 0) setProg(f/nF, `video karesi ${f}/${nF}`);
+      if (f % 5 === 0){ /* 7.7: hangi yolun kullanıldığı kayıt sırasında da görünür */
+        let yol = ''; for (const s of need){ const c = S.clips[s.i]; if (c.kind !== 'video') continue; const v = exVid.get(c.id); if (!v) continue;
+          yol = v.fast && !v.akis ? ' · ⚡ hızlı çözme' : ' · 🐢 akış modu' + (kvYol.get(c.id) ? ' — ' + kvYol.get(c.id).split(': ').slice(1).join(': ') : ''); }
+        setProg(f/nF, `video karesi ${f}/${nF}` + yol); }
       if (f % 12 === 0){ try { pctx.drawImage(canvas, 0, 0, pv.width, pv.height); } catch(e){} }
     }
     setProg(1, 'tamamlanıyor');
