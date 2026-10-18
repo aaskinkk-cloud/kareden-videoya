@@ -3,7 +3,7 @@
 Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda çalışan uygulama (PWA). Dosyalar telefondan dışarı gönderilmez; video cihazda oluşturulur. Tek dosya: `index.html`; çevrimdışı önbellek `sw.js`.
 
 **Adres:** https://aaskinkk-cloud.github.io/kareden-videoya/  
-**Güncel sürüm:** 7.8 · 18.10.2026
+**Güncel sürüm:** 7.9 · 18.10.2026
 
 ## Bölümler
 - **Klipler** – klip sırası, katmanlar (zaman çizelgesi: böl, çoğalt, uzat/kısalt), kadraj, hareket (Ken Burns), takip eden yazı, toplu ayarlar.
@@ -16,6 +16,7 @@ Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda �
 - **Basit mod** – temel bölümler görünür; gizlenen ayarlar aynen çalışır.
 
 ## Sürüm notları
+- **7.9** – **Ön hazırlık:** hızlı çözücünün okuyamadığı videolar (ör. Samsung HDR / 10 bit HEVC `hvc1.2.…` → siyah kare) kayıttan önce bir kez gerçek hızda oynatılıp 8 bit H.264 ara dosyaya çevrilir; asıl kayıt bunu hızlı çözücüyle okur. Kare kaçarsa o klip daha yavaş tekrar çevrilir. İlerleme satırında "ön hazırlık 1/3 · %…" ve "⚡ hızlı çözme (ön hazırlıklı)" görünür. Ara dosyalar yalnız bellekte tutulur, kayıttan sonra silinir. Kalıcı en hızlı yol: kamerada HDR10+ videoyu kapatmak.
 - **7.8** – Hızlı çözücü siyah kare verince yavaş akış moduna geçmeden önce kareyi aktarmanın iki yolu daha deneniyor (ImageBitmap, piksel kopyası). Çalışan yol telefonda hatırlanır, sonraki kayıtlarda doğrudan kullanılır. İlerleme satırında kullanılan yol yazar, örn. "⚡ hızlı çözme (kopya)"; akış modunda neden ve kod bilgisi gösterilir.
 - **7.7** – Video oluşturulurken hangi çözme yolunun kullanıldığı canlı görünür: ilerleme satırında "⚡ hızlı çözme" ya da "🐢 akış modu — neden"; ilk video klipte kısa bildirim.
 - **7.6** – Akış modu tam kayıpsız: aradaki tek kare kaybı da yakalanıyor (testte kare tekrarı 0). Kayıp olmayınca hız kademeli olarak geri artıyor, kayıp görülen hıza bir daha çıkılmıyor. Hızlı çözücü kod adı farkı (hvc1/hev1, avc1/avc3) yüzünden açılamıyorsa diğer adla deneniyor. Bilgi satırında "yavaş yola düşen: dosya: neden" gösteriliyor.
