@@ -14,7 +14,7 @@
 </style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="8.4" data-ad="Kareden Videoya" data-tarih="03.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="8.5" data-ad="Kareden Videoya" data-tarih="03.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -516,7 +516,7 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 8.4 · 18.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 8.5 · 18.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -8368,8 +8368,11 @@ async function kvAraYap(c, MAXS, tl, br, ilerle, rng){
   const cv = mk(W2, H2), g = cv.getContext('2d', {alpha: false});
   const MAXR = 4, MINR = 0.5;
   let r = clamp(+LS.get('kv2.araHiz') || 2, MINR, MAXR), enIyi = 0;
-  let son = -1, ilk = -1, dt = 1/30, dtOk = false, n = 0, tamir = 0, iyi = 0, sonKey = -9, bitti = false, sariliyor = false, sonP = -1;
+  let son = -1, ilk = -1, dt = 1/30, dtOk = true, sarYer = -1, sarSay = 0, n = 0, tamir = 0, iyi = 0, sonKey = -9, bitti = false, sariliyor = false, sonP = -1;
   const basla = performance.now();
+  /* 8.5: hazırlık sürerken ekran açık kalır; ekran kapanır / uygulamadan çıkılırsa Chrome videoyu durdurur → dönünce kaldığı yerden sürer */
+  let kilit = null; const kilitAl = async () => { try { if (!kilit && !document.hidden) kilit = await navigator.wakeLock.request('screen'); kilit && kilit.addEventListener('release', () => { kilit = null; }); } catch(e){} };
+  await kilitAl();
   await seekTo(el, t0);
   await new Promise(res => {
     const kapat = () => { if (!bitti){ bitti = true; try { el.pause(); } catch(e){} res(); } };
@@ -8388,7 +8391,10 @@ async function kvAraYap(c, MAXS, tl, br, ilerle, rng){
       if (mt > son + 1e-4 && mt >= t0 - 0.002){
         if (son >= 0){ const d = mt - son;
           if (d > 0.004 && d < dt*1.6){ dt = dt*0.85 + d*0.15; dtOk = true; }
-          else if (dtOk && d >= dt*1.6){ geriSar(); return; } }
+          else if (dtOk && d >= dt*1.6){
+            /* aynı yerde 3 kez geri sarıldıysa bu gerçek kare aralığıdır (ör. 15 fps kaynak): kabul et */
+            if (Math.abs(son - sarYer) < 1e-4 && ++sarSay >= 3 && r <= MINR + 0.01){ dt = d; sarSay = 0; }
+            else { if (Math.abs(son - sarYer) >= 1e-4){ sarYer = son; sarSay = 0; } geriSar(); return; } } }
         try { g.drawImage(el, 0, 0, W2, H2);
           const key = mt - sonKey >= 1, vf = new VideoFrame(cv, {timestamp: Math.round(mt*1e6), duration: Math.round(dt*1e6)});
           enc.encode(vf, {keyFrame: key}); if (key) sonKey = mt; vf.close(); n++; if (ilk < 0) ilk = mt; } catch(e){ hata = e; }
@@ -8404,9 +8410,25 @@ async function kvAraYap(c, MAXS, tl, br, ilerle, rng){
     el.addEventListener('ended', () => setTimeout(kapat, 300), {once: true});
     hiz(r);
     el.play().catch(e => { hata = e; kapat(); });
-    setTimeout(kapat, ((t1 - t0)/MINR*1.5 + 30)*1000);
+    /* takılma bekçisi: yalnız ekran açıkken sayar; 20 sn ilerleme yoksa bir kez dürt, yine yoksa bırak */
+    let sonIl = performance.now(), sonSon = -1, durt = 0;
+    const bekci = setInterval(() => {
+      if (bitti){ clearInterval(bekci); return; }
+      if (document.hidden){ sonIl = performance.now(); return; }
+      if (son !== sonSon){ sonSon = son; sonIl = performance.now(); durt = 0; return; }
+      if (performance.now() - sonIl > 8000 && !sariliyor){
+        if (durt++ < 2){ sonIl = performance.now(); seekTo(el, Math.max(t0, son - dt*0.5)).then(() => { if (!bitti) el.play().catch(() => {}); }); }
+        else { hata = new Error('takıldı'); kapat(); }
+      }
+    }, 1000);
+    const gorunur = () => { if (!document.hidden && !bitti){ kilitAl(); if (el.paused && !sariliyor) el.play().catch(() => {}); } };
+    document.addEventListener('visibilitychange', gorunur);
+    const temizle = () => { clearInterval(bekci); document.removeEventListener('visibilitychange', gorunur); };
+    const eskiRes = res; res = () => { temizle(); eskiRes(); };
   });
+  try { kilit && kilit.release(); } catch(e){}
   dropVideoEl(el);
+  if (!cancelReq && !hata && son < t1 - 0.5 && son >= 0 && !(c.srcDur && son >= c.srcDur - 0.5)){ console.warn('ön hazırlık yarım kaldı', son, t1); hata = new Error('yarım'); }
   if (cancelReq){ try { enc.close(); } catch(e){} throw new Error('cancel'); }
   if (hata || !n){ try { enc.close(); } catch(e){} console.warn('ön hazırlık olmadı', hata); return null; }
   await enc.flush(); enc.close(); mux.finalize();

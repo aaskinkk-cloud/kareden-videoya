@@ -3,7 +3,7 @@
 Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda çalışan uygulama (PWA). Dosyalar telefondan dışarı gönderilmez; video cihazda oluşturulur. Tek dosya: `index.html`; çevrimdışı önbellek `sw.js`.
 
 **Adres:** https://aaskinkk-cloud.github.io/kareden-videoya/  
-**Güncel sürüm:** 8.4 · 18.10.2026
+**Güncel sürüm:** 8.5 · 18.10.2026
 
 ## Bölümler
 - **Klipler** – klip sırası, katmanlar (zaman çizelgesi: böl, çoğalt, uzat/kısalt), kadraj, hareket (Ken Burns), takip eden yazı, toplu ayarlar.
@@ -17,6 +17,7 @@ Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda �
 - **Basit mod** – temel bölümler görünür; gizlenen ayarlar aynen çalışır.
 
 ## Sürüm notları
+- **8.5** – Ön hazırlık sürerken ekran açık tutulur (ekran kilidi); ekran kapanır ya da uygulamadan çıkılırsa Chrome videoyu durdurduğu için hazırlık duruyordu — artık geri dönünce kaldığı yerden sürer. Takılma bekçisi: ekran açıkken 8 sn ilerleme yoksa dürtülür, yine olmazsa bırakılır. Yarım kalan hazırlık kullanılmaz (eksik kare çıkmasın). İlk karelerdeki kayıp da yakalanıyor.
 - **8.4** – Ön hazırlık hızlandı: video 2x'ten başlar, kare kaybı yoksa 4x'e kadar çıkar (120 Hz ekranda saniyede 120 kare yakalanabilir). Kare kaçarsa klip baştan alınmaz; son yakalanan kareye geri sarılıp hız düşürülerek devam edilir (kayıpsız). Telefonda bulunan en iyi hız hatırlanır. 8.3'e kadar en çok 1x idi ve kayıpta klip 0,5x ile baştan alınıyordu (2 dk video 2–6 dk). İlerleme satırında anlık hız (ör. "· 3,2x") görünür.
 - **8.3** – Önizleme altı araç çubuğu yenilendi (telefon): tek parça ince çubuk — Ekle · Dikey · Takip yazı · Küçült · Büyüt · Tam ekran · Diğer. Basit mod, tema, yeni video ve video bilgisi "Diğer" menüsünde. Kayıt göstergesi videonun üstünden kalktı; kayıt sırasında araç çubuğunun yerinde ince bir satır (yüzde · durum · Duraklat · İptal), bitince aynı yerde "Video hazır — MP4 olarak kaydedilsin mi?" · ⬇ MP4 kaydet · Sonra. Video artık kayıt boyunca tamamen görünür.
 - **8.2** – Ön hazırlık yalnız klipte kullanılan kısmı (geçiş payıyla) çeviriyor; 8.1 kaynak videonun tamamını çeviriyordu (60 sn videodan 5 sn kullanılsa 60 sn bekleniyordu). Aynı dosyadan kesilen klipler birleşik aralığı paylaşır; kırpma aralık dışına çıkarsa yeniden hazırlanır. 10 dk sınırı kalktı.
