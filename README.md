@@ -3,7 +3,7 @@
 Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda çalışan uygulama (PWA). Dosyalar telefondan dışarı gönderilmez; video cihazda oluşturulur. Tek dosya: `index.html`; çevrimdışı önbellek `sw.js`.
 
 **Adres:** https://aaskinkk-cloud.github.io/kareden-videoya/  
-**Güncel sürüm:** 8.5 · 18.10.2026
+**Güncel sürüm:** 8.6 · 18.10.2026
 
 ## Bölümler
 - **Klipler** – klip sırası, katmanlar (zaman çizelgesi: böl, çoğalt, uzat/kısalt), kadraj, hareket (Ken Burns), takip eden yazı, toplu ayarlar.
@@ -17,6 +17,7 @@ Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda �
 - **Basit mod** – temel bölümler görünür; gizlenen ayarlar aynen çalışır.
 
 ## Sürüm notları
+- **8.6** – **Ön hazırlık yeniden yazıldı.** Ölçüm: kareyi tuvale çizmek kare başına ~20 ms (asıl yavaşlık), kareyi videodan doğrudan almak ~0,1 ms. Yeni **doğrudan yol**: kareler doğrudan kodlayıcıya gider, video ekran yenileme hızının izin verdiği hızda oynar (120 Hz ekran + 30 fps → ~3,4x). Başta 8 karelik deneme yapılır; çıkan görüntü ekrandakiyle yön ve renk olarak karşılaştırılır (dikey/döndürülmüş videolar otomatik düzeltilir). Uyuşmazsa **güvenli yol** (her karede durup çizer, kayıpsız, ~1x). Deneme sonucu telefonda hatırlanır. İlerleme satırında hız (ör. "· 3,4x") ya da "· güvenli yol" yazar. 8.4–8.5'teki sürekli geri sarma sorunu bu yolla ortadan kalktı.
 - **8.5** – Ön hazırlık sürerken ekran açık tutulur (ekran kilidi); ekran kapanır ya da uygulamadan çıkılırsa Chrome videoyu durdurduğu için hazırlık duruyordu — artık geri dönünce kaldığı yerden sürer. Takılma bekçisi: ekran açıkken 8 sn ilerleme yoksa dürtülür, yine olmazsa bırakılır. Yarım kalan hazırlık kullanılmaz (eksik kare çıkmasın). İlk karelerdeki kayıp da yakalanıyor.
 - **8.4** – Ön hazırlık hızlandı: video 2x'ten başlar, kare kaybı yoksa 4x'e kadar çıkar (120 Hz ekranda saniyede 120 kare yakalanabilir). Kare kaçarsa klip baştan alınmaz; son yakalanan kareye geri sarılıp hız düşürülerek devam edilir (kayıpsız). Telefonda bulunan en iyi hız hatırlanır. 8.3'e kadar en çok 1x idi ve kayıpta klip 0,5x ile baştan alınıyordu (2 dk video 2–6 dk). İlerleme satırında anlık hız (ör. "· 3,2x") görünür.
 - **8.3** – Önizleme altı araç çubuğu yenilendi (telefon): tek parça ince çubuk — Ekle · Dikey · Takip yazı · Küçült · Büyüt · Tam ekran · Diğer. Basit mod, tema, yeni video ve video bilgisi "Diğer" menüsünde. Kayıt göstergesi videonun üstünden kalktı; kayıt sırasında araç çubuğunun yerinde ince bir satır (yüzde · durum · Duraklat · İptal), bitince aynı yerde "Video hazır — MP4 olarak kaydedilsin mi?" · ⬇ MP4 kaydet · Sonra. Video artık kayıt boyunca tamamen görünür.

@@ -14,7 +14,7 @@
 </style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="8.5" data-ad="Kareden Videoya" data-tarih="03.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="8.6" data-ad="Kareden Videoya" data-tarih="03.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -516,7 +516,7 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 8.5 · 18.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 8.6 · 18.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -8352,91 +8352,136 @@ async function kvAraGerekli(c, MAXS){
     return (p >= 0 && p < 4) ? 'siyah kare (' + v.kod + ')' : '';
   } catch(e){ return 'çözücü hatası'; } finally { try { v && v.close(); } catch(e){} }
 }
+/* 8.6: ÖN HAZIRLIK — yeniden yazıldı.
+   Ölçüm: kareyi tuvale çizmek kare başına ~20 ms (asıl yavaşlık buydu); kareyi videodan doğrudan almak (new VideoFrame(video)) ~0,1 ms.
+   DOĞRUDAN YOL: video, ekranın yenileme hızının izin verdiği hızda oynar (120 Hz ekran + 30 fps video → ~3,5x), kareler doğrudan kodlayıcıya gider.
+   Önce 8 karelik bir deneme yapılır: çıkan görüntü, videonun ekrandaki görüntüsüyle (yön + renk) karşılaştırılır; uyuşmazsa (HDR rengi, döndürme)
+   güvenli TUVAL YOLU kullanılır (her karede durup çizer — kayıpsız, daha yavaş). Deneme sonucu telefonda hatırlanır. */
+function araOturum(W2, H2, rot, sel){
+  const mux = new Mp4Muxer.Muxer({target: new Mp4Muxer.ArrayBufferTarget(), video: {codec: sel.mux, width: W2, height: H2, rotation: rot || 0}, fastStart: 'in-memory', firstTimestampBehavior: 'offset'});
+  const o = {mux, hata: null};
+  o.enc = new VideoEncoder({output: (ch, m) => mux.addVideoChunk(ch, m), error: e => o.hata = e});
+  o.enc.configure(Object.assign({}, sel.cfg, {width: W2, height: H2}));
+  return o;
+}
+function ekranHz(){ return new Promise(res => { const z = []; let o = 0; const f = t => { if (o) z.push(t - o); o = t; if (z.length < 14) requestAnimationFrame(f); else { z.sort((a, b) => a - b); res(Math.max(30, Math.min(144, 1000 / z[z.length >> 1]))); } }; requestAnimationFrame(f); setTimeout(() => res(60), 1500); }); }
+function kucukKopya(src, w, h, k){ const cv = mk(32, 32), g = cv.getContext('2d', {willReadFrequently: true});
+  g.translate(16, 16); g.rotate((k || 0) * Math.PI / 2); const sw = (k % 2) ? 32 : 32; g.drawImage(src, 0, 0, w, h, -16, -16, sw, sw); return g.getImageData(0, 0, 32, 32).data; }
+async function kvDogrudanDene(c, el, t0, MAXS, br){
+  const fv = await FastVid.meta(c).catch(() => null), anahtar = 'kv2.dg.' + ((fv && fv.cfg && fv.cfg.codec) || (c.file && c.file.type) || 'x') + '.' + (el.videoWidth >= el.videoHeight ? 'y' : 'd');
+  if (LS.get('kv2.dgKapali')) return null;
+  const kayit = LS.get(anahtar); if (kayit && kayit.ok === false) return null;
+  if (typeof VideoFrame === 'undefined') return null;
+  let f0 = null; try { await seekTo(el, t0); f0 = new VideoFrame(el, {timestamp: 0}); } catch(e){ return null; }
+  const fw = f0.displayWidth, fh = f0.displayHeight; f0.close();
+  const k = Math.min(1, MAXS / Math.max(fw, fh)), W2 = even(fw*k), H2 = even(fh*k);
+  const sel = await pickVideoCodec(W2, H2, 30, br); if (!sel) return null;
+  if (kayit && kayit.ok) return {W2, H2, rot: kayit.rot || 0, sel};
+  /* deneme: 8 kare kodla, geri çöz, ekrandaki görüntüyle karşılaştır */
+  let sonuc = null;
+  try {
+    const o = araOturum(W2, H2, 0, sel); let n = 0, ilkT = -1, ornT = -1;
+    await new Promise(res => { const al = (now, md) => { const mt = md.mediaTime; try { const f = new VideoFrame(el, {timestamp: Math.round(mt*1e6)}); o.enc.encode(f, {keyFrame: n === 0}); f.close(); } catch(e){ o.hata = e; }
+        if (ilkT < 0) ilkT = mt; if (n === 4) ornT = mt; if (++n >= 8 || o.hata){ el.pause(); res(); } else el.requestVideoFrameCallback(al); };
+      el.requestVideoFrameCallback(al); el.play().catch(() => res()); setTimeout(res, 4000); });
+    el.pause();
+    if (!o.hata && n >= 5){ await o.enc.flush(); o.enc.close(); o.mux.finalize();
+      const v = await FastVid.open({file: new File([o.mux.target.buffer], 'deneme.mp4', {type: 'video/mp4'}), name: 'deneme'}, 320);
+      if (v){ await v.frameAt(ornT - ilkT); let p = kvParlak(v.canvas); while (p >= 0 && p < 4 && await v.altYol()) p = kvParlak(v.canvas);
+        const ref = makeVideoEl(c); await waitMeta(ref); await seekTo(ref, ornT + 0.001);
+        const rw = ref.videoWidth, rh = ref.videoHeight, R = kucukKopya(ref, rw, rh, 0); dropVideoEl(ref);
+        let en = null; for (let r = 0; r < 4; r++){ const A = kucukKopya(v.canvas, v.canvas.width, v.canvas.height, r); let t = 0; for (let i = 0; i < A.length; i += 4) t += Math.abs(A[i]-R[i]) + Math.abs(A[i+1]-R[i+1]) + Math.abs(A[i+2]-R[i+2]); t /= (A.length/4)*3; if (!en || t < en.t) en = {t, r}; }
+        v.close();
+        const ok = !!en && en.t < 24 && p >= 4;
+        console.log('KV-DENEME', JSON.stringify({ad: c.name, fark: en && +en.t.toFixed(1), rot: en && en.r*90, parlak: +p.toFixed(0), ok}));
+        sonuc = ok ? {W2, H2, rot: en.r*90, sel} : null;
+        try { LS.set(anahtar, ok ? {ok: true, rot: en.r*90} : {ok: false}); } catch(e){}
+      }
+    } else { try { o.enc.close(); } catch(e){} }
+  } catch(e){ console.warn('doğrudan deneme', e); sonuc = null; }
+  return sonuc;
+}
 async function kvAraYap(c, MAXS, tl, br, ilerle, rng){
-  /* 8.4: HIZLI ön hazırlık — video 2x hızla başlar, kayıp yoksa 4x'e kadar hızlanır (telefon ekranı 120 Hz: saniyede 120 kare yakalanabilir).
-     Kare kaçarsa klip baştan alınmaz: son yakalanan kareye geri sarılır, hız düşürülür, kaldığı yerden devam edilir → kayıpsız.
-     Telefonda bulunan en iyi hız hatırlanır; sonraki hazırlıklar ondan başlar. */
   const t0 = rng ? rng.t0 : Math.max(0, videoTime(c, -tl.T, tl) - 0.12), t1 = rng ? rng.t1 : Math.min(c.srcDur || 1e9, videoTime(c, c.dur, tl) + 0.2);
   const el = makeVideoEl(c); await waitMeta(el);
   if (!('requestVideoFrameCallback' in el)){ dropVideoEl(el); return null; }
-  const w0 = el.videoWidth || c.w, h0 = el.videoHeight || c.h, k = Math.min(1, MAXS / Math.max(w0, h0));
-  const W2 = even(w0*k), H2 = even(h0*k), sel = await pickVideoCodec(W2, H2, 30, br);
-  if (!sel){ dropVideoEl(el); return null; }
-  const mux = new Mp4Muxer.Muxer({target: new Mp4Muxer.ArrayBufferTarget(), video: {codec: sel.mux, width: W2, height: H2}, fastStart: 'in-memory', firstTimestampBehavior: 'offset'});
-  let hata = null; const enc = new VideoEncoder({output: (ch, m) => mux.addVideoChunk(ch, m), error: e => hata = e});
-  enc.configure(sel.cfg);
-  const cv = mk(W2, H2), g = cv.getContext('2d', {alpha: false});
-  const MAXR = 4, MINR = 0.5;
-  let r = clamp(+LS.get('kv2.araHiz') || 2, MINR, MAXR), enIyi = 0;
-  let son = -1, ilk = -1, dt = 1/30, dtOk = true, sarYer = -1, sarSay = 0, n = 0, tamir = 0, iyi = 0, sonKey = -9, bitti = false, sariliyor = false, sonP = -1;
-  const basla = performance.now();
-  /* 8.5: hazırlık sürerken ekran açık kalır; ekran kapanır / uygulamadan çıkılırsa Chrome videoyu durdurur → dönünce kaldığı yerden sürer */
-  let kilit = null; const kilitAl = async () => { try { if (!kilit && !document.hidden) kilit = await navigator.wakeLock.request('screen'); kilit && kilit.addEventListener('release', () => { kilit = null; }); } catch(e){} };
+  let kilit = null; const kilitAl = async () => { try { if (!kilit && !document.hidden){ kilit = await navigator.wakeLock.request('screen'); kilit.addEventListener('release', () => { kilit = null; }); } } catch(e){} };
   await kilitAl();
+  const basla = performance.now();
+  const dg = await kvDogrudanDene(c, el, t0, MAXS, br);
+  let W2, H2, sel, rot = 0;
+  if (dg){ ({W2, H2, sel, rot} = dg); }
+  else { const w0 = el.videoWidth || c.w, h0 = el.videoHeight || c.h, k = Math.min(1, MAXS / Math.max(w0, h0)); W2 = even(w0*k); H2 = even(h0*k); sel = await pickVideoCodec(W2, H2, 30, br); }
+  if (!sel){ dropVideoEl(el); try { kilit && kilit.release(); } catch(e){} return null; }
+  const o = araOturum(W2, H2, rot, sel), enc = o.enc;
+  const cv = dg ? null : mk(W2, H2), g = cv ? cv.getContext('2d', {alpha: false}) : null;
+  const hz = dg ? await ekranHz() : 60;
+  const fvm = await FastVid.meta(c).catch(() => null);
+  let dt = (fvm && fvm.list && fvm.list.length > 1) ? clamp((fvm.list[fvm.list.length-1].cts - fvm.list[0].cts)/fvm.ts/(fvm.list.length - 1), 1/120, 1/10) : 1/30;
+  const MAXR = dg ? clamp(Math.floor(hz*dt*0.85*10)/10, 1, 6) : 1;
+  let r = MAXR, son = -1, ilk = -1, n = 0, tamir = 0, iyi = 0, sonKey = -9, bitti = false, sariliyor = false, sonP = -1, sarYer = -1, sarSay = 0;
   await seekTo(el, t0);
-  await new Promise(res => {
+  await new Promise(res0 => {
+    let res = res0;
     const kapat = () => { if (!bitti){ bitti = true; try { el.pause(); } catch(e){} res(); } };
-    const hiz = v => { r = clamp(v, MINR, MAXR); try { el.playbackRate = r; } catch(e){} };
-    const geriSar = () => {   /* kaçan kare: son yakalanan kareye dön, yavaşla */
-      sariliyor = true; tamir++; iyi = 0; hiz(r*0.7); el.pause();
-      const hedef = Math.max(t0, son - dt*0.5);
-      seekTo(el, hedef).then(() => { sariliyor = false; if (!bitti) el.play().catch(() => {}); });
-    };
+    const hiz = v => { r = clamp(v, 0.5, MAXR); try { el.playbackRate = r; } catch(e){} };
+    const devam = () => { if (!bitti && !sariliyor && enc.encodeQueueSize <= 4) el.play().catch(() => {}); };
+    const geriSar = () => { sariliyor = true; tamir++; iyi = 0; hiz(r*0.8); el.pause();
+      seekTo(el, Math.max(t0, son - dt*0.5)).then(() => { sariliyor = false; devam(); }); };
     const al = (now, md) => {
       if (bitti) return;
-      if (cancelReq || hata){ kapat(); return; }
+      if (cancelReq || o.hata){ kapat(); return; }
       el.requestVideoFrameCallback(al);
       if (sariliyor) return;
       const mt = md && md.mediaTime != null ? md.mediaTime : el.currentTime;
+      if (!dg) el.pause();   // tuval yolu: her karede dur, çiz, devam (kayıp olmaz)
       if (mt > son + 1e-4 && mt >= t0 - 0.002){
         if (son >= 0){ const d = mt - son;
-          if (d > 0.004 && d < dt*1.6){ dt = dt*0.85 + d*0.15; dtOk = true; }
-          else if (dtOk && d >= dt*1.6){
-            /* aynı yerde 3 kez geri sarıldıysa bu gerçek kare aralığıdır (ör. 15 fps kaynak): kabul et */
-            if (Math.abs(son - sarYer) < 1e-4 && ++sarSay >= 3 && r <= MINR + 0.01){ dt = d; sarSay = 0; }
+          if (d >= dt*1.6){
+            if (Math.abs(son - sarYer) < 1e-4 && ++sarSay >= 3){ dt = d; sarSay = 0; }
             else { if (Math.abs(son - sarYer) >= 1e-4){ sarYer = son; sarSay = 0; } geriSar(); return; } } }
-        try { g.drawImage(el, 0, 0, W2, H2);
-          const key = mt - sonKey >= 1, vf = new VideoFrame(cv, {timestamp: Math.round(mt*1e6), duration: Math.round(dt*1e6)});
-          enc.encode(vf, {keyFrame: key}); if (key) sonKey = mt; vf.close(); n++; if (ilk < 0) ilk = mt; } catch(e){ hata = e; }
+        try {
+          let f;
+          if (dg) f = new VideoFrame(el, {timestamp: Math.round(mt*1e6), duration: Math.round(dt*1e6)});
+          else { g.drawImage(el, 0, 0, W2, H2); f = new VideoFrame(cv, {timestamp: Math.round(mt*1e6), duration: Math.round(dt*1e6)}); }
+          const key = mt - sonKey >= 1; enc.encode(f, {keyFrame: key}); if (key) sonKey = mt; f.close(); n++; if (ilk < 0) ilk = mt;
+        } catch(e){ o.hata = e; }
         son = mt;
-        if (++iyi >= 45 && r < MAXR){ enIyi = Math.max(enIyi, r); hiz(r*1.2); iyi = 0; }
+        if (dg && ++iyi >= 60 && r < MAXR){ hiz(r*1.15); iyi = 0; }
         const p = clamp((mt - t0)/Math.max(0.1, t1 - t0), 0, 1);
-        if (p - sonP >= 0.01){ sonP = p; ilerle(p, r); }
+        if (p - sonP >= 0.01){ sonP = p; ilerle(p, dg ? r : 0); }
       }
       if (mt >= t1 || el.ended){ kapat(); return; }
-      if (enc.encodeQueueSize > 12 && !el.paused){ el.pause(); const dev = () => { if (bitti) return; if (enc.encodeQueueSize > 4) waitDeq(enc).then(dev); else if (!sariliyor) el.play().catch(() => {}); }; waitDeq(enc).then(dev); }
+      if (enc.encodeQueueSize > 8){ if (!el.paused) el.pause(); const bekle = () => { if (bitti) return; if (enc.encodeQueueSize > 3) waitDeq(enc).then(bekle); else devam(); }; waitDeq(enc).then(bekle); }
+      else if (!dg) devam();
     };
     el.requestVideoFrameCallback(al);
     el.addEventListener('ended', () => setTimeout(kapat, 300), {once: true});
-    hiz(r);
-    el.play().catch(e => { hata = e; kapat(); });
-    /* takılma bekçisi: yalnız ekran açıkken sayar; 20 sn ilerleme yoksa bir kez dürt, yine yoksa bırak */
+    hiz(r); el.play().catch(e => { o.hata = e; kapat(); });
     let sonIl = performance.now(), sonSon = -1, durt = 0;
     const bekci = setInterval(() => {
       if (bitti){ clearInterval(bekci); return; }
       if (document.hidden){ sonIl = performance.now(); return; }
       if (son !== sonSon){ sonSon = son; sonIl = performance.now(); durt = 0; return; }
       if (performance.now() - sonIl > 8000 && !sariliyor){
-        if (durt++ < 2){ sonIl = performance.now(); seekTo(el, Math.max(t0, son - dt*0.5)).then(() => { if (!bitti) el.play().catch(() => {}); }); }
-        else { hata = new Error('takıldı'); kapat(); }
+        if (durt++ < 2){ sonIl = performance.now(); seekTo(el, Math.max(t0, son - dt*0.5)).then(devam); }
+        else { o.hata = new Error('takıldı'); kapat(); }
       }
     }, 1000);
-    const gorunur = () => { if (!document.hidden && !bitti){ kilitAl(); if (el.paused && !sariliyor) el.play().catch(() => {}); } };
+    const gorunur = () => { if (!document.hidden && !bitti){ kilitAl(); if (el.paused && !sariliyor) devam(); } };
     document.addEventListener('visibilitychange', gorunur);
-    const temizle = () => { clearInterval(bekci); document.removeEventListener('visibilitychange', gorunur); };
-    const eskiRes = res; res = () => { temizle(); eskiRes(); };
+    res = () => { clearInterval(bekci); document.removeEventListener('visibilitychange', gorunur); res0(); };
   });
   try { kilit && kilit.release(); } catch(e){}
   dropVideoEl(el);
-  if (!cancelReq && !hata && son < t1 - 0.5 && son >= 0 && !(c.srcDur && son >= c.srcDur - 0.5)){ console.warn('ön hazırlık yarım kaldı', son, t1); hata = new Error('yarım'); }
+  if (!cancelReq && !o.hata && son >= 0 && son < t1 - 0.5 && !(c.srcDur && son >= c.srcDur - 0.5)) o.hata = new Error('yarım');
   if (cancelReq){ try { enc.close(); } catch(e){} throw new Error('cancel'); }
-  if (hata || !n){ try { enc.close(); } catch(e){} console.warn('ön hazırlık olmadı', hata); return null; }
-  await enc.flush(); enc.close(); mux.finalize();
+  if (o.hata || !n){ try { enc.close(); } catch(e){} console.warn('ön hazırlık olmadı', o.hata); return null; }
+  await enc.flush(); enc.close(); o.mux.finalize();
   const sure = (performance.now() - basla)/1000;
-  try { LS.set('kv2.araHiz', Math.round(clamp(Math.max(enIyi, tamir ? r : r*1.1), 1, MAXR)*100)/100); } catch(e){}
-  console.log('KV-ARA', JSON.stringify({ad: c.name, aralik: +(t1 - t0).toFixed(1), sure: +sure.toFixed(1), hizSon: +r.toFixed(2), n, tamir}));
-  const file = new File([mux.target.buffer], 'ara.mp4', {type: 'video/mp4'});
-  return {clip: {file, name: c.name + ' (ara)', id: c.id}, base: ilk, kayip: 0, n, tamir};
+  console.log('KV-ARA', JSON.stringify({ad: c.name, yol: dg ? 'doğrudan' : 'tuval', rot, hz: Math.round(hz), maxHiz: MAXR, aralik: +(t1 - t0).toFixed(1), sure: +sure.toFixed(1), n, tamir}));
+  const file = new File([o.mux.target.buffer], 'ara.mp4', {type: 'video/mp4'});
+  return {clip: {file, name: c.name + ' (ara)', id: c.id}, base: ilk, kayip: 0, n, tamir, yol: dg ? 'doğrudan' : 'tuval', sure};
 }
 /* 8.1: ARKA PLAN HAZIRLIĞI — ön hazırlık video eklenince, sen düzenlerken yapılır; dosya başına bir kez (bölünen klipler paylaşır).
    Kayıt tuşuna basıldığında hazırsa hiç beklenmez; sürüyorsa kalan kısmı beklenir. Tekrar kayıtta yeniden yapılmaz. */
@@ -8607,7 +8652,7 @@ async function runExport(){
       for (let j = 0; j < vk.length; j++){
         const c = vk[j]; c._ara = null; if (cancelReq) throw new Error('cancel');
         setProg(0, `video kontrol ${j+1}/${vk.length}`);
-        const r0 = await kvAraHazir(c, MAXS0, tl, Math.round(bitrate()*2), (p, r, neden) => setProg(0, `ön hazırlık ${j+1}/${vk.length} · %${Math.round(p*100)}${' · ' + trNum(r, 1) + 'x'}`));
+        const r0 = await kvAraHazir(c, MAXS0, tl, Math.round(bitrate()*2), (p, r, neden) => setProg(0, `ön hazırlık ${j+1}/${vk.length} · %${Math.round(p*100)}${r ? ' · ' + trNum(r, 1) + 'x' : ' · güvenli yol'}`));
         if (cancelReq) throw new Error('cancel');
         if (r0){ c._ara = r0.a; araN++; araKayip += r0.a.kayip || 0; }
       }
