@@ -14,7 +14,7 @@
 </style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="7.5" data-ad="Kareden Videoya" data-tarih="03.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="7.6" data-ad="Kareden Videoya" data-tarih="03.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -495,7 +495,7 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 7.5 · 18.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 7.6 · 18.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -8091,7 +8091,7 @@ async function KvAkis(c, maxSide){
   const N = 12, ring = Array.from({length:N}, () => ({cv: mk(W2, H2), t: -1})); let ri = 0, sonT = -1, hedef = 0, bekle = null, kapali = false;
   /* 7.5: kaynağın kare aralığı ölçülür; istenen kare kaçırıldıysa video geri sarılıp daha yavaş oynatılarak yeniden yakalanır.
      Telefon, oluşturma sürerken oynayan videonun karelerini atlıyordu → çıktıda kare tekrarı (kesik görüntü). */
-  let dt = 1/30, hiz = 1;
+  let dt = 1/30, hiz = 1, iyi = 0, tavan = 1;
   const coz = () => { if (bekle){ const r = bekle.r; bekle = null; r(); } };
   function al(now, md){
     if (kapali) return;
@@ -8117,11 +8117,13 @@ async function KvAkis(c, maxSide){
     if (sonT < 0 || t < sonT - 0.3 || t > sonT + 1.5){ el.pause(); ring.forEach(b => b.t = -1); sonT = -1; await seekTo(el, t); }
     await yakala(t);
     let best = sec(t);
-    for (let dene = 0; dene < 5 && best && t - best.t > dt*1.4 && !el.ended; dene++){
-      hiz = Math.max(0.125, hiz*0.5); try { el.playbackRate = hiz; } catch(e){}
+    for (let dene = 0; dene < 5 && best && t - best.t > dt*0.9 && !el.ended; dene++){   /* 7.6: aradaki tek kare kaybı da yakalanır */
+      tavan = Math.max(0.125, Math.min(tavan, hiz*0.8)); hiz = Math.max(0.125, hiz*0.5); try { el.playbackRate = hiz; } catch(e){}   /* kayıp olan hıza bir daha çıkılmaz */
       el.pause(); ring.forEach(b => b.t = -1); sonT = -1; await seekTo(el, Math.max(0, t - dt*2)); await yakala(t); best = sec(t);
     }
     if (!best) for (const b of ring){ if (b.t >= 0 && (!best || b.t < best.t)) best = b; }
+    /* 7.6: kare kaybı yoksa hız kademeli olarak 1x'e döner (bir kez yavaşlayınca sonuna kadar yavaş kalıyordu) */
+    if (best && t - best.t <= dt*0.9){ if (++iyi >= 45 && hiz < tavan){ hiz = Math.min(tavan, hiz*1.25); iyi = 0; try { el.playbackRate = hiz; } catch(e){} } } else iyi = 0;
     if (best){ g.drawImage(best.cv, 0, 0); api.ts = best.t; }
     else { try { g.drawImage(el, 0, 0, W2, H2); api.ts = el.currentTime; } catch(e){} }
     api.dt = dt;
@@ -8158,39 +8160,44 @@ const FastVid = (() => {
   }
   async function meta(c){
     if (c._fv !== undefined) return c._fv;
-    c._fv = null;
-    if (!LIB || typeof VideoDecoder === 'undefined' || !c.file) return null;
+    c._fv = null; c._fvNeden = '';
+    if (!LIB || typeof VideoDecoder === 'undefined' || !c.file){ c._fvNeden = !c.file ? 'dosya yok' : 'tarayıcı desteklemiyor'; return null; }
     try {
       const file = c.file, boxes = await topBoxes(file), ftyp = boxes.find(b => b.type === 'ftyp'), moov = boxes.find(b => b.type === 'moov');
-      if (!moov || moov.size > 64e6) return null;
+      if (!moov || moov.size > 64e6){ c._fvNeden = moov ? 'dizin çok büyük' : 'MP4 dizini bulunamadı (' + (file.type || 'biçim?') + ')'; return null; }
       const parts = []; if (ftyp) parts.push(await slice(file, ftyp.pos, ftyp.pos + ftyp.size)); parts.push(await slice(file, moov.pos, moov.pos + moov.size));
       const buf = new Uint8Array(parts.reduce((a, p) => a + p.length, 0)); let o = 0; parts.forEach(p => { buf.set(p, o); o += p.length; });
       const ab = buf.buffer; ab.fileStart = 0;
       const mp = LIB.MP4Box.createFile(); let info = null; mp.onReady = i => info = i; mp.onError = () => {};
       mp.appendBuffer(ab); mp.flush();
-      if (!info || !info.videoTracks || !info.videoTracks.length) return null;
+      if (!info || !info.videoTracks || !info.videoTracks.length){ c._fvNeden = 'video izi okunamadı'; return null; }
       const tr = info.videoTracks[0], trak = mp.getTrackById(tr.id), samples = trak && trak.samples;
-      if (!samples || !samples.length) return null;
+      if (!samples || !samples.length){ c._fvNeden = 'kare listesi yok'; return null; }
       let description, colorSpace;
       const PRI = {1:'bt709', 5:'bt470bg', 6:'smpte170m', 9:'bt2020', 12:'smpte432'}, TRC = {1:'bt709', 6:'smpte170m', 8:'linear', 13:'iec61966-2-1', 16:'pq', 18:'hlg'}, MAT = {0:'rgb', 1:'bt709', 5:'bt470bg', 6:'smpte170m', 9:'bt2020-ncl'};
       for (const e of trak.mdia.minf.stbl.stsd.entries){
         const bx = e.avcC || e.hvcC || e.vpcC || e.av1C;
-        if (e.vpcC){ const v = e.vpcC; if (v.chromaSubsampling === 3 || v.bitDepth > 10) return null;   // 4:4:4 / 12 bit: güvenli yol
+        if (e.vpcC){ const v = e.vpcC; if (v.chromaSubsampling === 3 || v.bitDepth > 10){ c._fvNeden = 'VP9 4:4:4/12 bit'; return null; }   // 4:4:4 / 12 bit: güvenli yol
           colorSpace = {fullRange: !!v.videoFullRangeFlag, matrix: MAT[v.matrixCoefficients] || 'smpte170m', primaries: PRI[v.colourPrimaries] || 'smpte170m', transfer: TRC[v.transferCharacteristics] || 'smpte170m'}; }
         if (bx){ const s = new LIB.DataStream(undefined, 0, LIB.DataStream.BIG_ENDIAN); bx.write(s); description = new Uint8Array(s.buffer, 8); break; } }
       const cfg = {codec: tr.codec.startsWith('vp08') ? 'vp8' : tr.codec, codedWidth: tr.video.width, codedHeight: tr.video.height};
       if (description && !/^vp0/.test(cfg.codec)) cfg.description = description;
       if (colorSpace) cfg.colorSpace = colorSpace;
+      /* 7.6: aynı kodlama farklı adlarla denenir (hvc1/hev1, avc1/avc3) — bazı telefon kayıtlarında ad farkı yüzünden hızlı yol kapanıyordu */
+      const adlar = [cfg.codec], cd = cfg.codec;
+      if (/^hvc1\./.test(cd)) adlar.push(cd.replace(/^hvc1/, 'hev1')); if (/^hev1\./.test(cd)) adlar.push(cd.replace(/^hev1/, 'hvc1'));
+      if (/^avc3\./.test(cd)) adlar.push(cd.replace(/^avc3/, 'avc1')); if (/^avc1\./.test(cd)) adlar.push(cd.replace(/^avc1/, 'avc3'));
       let sup = null;
-      for (const hw of ['prefer-hardware', 'no-preference']){ try { const r = await VideoDecoder.isConfigSupported(Object.assign({}, cfg, {hardwareAcceleration: hw})); if (r.supported){ sup = r.config; break; } } catch(e){} }
-      if (!sup) return null;
+      for (const ad of adlar) for (const hw of ['prefer-hardware', 'no-preference']){ if (sup) break; try { const r = await VideoDecoder.isConfigSupported(Object.assign({}, cfg, {codec: ad, hardwareAcceleration: hw})); if (r.supported) sup = r.config; } catch(e){} }
+      if (!sup){ const k = /^(hvc1|hev1)/.test(cd) ? 'H.265' : /^avc/.test(cd) ? 'H.264' : /^vp09/.test(cd) ? 'VP9' : /^av01/.test(cd) ? 'AV1' : cd;
+        c._fvNeden = `${k} (${cd}) bu tarayıcıda çözülemiyor`; return null; }
       const m = tr.matrix || [65536, 0, 0, 0, 65536, 0, 0, 0, 1 << 30];
       let rot = Math.round(Math.atan2(m[1], m[0]) * 180 / Math.PI); rot = ((rot % 360) + 360) % 360;
       const ts = trak.mdia.mdhd.timescale || tr.timescale, list = samples.map(s => ({o: s.offset, n: s.size, cts: s.cts, dts: s.dts, d: s.duration, key: s.is_sync}));
       let c0 = Infinity; for (const s of list) c0 = Math.min(c0, s.cts);
       c._fv = {cfg: sup, ts, list, c0, rot, w: tr.video.width, h: tr.video.height};
       return c._fv;
-    } catch(e){ console.warn('FastVid meta', e); c._fv = null; return null; }
+    } catch(e){ console.warn('FastVid meta', e); c._fv = null; c._fvNeden = 'okuma hatası: ' + (e && e.message || e); return null; }
   }
   async function open(c, maxSide, sw){
     const M = await meta(c); if (!M) return null;
@@ -8372,7 +8379,7 @@ async function runExport(){
     canvas = mk(W, H);
     const ctx = canvas.getContext('2d', {alpha:false});
     R = makeRenderer(ctx, W, H, i => exMap.get(i) || null);
-    let lastSig = null, kvSiyahSn = 0, akisN = 0; const kvSiyahAd = new Set(), kvTs = new Map(); let kvTekrar = 0, kvKare = 0;
+    let lastSig = null, kvSiyahSn = 0, akisN = 0; const kvSiyahAd = new Set(), kvTs = new Map(), kvYol = new Map(); let kvTekrar = 0, kvKare = 0;
     /* 6.3: siyah kare koruması — klibin son sağlam karesi saklanır; görüntü alınamazsa siyah yerine o kare kullanılır */
     const kvSonIyi = new Map(); let kvDonukSn = 0, kvKurtarma = 0;
     S.clips.forEach(c => { c._siyah = false; c._swDenendi = false; });
@@ -8395,12 +8402,13 @@ async function runExport(){
           if (!v){ v = (FAST_VID && !c._noFast) ? await FastVid.open(c, Math.round(Math.max(W, H)*1.25), kvSwTercih).catch(() => null) : null;
             if (v && kvSwTercih) v._sw = true;
             if (!v && kvSwTercih && FAST_VID && !c._noFast) v = await FastVid.open(c, Math.round(Math.max(W, H)*1.25)).catch(() => null);
-            if (v) fastN++; else { v = await KvAkis(c, Math.max(W, H)).catch(() => null); if (v) akisN++; else { v = makeVideoEl(c); await waitMeta(v); } }
+            if (v) fastN++; else { kvYol.set(c.id, (c.name || 'video') + ': ' + (!FAST_VID ? 'hızlı çözme ayarla kapatılmış' : c._noFast ? 'hızlı çözücü hata verdi' : (c._fvNeden || 'hızlı çözücü açılamadı')));
+              v = await KvAkis(c, Math.max(W, H)).catch(() => null); if (v) akisN++; else { v = makeVideoEl(c); await waitMeta(v); } }
             exVid.set(c.id, v); }
           const tV = videoTime(c, s.local, tl), MAXS = Math.round(Math.max(W, H)*1.25);
           if (v.fast){
             try { await v.frameAt(tV); }
-            catch(e){ console.warn('hızlı çözme durdu, akış moduna geçiliyor', e); const wasAkis = v.akis; v.close(); c._noFast = true; if (!wasAkis) fastN--; v = wasAkis ? null : await KvAkis(c, Math.max(W, H)).catch(() => null); if (v){ akisN++; exVid.set(c.id, v); await v.frameAt(tV); } else { v = makeVideoEl(c); await waitMeta(v); exVid.set(c.id, v); await seekTo(v, tV); } }
+            catch(e){ console.warn('hızlı çözme durdu, akış moduna geçiliyor', e); kvYol.set(c.id, (c.name || 'video') + ': çözücü yarıda durdu (' + (e && e.message || e) + ')'); const wasAkis = v.akis; v.close(); c._noFast = true; if (!wasAkis) fastN--; v = wasAkis ? null : await KvAkis(c, Math.max(W, H)).catch(() => null); if (v){ akisN++; exVid.set(c.id, v); await v.frameAt(tV); } else { v = makeVideoEl(c); await waitMeta(v); exVid.set(c.id, v); await seekTo(v, tV); } }
           } else await seekTo(v, tV);
           /* 6.4: görüntü öğesi hazır değilse küçük önizleme resmi çizilip titreme yapıyordu: hazır olmasını bekle */
           if (!v.fast && v.readyState < 2) await kvHazir(v);
@@ -8416,7 +8424,7 @@ async function runExport(){
             }
             if (p >= 0 && p < 4 && v.fast && !v.akis && (v._sonDene == null || f - v._sonDene > fps*3)){
               v._sonDene = f; const ak = await KvAkis(c, Math.max(W, H)).catch(() => null);
-              if (ak){ try { await ak.frameAt(tV); if (kvParlak(ak.canvas) > 10){ console.warn('hızlı çözücü siyah verdi; akış moduna geçildi', c.name); v.close(); c._noFast = true; fastN--; akisN++; v = ak; exVid.set(c.id, v); kvKaynak = v.canvas; p = kvParlak(kvKaynak); } else ak.close(); } catch(_){ ak.close(); } }
+              if (ak){ try { await ak.frameAt(tV); if (kvParlak(ak.canvas) > 10){ console.warn('hızlı çözücü siyah verdi; akış moduna geçildi', c.name); kvYol.set(c.id, (c.name || 'video') + ': hızlı çözücü siyah kare verdi'); v.close(); c._noFast = true; fastN--; akisN++; v = ak; exVid.set(c.id, v); kvKaynak = v.canvas; p = kvParlak(kvKaynak); } else ak.close(); } catch(_){ ak.close(); } }
             }
             if (p >= 0 && p < 4){ c._siyah = true; const g = kvSonIyi.get(c.id); if (g){ kvKaynak = g; kvDonukSn += 1/fps; } else kvSiyahSn += 1/fps; kvSiyahAd.add(c.name || 'video'); }
             else { c._siyah = false; kvKopya(c.id, kvKaynak); }
@@ -8424,7 +8432,7 @@ async function runExport(){
           if (!v.fast && v.readyState < 2){ const g = kvSonIyi.get(c.id); if (g) kvKaynak = g; }
           if (v.fast && v.ts >= 0 && kvKaynak === v.canvas){ kvKare++; const o = kvTs.get(c.id);
             /* kaynak karesi değişmedi ama kaynakta arada kare vardı → kesik görüntü */
-            if (o && Math.abs(o.ts - v.ts) < 1e-4 && tV - v.ts > (v.dt || 1/30)*1.5) kvTekrar++;
+            if (o && Math.abs(o.ts - v.ts) < 1e-4 && tV - v.ts > (v.dt || 1/30)*0.9) kvTekrar++;
             kvTs.set(c.id, {ts: v.ts}); }
           exMap.set(s.i, {video: kvKaynak});
         } else if (!exMap.has(s.i)) exMap.set(s.i, await prepare(c, W, H, new Map(), 1));
@@ -8452,6 +8460,7 @@ async function runExport(){
     $('#expRes').hidden = false; $('#saveNote').textContent = '';
     if (encOut < nF) $('#expInfo').textContent += ` · ⚠ kodlayıcı ${nF - encOut} kare düşürdü`;
     if (kvKare) $('#expInfo').textContent += ` · video kare tekrarı: ${kvTekrar}/${kvKare}`;
+    if (kvYol.size) $('#expInfo').textContent += ` · yavaş yola düşen: ${[...kvYol.values()].slice(0, 3).join(' | ')}`;
     console.log('KV-TANI', JSON.stringify({encOut, nF, kvTekrar, kvKare, fastN, akisN}));
     if (kvDonukSn >= 0.5){ $('#expInfo').textContent += ` · ${trNum(kvDonukSn,1)} sn'de video karesi alınamadı; siyah yerine klibin son sağlam karesi kullanıldı`; kvSiyahSn = 0; }
     if (kvSiyahSn >= 2){ const ad = [...kvSiyahAd].slice(0, 2).join(', ');
