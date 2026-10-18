@@ -3,7 +3,7 @@
 Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda çalışan uygulama (PWA). Dosyalar telefondan dışarı gönderilmez; video cihazda oluşturulur. Tek dosya: `index.html`; çevrimdışı önbellek `sw.js`.
 
 **Adres:** https://aaskinkk-cloud.github.io/kareden-videoya/  
-**Güncel sürüm:** 7.7 · 18.10.2026
+**Güncel sürüm:** 7.8 · 18.10.2026
 
 ## Bölümler
 - **Klipler** – klip sırası, katmanlar (zaman çizelgesi: böl, çoğalt, uzat/kısalt), kadraj, hareket (Ken Burns), takip eden yazı, toplu ayarlar.
@@ -16,6 +16,7 @@ Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda �
 - **Basit mod** – temel bölümler görünür; gizlenen ayarlar aynen çalışır.
 
 ## Sürüm notları
+- **7.8** – Hızlı çözücü siyah kare verince yavaş akış moduna geçmeden önce kareyi aktarmanın iki yolu daha deneniyor (ImageBitmap, piksel kopyası). Çalışan yol telefonda hatırlanır, sonraki kayıtlarda doğrudan kullanılır. İlerleme satırında kullanılan yol yazar, örn. "⚡ hızlı çözme (kopya)"; akış modunda neden ve kod bilgisi gösterilir.
 - **7.7** – Video oluşturulurken hangi çözme yolunun kullanıldığı canlı görünür: ilerleme satırında "⚡ hızlı çözme" ya da "🐢 akış modu — neden"; ilk video klipte kısa bildirim.
 - **7.6** – Akış modu tam kayıpsız: aradaki tek kare kaybı da yakalanıyor (testte kare tekrarı 0). Kayıp olmayınca hız kademeli olarak geri artıyor, kayıp görülen hıza bir daha çıkılmıyor. Hızlı çözücü kod adı farkı (hvc1/hev1, avc1/avc3) yüzünden açılamıyorsa diğer adla deneniyor. Bilgi satırında "yavaş yola düşen: dosya: neden" gösteriliyor.
 - **7.5** – Kesik video düzeltmesi. Akış modunda (hızlı çözücü kullanılamayınca) telefon oluşturma sürerken oynayan videonun karelerini atlıyordu; testte karelerin yarısı tekrar ediyordu. Artık kaçan kare fark edilince video geri sarılıp daha yavaş oynatılarak yeniden yakalanıyor. 7.4'teki yavaşlatma kaldırıldı (kendisi kare tekrarı yapıyordu); görüntü yetmeyen kliplerde bekleme geçişin silik yarılarına bölünüyor. Bitişte bilgi satırında "video kare tekrarı: X/Y" ve kodlayıcı kare düşürürse uyarı gösterilir.

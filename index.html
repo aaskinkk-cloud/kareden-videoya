@@ -14,7 +14,7 @@
 </style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="7.7" data-ad="Kareden Videoya" data-tarih="03.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="7.8" data-ad="Kareden Videoya" data-tarih="03.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -495,7 +495,7 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 7.7 · 18.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 7.8 · 18.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -8228,12 +8228,34 @@ const FastVid = (() => {
       return true;
     }
     const waitOut = () => new Promise(r => { wake = r; setTimeout(() => { if (wake === r){ wake = null; r(); } }, 60); });
-    function draw(f){
-      if (!f) return; api.ts = f.timestamp/1e6; if (f.timestamp === lastDrawn) return; lastDrawn = f.timestamp;
-      const fw = f.displayWidth, fh = f.displayHeight;
+    /* 7.8: kareyi tuvale aktarmanın üç yolu. Bazı telefonların donanım çözücüsünün karesi doğrudan çizilince siyah çıkıyor;
+       o zaman önce ImageBitmap, olmazsa piksel kopyası (copyTo RGBA) denenir — hızlı yol kapanmadan kurtarılır. */
+    const YOLLAR = ['ciz', 'bitmap', 'kopya']; let yol = Math.min(2, Math.max(0, +LS.get('kv2.yol') || 0)), tmp = null;
+    async function kaynak(f){
+      const y = YOLLAR[yol];
+      if (y === 'bitmap') return {src: await createImageBitmap(f), w: f.displayWidth, h: f.displayHeight, kapat: 1};
+      if (y === 'kopya'){
+        const vr = f.visibleRect || {x:0, y:0, width:f.codedWidth, height:f.codedHeight}, o = {format:'RGBA', rect: vr};
+        try { o.colorSpace = 'srgb'; } catch(e){}
+        const buf = new Uint8ClampedArray(f.allocationSize(o)); await f.copyTo(buf, o);
+        if (!tmp || tmp.width !== vr.width || tmp.height !== vr.height) tmp = mk(vr.width, vr.height);
+        tmp.getContext('2d').putImageData(new ImageData(buf, vr.width, vr.height), 0, 0);
+        return {src: tmp, w: vr.width, h: vr.height};
+      }
+      return {src: f, w: f.displayWidth, h: f.displayHeight};
+    }
+    async function draw(f, zorla){
+      if (!f) return; api.ts = f.timestamp/1e6; if (f.timestamp === lastDrawn && !zorla) return; lastDrawn = f.timestamp;
+      const k = await kaynak(f), fw = k.w, fh = k.h;
       g.save(); g.translate(cv.width / 2, cv.height / 2); if (rot) g.rotate(rot * Math.PI / 180);
       const sw = rot % 180 ? cv.height : cv.width, sh = rot % 180 ? cv.width : cv.height;
-      g.drawImage(f, 0, 0, fw, fh, -sw / 2, -sh / 2, sw, sh); g.restore();
+      g.drawImage(k.src, 0, 0, k.src.width || fw, k.src.height || fh, -sw / 2, -sh / 2, sw, sh); g.restore();
+      if (k.kapat) try { k.src.close(); } catch(e){}
+    }
+    /* siyah çıkınca sıradaki aktarma yolunu dene; true: değiştirildi */
+    async function altYol(){
+      while (yol < YOLLAR.length - 1){ yol++; try { await draw(cur, true); return true; } catch(e){ console.warn('aktarma yolu olmadı', YOLLAR[yol], e); } }
+      return false;
     }
     async function frameAt(t){
       if (err) throw err;
@@ -8252,11 +8274,11 @@ const FastVid = (() => {
       }
       if (err) throw err;
       if (!cur && q.length){ cur = q.shift(); }
-      draw(cur);
+      await draw(cur);
       return cv;
     }
-    function close(){ try { q.forEach(f => f.close()); if (cur) cur.close(); if (dec.state !== 'closed') dec.close(); } catch(e){} cv.width = 0; rb = null; }
-    const api = {fast: true, canvas: cv, frameAt, close, ts: -1, dt: M.list.length > 1 ? (M.list[M.list.length-1].cts - M.list[0].cts)/M.ts/(M.list.length - 1) : 1/30};
+    function close(){ try { q.forEach(f => f.close()); if (cur) cur.close(); if (dec.state !== 'closed') dec.close(); } catch(e){} cv.width = 0; rb = null; if (tmp) tmp.width = 0; }
+    const api = {fast: true, canvas: cv, frameAt, close, altYol, yolAd: () => YOLLAR[yol], kod: CFG.codec + (sw ? ' yazılım' : ' donanım'), ts: -1, dt: M.list.length > 1 ? (M.list[M.list.length-1].cts - M.list[0].cts)/M.ts/(M.list.length - 1) : 1/30};
     return api;
   }
   return {open, meta};
@@ -8379,7 +8401,7 @@ async function runExport(){
     canvas = mk(W, H);
     const ctx = canvas.getContext('2d', {alpha:false});
     R = makeRenderer(ctx, W, H, i => exMap.get(i) || null);
-    let lastSig = null, kvSiyahSn = 0, akisN = 0; const kvSiyahAd = new Set(), kvTs = new Map(), kvYol = new Map(); let kvBildi = false; let kvTekrar = 0, kvKare = 0;
+    let lastSig = null, kvSiyahSn = 0, akisN = 0; const kvSiyahAd = new Set(), kvTs = new Map(), kvYol = new Map(); let kvBildi = false, kvYolAd = ''; let kvTekrar = 0, kvKare = 0;
     /* 6.3: siyah kare koruması — klibin son sağlam karesi saklanır; görüntü alınamazsa siyah yerine o kare kullanılır */
     const kvSonIyi = new Map(); let kvDonukSn = 0, kvKurtarma = 0;
     S.clips.forEach(c => { c._siyah = false; c._swDenendi = false; });
@@ -8420,13 +8442,17 @@ async function runExport(){
           if (c._thP > 12 && (f % 6 === 0 || c._siyah || !v._ilk)){
             v._ilk = true;
             let p = kvParlak(kvKaynak);
+            if (p >= 0 && p < 4 && v.fast && !v.akis && v.altYol && !v._yolBitti){
+              while (p >= 0 && p < 4 && await v.altYol()){ p = kvParlak(kvKaynak); console.warn('aktarma yolu', v.yolAd(), 'parlaklık', p); }
+              if (p >= 0 && p < 4) v._yolBitti = true; else { kvYolAd = v.yolAd(); try { LS.set('kv2.yol', ['ciz','bitmap','kopya'].indexOf(kvYolAd)); } catch(_){} }   /* bulunan yol sonraki kayıtlarda doğrudan kullanılır */
+            }
             if (p >= 0 && p < 4 && v.fast && !v.akis && !v._sw && !c._swDenendi){
               c._swDenendi = true; const alt = await FastVid.open(c, MAXS, true).catch(() => null);
               if (alt){ try { await alt.frameAt(tV); if (kvParlak(alt.canvas) > 10){ v.close(); v = alt; v._sw = true; v._ilk = true; exVid.set(c.id, v); kvKaynak = v.canvas; p = kvParlak(kvKaynak); kvSwTercih = true; try { LS.set('kv2.swdec', true); } catch(_){} console.warn('donanım çözücü siyah verdi; yazılım çözücüye geçildi (hızlı)', c.name); } else alt.close(); } catch(_){ alt.close(); } }
             }
             if (p >= 0 && p < 4 && v.fast && !v.akis && (v._sonDene == null || f - v._sonDene > fps*3)){
               v._sonDene = f; const ak = await KvAkis(c, Math.max(W, H)).catch(() => null);
-              if (ak){ try { await ak.frameAt(tV); if (kvParlak(ak.canvas) > 10){ console.warn('hızlı çözücü siyah verdi; akış moduna geçildi', c.name); kvYol.set(c.id, (c.name || 'video') + ': hızlı çözücü siyah kare verdi'); v.close(); c._noFast = true; fastN--; akisN++; v = ak; exVid.set(c.id, v); kvKaynak = v.canvas; p = kvParlak(kvKaynak); } else ak.close(); } catch(_){ ak.close(); } }
+              if (ak){ try { await ak.frameAt(tV); if (kvParlak(ak.canvas) > 10){ console.warn('hızlı çözücü siyah verdi; akış moduna geçildi', c.name); kvYol.set(c.id, (c.name || 'video') + ': hızlı çözücü siyah kare verdi (' + (v.kod || '') + ')'); v.close(); c._noFast = true; fastN--; akisN++; v = ak; exVid.set(c.id, v); kvKaynak = v.canvas; p = kvParlak(kvKaynak); } else ak.close(); } catch(_){ ak.close(); } }
             }
             if (p >= 0 && p < 4){ c._siyah = true; const g = kvSonIyi.get(c.id); if (g){ kvKaynak = g; kvDonukSn += 1/fps; } else kvSiyahSn += 1/fps; kvSiyahAd.add(c.name || 'video'); }
             else { c._siyah = false; kvKopya(c.id, kvKaynak); }
@@ -8449,7 +8475,7 @@ async function runExport(){
       while (venc.encodeQueueSize > 4) await waitDeq(venc);
       if (f % 5 === 0){ /* 7.7: hangi yolun kullanıldığı kayıt sırasında da görünür */
         let yol = ''; for (const s of need){ const c = S.clips[s.i]; if (c.kind !== 'video') continue; const v = exVid.get(c.id); if (!v) continue;
-          yol = v.fast && !v.akis ? ' · ⚡ hızlı çözme' : ' · 🐢 akış modu' + (kvYol.get(c.id) ? ' — ' + kvYol.get(c.id).split(': ').slice(1).join(': ') : ''); }
+          yol = v.fast && !v.akis ? ' · ⚡ hızlı çözme' + (v.yolAd && v.yolAd() !== 'ciz' ? ' (' + v.yolAd() + ')' : '') : ' · 🐢 akış modu' + (kvYol.get(c.id) ? ' — ' + kvYol.get(c.id).split(': ').slice(1).join(': ') : ''); }
         setProg(f/nF, `video karesi ${f}/${nF}` + yol); }
       if (f % 12 === 0){ try { pctx.drawImage(canvas, 0, 0, pv.width, pv.height); } catch(e){} }
     }
@@ -8465,6 +8491,7 @@ async function runExport(){
     $('#expRes').hidden = false; $('#saveNote').textContent = '';
     if (encOut < nF) $('#expInfo').textContent += ` · ⚠ kodlayıcı ${nF - encOut} kare düşürdü`;
     if (kvKare) $('#expInfo').textContent += ` · video kare tekrarı: ${kvTekrar}/${kvKare}`;
+    if (kvYolAd) $('#expInfo').textContent += ` · siyah kare kurtarıldı (${kvYolAd})`;
     if (kvYol.size) $('#expInfo').textContent += ` · yavaş yola düşen: ${[...kvYol.values()].slice(0, 3).join(' | ')}`;
     console.log('KV-TANI', JSON.stringify({encOut, nF, kvTekrar, kvKare, fastN, akisN}));
     if (kvDonukSn >= 0.5){ $('#expInfo').textContent += ` · ${trNum(kvDonukSn,1)} sn'de video karesi alınamadı; siyah yerine klibin son sağlam karesi kullanıldı`; kvSiyahSn = 0; }
