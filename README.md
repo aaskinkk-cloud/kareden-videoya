@@ -3,7 +3,7 @@
 Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda çalışan uygulama (PWA). Dosyalar telefondan dışarı gönderilmez; video cihazda oluşturulur. Tek dosya: `index.html`; çevrimdışı önbellek `sw.js`.
 
 **Adres:** https://aaskinkk-cloud.github.io/kareden-videoya/  
-**Güncel sürüm:** 8.1 · 18.10.2026
+**Güncel sürüm:** 8.2 · 18.10.2026
 
 ## Bölümler
 - **Klipler** – klip sırası, katmanlar (zaman çizelgesi: böl, çoğalt, uzat/kısalt), kadraj, hareket (Ken Burns), takip eden yazı, toplu ayarlar.
@@ -17,6 +17,7 @@ Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda �
 - **Basit mod** – temel bölümler görünür; gizlenen ayarlar aynen çalışır.
 
 ## Sürüm notları
+- **8.2** – Ön hazırlık yalnız klipte kullanılan kısmı (geçiş payıyla) çeviriyor; 8.1 kaynak videonun tamamını çeviriyordu (60 sn videodan 5 sn kullanılsa 60 sn bekleniyordu). Aynı dosyadan kesilen klipler birleşik aralığı paylaşır; kırpma aralık dışına çıkarsa yeniden hazırlanır. 10 dk sınırı kalktı.
 - **8.1** – **Arka plan hazırlığı:** ön hazırlık video eklenince, sen düzenlerken yapılır (klip şeridinde "⚡ Videolar hızlı kayıt için hazırlanıyor"); kayıtta beklenmez, tekrar kayıtta yeniden yapılmaz, bölünen klipler aynı hazırlığı paylaşır (10 dk'dan uzun kaynaklar kayıt anında hazırlanır). **Kayıt düğmesi:** oynatıcının yanında kırmızı ● — her sekmede görünür, dokununca kayıt hemen başlar; panel kapanır, önizleme ekranı doldurur. Bitince önizlemenin ortasında "MP4 olarak kaydedilsin mi?" — ⬇ MP4 kaydet / Sonra. Kayıt göstergesi telefonda sığacak şekilde küçültüldü. Durdur düğmesi artık gizlenmiyor.
 - **8.0** – Hızlı çözücüye **WebGL aktarma yolu** eklendi (karenin GPU dokusu doğrudan kullanılır; HDR/10 bit karelerde 2B tuval siyah verirken çalışabilir). Sıra: çiz → webgl → bitmap → kopya; çalışan yol hatırlanır. Ön hazırlık artık en çok bir kez (0,5x) tekrar ediyor ve yalnız %3'ten fazla kayıpta; 7.9'daki 0,25x'e kadar tekrarlar süreyi katlıyordu.
 - **7.9** – **Ön hazırlık:** hızlı çözücünün okuyamadığı videolar (ör. Samsung HDR / 10 bit HEVC `hvc1.2.…` → siyah kare) kayıttan önce bir kez gerçek hızda oynatılıp 8 bit H.264 ara dosyaya çevrilir; asıl kayıt bunu hızlı çözücüyle okur. Kare kaçarsa o klip daha yavaş tekrar çevrilir. İlerleme satırında "ön hazırlık 1/3 · %…" ve "⚡ hızlı çözme (ön hazırlıklı)" görünür. Ara dosyalar yalnız bellekte tutulur, kayıttan sonra silinir. Kalıcı en hızlı yol: kamerada HDR10+ videoyu kapatmak.

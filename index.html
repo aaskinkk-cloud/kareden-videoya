@@ -14,7 +14,7 @@
 </style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="8.1" data-ad="Kareden Videoya" data-tarih="03.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="8.2" data-ad="Kareden Videoya" data-tarih="03.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -516,7 +516,7 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 8.1 · 18.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 8.2 · 18.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -8407,15 +8407,22 @@ async function kvAraHazir(c, MAXS, tl, br, onP){
   const e = kvAraKayit(c);
   if (!e.gerek) e.gerek = kvAraGerekli(c, MAXS).catch(() => '');
   const neden = await e.gerek; if (!neden) return null;
-  if (!((c.srcDur || 0) > 0 && c.srcDur <= 600)){   // çok uzun kaynak: yalnız kullanılan aralık, saklanmaz
-    const a = await kvAraYap(c, MAXS, tl, br, (p, r) => onP && onP(p, r, neden)); return a ? {a, neden} : null; }
-  if (!(e.ara && e.maxS >= MAXS*0.99)){
-    e.maxS = MAXS; const f = c.file;
-    e.ara = kvAraYap(c, MAXS, tl, br, (p, r) => { e.p = p; e.r = r; e.dinle && e.dinle(p, r, neden); }, {t0: 0, t1: c.srcDur})
+  /* 8.2: yalnız kullanılan kısım hazırlanır (aynı dosyadan kesilen kliplerin birleşik aralığı); kırpma değişip aralık dışına çıkılırsa yeniden */
+  const rng = kvAraAralik(c, tl), kapsar = e.rng && e.rng.t0 <= rng.t0 + 1e-3 && e.rng.t1 >= rng.t1 - 1e-3;
+  if (!(e.ara && e.maxS >= MAXS*0.99 && kapsar)){
+    e.maxS = MAXS; e.rng = rng; e.p = 0; const f = c.file;
+    e.ara = kvAraYap(c, MAXS, tl, br, (p, r) => { e.p = p; e.r = r; e.dinle && e.dinle(p, r, neden); }, rng)
       .then(a => { if (!a && KV_ARA.get(f) === e) e.ara = null; return a; }, err => { if (KV_ARA.get(f) === e) e.ara = null; throw err; });
   }
   e.dinle = onP; if (onP) onP(e.p || 0, e.r || 1, neden);
   try { const a = await e.ara; return a ? {a, neden} : null; } finally { if (e.dinle === onP) e.dinle = null; }
+}
+function kvAraAralik(c, tl){
+  let t0 = 1e9, t1 = 0;
+  for (const x of S.clips){ if (x.kind !== 'video' || x.file !== c.file) continue;
+    t0 = Math.min(t0, Math.max(0, videoTime(x, -tl.T, tl) - 0.12)); t1 = Math.max(t1, Math.min(x.srcDur || 1e9, videoTime(x, x.dur, tl) + 0.2)); }
+  if (t1 <= t0){ t0 = Math.max(0, videoTime(c, -tl.T, tl) - 0.12); t1 = Math.min(c.srcDur || 1e9, videoTime(c, c.dur, tl) + 0.2); }
+  return {t0, t1};
 }
 let kvBgT = 0, kvBgCalis = false;
 function kvArkaPlan(){ clearTimeout(kvBgT); kvBgT = setTimeout(kvArkaCalis, 1800); }
@@ -8424,12 +8431,12 @@ async function kvArkaCalis(){
   kvBgCalis = true;
   try {
     const canli = new Set(S.clips.map(c => c.file)); for (const f of [...KV_ARA.keys()]) if (!canli.has(f)) KV_ARA.delete(f);
-    const tek = [...new Map(S.clips.filter(c => c.kind === 'video' && c.file && c.srcDur > 0 && c.srcDur <= 600).map(c => [c.file, c])).values()];
+    const tek = [...new Map(S.clips.filter(c => c.kind === 'video' && c.file).map(c => [c.file, c])).values()], tl0 = timeline();
     const [W, H] = dims(), MAXS = Math.round(Math.max(W, H)*1.25);
     for (let j = 0; j < tek.length; j++){
       if (exporting || cancelReq) break;
-      const c = tek[j], e = kvAraKayit(c); if (e.gerek && (await e.gerek) === '') continue; if (e.ara && e.maxS >= MAXS*0.99){ try { await e.ara; } catch(_){} continue; }
-      await kvAraHazir(c, MAXS, timeline(), Math.round(bitrate()*2), p => { if (!exporting) stripStatus(`⚡ Videolar hızlı kayıt için hazırlanıyor ${j+1}/${tek.length} · %${Math.round(p*100)}`); }).catch(() => null);
+      const c = tek[j], e = kvAraKayit(c); if (e.gerek && (await e.gerek) === '') continue; const rg = kvAraAralik(c, tl0); if (e.ara && e.maxS >= MAXS*0.99 && e.rng && e.rng.t0 <= rg.t0 + 1e-3 && e.rng.t1 >= rg.t1 - 1e-3){ try { await e.ara; } catch(_){} continue; }
+      await kvAraHazir(c, MAXS, tl0, Math.round(bitrate()*2), p => { if (!exporting) stripStatus(`⚡ Videolar hızlı kayıt için hazırlanıyor ${j+1}/${tek.length} · %${Math.round(p*100)}`); }).catch(() => null);
     }
   } finally { kvBgCalis = false; if (!exporting) stripStatus(''); }
 }
