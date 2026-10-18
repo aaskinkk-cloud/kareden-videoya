@@ -14,7 +14,7 @@
 </style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="7.9" data-ad="Kareden Videoya" data-tarih="03.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="8.0" data-ad="Kareden Videoya" data-tarih="03.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -495,7 +495,7 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 7.9 · 18.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 8.0 · 18.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -8230,9 +8230,33 @@ const FastVid = (() => {
     const waitOut = () => new Promise(r => { wake = r; setTimeout(() => { if (wake === r){ wake = null; r(); } }, 60); });
     /* 7.8: kareyi tuvale aktarmanın üç yolu. Bazı telefonların donanım çözücüsünün karesi doğrudan çizilince siyah çıkıyor;
        o zaman önce ImageBitmap, olmazsa piksel kopyası (copyTo RGBA) denenir — hızlı yol kapanmadan kurtarılır. */
-    const YOLLAR = ['ciz', 'bitmap', 'kopya']; let yol = Math.min(2, Math.max(0, +LS.get('kv2.yol') || 0)), tmp = null;
+    const YOLLAR = ['ciz', 'webgl', 'bitmap', 'kopya']; let yol = Math.min(3, Math.max(0, YOLLAR.indexOf(LS.get('kv2.yolAd')))), tmp = null, GL = null;
+    /* 8.0: WebGL yolu — karenin GPU dokusu doğrudan kullanılır (tarayıcının video öğesini çizdiği yol). HDR/10 bit karelerde 2B tuval siyah verirken bu yol çalışabilir. */
+    function glHazirla(w, h){
+      if (GL && GL.cv.width === w && GL.cv.height === h) return GL;
+      const c2 = GL ? GL.cv : mk(w, h); c2.width = w; c2.height = h;
+      const gl = GL ? GL.gl : (c2.getContext('webgl2', {preserveDrawingBuffer: true, premultipliedAlpha: false}) || c2.getContext('webgl', {preserveDrawingBuffer: true}));
+      if (!gl) throw new Error('webgl yok');
+      if (!GL){
+        const sh = (t, src) => { const o = gl.createShader(t); gl.shaderSource(o, src); gl.compileShader(o); return o; };
+        const pr = gl.createProgram();
+        gl.attachShader(pr, sh(gl.VERTEX_SHADER, 'attribute vec2 p;varying vec2 v;void main(){v=vec2((p.x+1.)*.5,(1.-p.y)*.5);gl_Position=vec4(p,0.,1.);}'));
+        gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, 'precision mediump float;varying vec2 v;uniform sampler2D t;void main(){gl_FragColor=texture2D(t,v);}'));
+        gl.linkProgram(pr); gl.useProgram(pr);
+        const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+        const a = gl.getAttribLocation(pr, 'p'); gl.enableVertexAttribArray(a); gl.vertexAttribPointer(a, 2, gl.FLOAT, false, 0, 0);
+        const tx = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, tx);
+        [gl.TEXTURE_WRAP_S, gl.TEXTURE_WRAP_T].forEach(k => gl.texParameteri(gl.TEXTURE_2D, k, gl.CLAMP_TO_EDGE));
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      }
+      gl.viewport(0, 0, w, h);
+      return GL = {cv: c2, gl};
+    }
     async function kaynak(f){
       const y = YOLLAR[yol];
+      if (y === 'webgl'){ const o = glHazirla(f.displayWidth, f.displayHeight), gl = o.gl;
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, f); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        return {src: o.cv, w: o.cv.width, h: o.cv.height}; }
       if (y === 'bitmap') return {src: await createImageBitmap(f), w: f.displayWidth, h: f.displayHeight, kapat: 1};
       if (y === 'kopya'){
         const vr = f.visibleRect || {x:0, y:0, width:f.codedWidth, height:f.codedHeight}, o = {format:'RGBA', rect: vr};
@@ -8277,7 +8301,7 @@ const FastVid = (() => {
       await draw(cur);
       return cv;
     }
-    function close(){ try { q.forEach(f => f.close()); if (cur) cur.close(); if (dec.state !== 'closed') dec.close(); } catch(e){} cv.width = 0; rb = null; if (tmp) tmp.width = 0; }
+    function close(){ try { q.forEach(f => f.close()); if (cur) cur.close(); if (dec.state !== 'closed') dec.close(); } catch(e){} cv.width = 0; rb = null; if (tmp) tmp.width = 0; if (GL){ try { GL.gl.getExtension('WEBGL_lose_context')?.loseContext(); } catch(e){} GL.cv.width = 0; GL = null; } }
     const api = {fast: true, canvas: cv, frameAt, close, altYol, yolAd: () => YOLLAR[yol], kod: CFG.codec + (sw ? ' yazılım' : ' donanım'), ts: -1, dt: M.list.length > 1 ? (M.list[M.list.length-1].cts - M.list[0].cts)/M.ts/(M.list.length - 1) : 1/30};
     return api;
   }
@@ -8306,7 +8330,7 @@ async function kvAraGerekli(c, MAXS){
 }
 async function kvAraYap(c, MAXS, tl, br, ilerle){
   const t0 = Math.max(0, videoTime(c, -tl.T, tl) - 0.12), t1 = Math.min(c.srcDur || 1e9, videoTime(c, c.dur, tl) + 0.2);
-  for (let r = 1; r >= 0.25; r /= 2){
+  for (let r = 1; r >= 0.5; r /= 2){   /* 8.0: en çok bir tekrar (0,5x); ilk 1 sn ısınma kayıpları sayılmaz */
     const el = makeVideoEl(c); await waitMeta(el);
     if (!('requestVideoFrameCallback' in el)){ dropVideoEl(el); return null; }
     const w0 = el.videoWidth || c.w, h0 = el.videoHeight || c.h, k = Math.min(1, MAXS / Math.max(w0, h0));
@@ -8325,7 +8349,7 @@ async function kvAraYap(c, MAXS, tl, br, ilerle){
         if (cancelReq || hata){ kapat(); return; }
         const mt = md && md.mediaTime != null ? md.mediaTime : el.currentTime;
         if (mt > son + 1e-4 && mt >= t0 - 0.002){
-          if (son >= 0){ const d = mt - son; if (d > 0.004 && d < dt*1.6) dt = dt*0.9 + d*0.1; else if (d >= dt*1.6) kayip += Math.round(d/dt) - 1; }
+          if (son >= 0){ const d = mt - son; if (d > 0.004 && d < dt*1.6) dt = dt*0.9 + d*0.1; else if (d >= dt*1.6 && mt - t0 > 1) kayip += Math.round(d/dt) - 1; }
           try { g.drawImage(el, 0, 0, W2, H2);
             const key = mt - sonKey >= 1, vf = new VideoFrame(cv, {timestamp: Math.round(mt*1e6), duration: Math.round(dt*1e6)});
             enc.encode(vf, {keyFrame: key}); if (key) sonKey = mt; vf.close(); n++; if (ilk < 0) ilk = mt; } catch(e){ hata = e; }
@@ -8348,7 +8372,7 @@ async function kvAraYap(c, MAXS, tl, br, ilerle){
     await enc.flush(); enc.close(); mux.finalize();
     const oran = kayip / Math.max(1, n + kayip);
     console.log('KV-ARA', JSON.stringify({ad: c.name, r, n, kayip, oran}));
-    if (oran > 0.004 && r > 0.25) continue;
+    if (oran > 0.03 && r > 0.5) continue;
     const file = new File([mux.target.buffer], 'ara.mp4', {type: 'video/mp4'});
     return {clip: {file, name: c.name + ' (ara)', id: c.id}, base: ilk, kayip, n};
   }
@@ -8536,7 +8560,7 @@ async function runExport(){
             let p = kvParlak(kvKaynak);
             if (p >= 0 && p < 4 && v.fast && !v.akis && v.altYol && !v._yolBitti){
               while (p >= 0 && p < 4 && await v.altYol()){ p = kvParlak(kvKaynak); console.warn('aktarma yolu', v.yolAd(), 'parlaklık', p); }
-              if (p >= 0 && p < 4) v._yolBitti = true; else { kvYolAd = v.yolAd(); try { LS.set('kv2.yol', ['ciz','bitmap','kopya'].indexOf(kvYolAd)); } catch(_){} }   /* bulunan yol sonraki kayıtlarda doğrudan kullanılır */
+              if (p >= 0 && p < 4) v._yolBitti = true; else { kvYolAd = v.yolAd(); try { LS.set('kv2.yolAd', kvYolAd); } catch(_){} }   /* bulunan yol sonraki kayıtlarda doğrudan kullanılır */
             }
             if (p >= 0 && p < 4 && v.fast && !v.akis && !v._sw && !c._swDenendi){
               c._swDenendi = true; const alt = await fvAc(c, MAXS, true).catch(() => null);
