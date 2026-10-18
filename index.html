@@ -14,7 +14,7 @@
 </style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="8.2" data-ad="Kareden Videoya" data-tarih="03.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="8.3" data-ad="Kareden Videoya" data-tarih="03.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -516,7 +516,7 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 8.2 · 18.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 8.3 · 18.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -563,7 +563,8 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
       <button type="button" class="tgo kayit" id="tGo" hidden aria-label="Kaydetmeye başla" title="Kaydetmeye başla — video oluşturulur, bitince MP4 kaydı sorulur"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" class="d"/><circle cx="12" cy="12" r="5.2" class="i"/></svg></button>
       <div class="tc mono"><b id="tcNow">00:00:00:00</b><span id="tcTot">00:00:00:00</span></div>
     </div>
-    <div class="pvtools" id="pvTools"><button type="button" class="btn small primary pvi" id="pvAdd" aria-label="Fotoğraf / video ekle" title="Fotoğraf / video ekle"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="14" height="13" rx="2"/><path d="M3 15l4-4 4 4 2-2 4 4"/><path d="M20 3v6M17 6h6"/></svg></button><button type="button" class="btn small pvi pv-dikey" id="pvDikey" aria-pressed="false" title="Yatay videoyu tek dokunuşla dikeye (9:16) çevir"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M3 9v-2a2 2 0 012-2h1M21 15v2a2 2 0 01-2 2h-1"/></svg><b>Dikey</b></button><button type="button" class="btn small pvi" id="pvTk" aria-label="Objeye yazı ekle (takip eden yazı)" title="Objeye yazı: dokun, sonra önizlemede objeye dokun" style="font-size:17px;font-weight:700">◎</button><button type="button" class="btn small pvi" id="pvHide" aria-pressed="false" aria-label="Önizlemeyi gizle" title="Önizlemeyi gizle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 6.1A10 10 0 0112 6c6 0 9.5 6 9.5 6a17 17 0 01-3 3.6M6.5 7.5C4 9.2 2.5 12 2.5 12s3.5 6 9.5 6a9.6 9.6 0 004.6-1.2"/><path d="M9.9 9.9a3 3 0 004.2 4.2"/></svg></button><button type="button" class="btn small pvi" id="pvSmall" aria-label="Önizlemeyi küçült" title="Önizlemeyi küçült"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M7.5 10.5h6"/></svg></button><button type="button" class="btn small pvi" id="pvBig" aria-label="Önizlemeyi büyüt" title="Önizlemeyi büyüt"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M7.5 10.5h6M10.5 7.5v6"/></svg></button><button type="button" class="btn small pvi" id="pvFull" aria-label="Tam ekran" title="Tam ekran"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button></div>
+    <div class="pvtools" id="pvTools"><button type="button" class="btn small primary pvi" id="pvAdd" aria-label="Fotoğraf / video ekle" title="Fotoğraf / video ekle"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="14" height="13" rx="2"/><path d="M3 15l4-4 4 4 2-2 4 4"/><path d="M20 3v6M17 6h6"/></svg></button><button type="button" class="btn small pvi pv-dikey" id="pvDikey" aria-pressed="false" title="Yatay videoyu tek dokunuşla dikeye (9:16) çevir"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M3 9v-2a2 2 0 012-2h1M21 15v2a2 2 0 01-2 2h-1"/></svg><b>Dikey</b></button><button type="button" class="btn small pvi" id="pvTk" aria-label="Objeye yazı ekle (takip eden yazı)" title="Objeye yazı: dokun, sonra önizlemede objeye dokun" style="font-size:17px;font-weight:700">◎</button><button type="button" class="btn small pvi" id="pvHide" aria-pressed="false" aria-label="Önizlemeyi gizle" title="Önizlemeyi gizle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 6.1A10 10 0 0112 6c6 0 9.5 6 9.5 6a17 17 0 01-3 3.6M6.5 7.5C4 9.2 2.5 12 2.5 12s3.5 6 9.5 6a9.6 9.6 0 004.6-1.2"/><path d="M9.9 9.9a3 3 0 004.2 4.2"/></svg></button><button type="button" class="btn small pvi" id="pvSmall" aria-label="Önizlemeyi küçült" title="Önizlemeyi küçült"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M7.5 10.5h6"/></svg></button><button type="button" class="btn small pvi" id="pvBig" aria-label="Önizlemeyi büyüt" title="Önizlemeyi büyüt"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M7.5 10.5h6M10.5 7.5v6"/></svg></button><button type="button" class="btn small pvi" id="pvFull" aria-label="Tam ekran" title="Tam ekran"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><button type="button" class="btn small pvi" id="pvDaha" data-lb="Diğer" aria-label="Diğer ayarlar" aria-expanded="false" title="Diğer: basit mod, tema, yeni video, video bilgisi"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></button></div>
+    <div class="pvdaha" id="pvDahaMenu" hidden role="menu" aria-label="Diğer"></div>
     <nav class="mininav" id="mininav" hidden aria-label="Bölümler (kısayol)"></nav>
     <div class="minicfg" id="minicfg" hidden><p>Bölüm başlıkları</p><div class="seg" id="bolumMod"><button type="button" data-v="akordeon">Akordeon<small>biri açılınca diğerleri kapanır</small></button><button type="button" data-v="kapali">Tümü kapalı</button><button type="button" data-v="acik">Tümü açık</button></div><p>Alt menü görünümü</p><div class="seg" id="minimode"><button type="button" data-v="both">Simge + isim</button><button type="button" data-v="text">Sadece kısa isim</button><button type="button" data-v="icon">Sadece simge</button></div><label class="check"><input type="checkbox" id="autoCmp">Telefonda aşağı kaydırınca önizleme küçülsün, en üste dönünce büyüsün</label><p>Kısayol çubuğunda görünecekleri seç. Seçim bu cihazda saklanır.</p><div class="chips" id="minichips"></div><div class="btns"><button type="button" class="btn small" id="miniReset">Varsayılana dön</button><button type="button" class="btn small primary" id="miniDone">Tamam</button></div></div>
   </section>
@@ -6800,7 +6801,7 @@ function basitBagla(){
   if ($('#pvBasit')) return;
   const pt = $('#pvTools'); if (pt){ const pb = document.createElement('button'); pb.type = 'button'; pb.id = 'pvBasit'; pb.className = 'btn small pvi'; pb.dataset.lb = 'Basit mod';
     pb.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h6"/></svg>';
-    pb.addEventListener('click', () => basitUygula(!document.documentElement.classList.contains('basit'))); pt.insertBefore(pb, $('#pvDikey') ? $('#pvDikey').nextSibling : null); }
+    pb.addEventListener('click', () => basitUygula(!document.documentElement.classList.contains('basit'))); if (document.body.classList.contains('mobar') && $('#pvDahaMenu')) $('#pvDahaMenu').appendChild(pb); else pt.insertBefore(pb, $('#pvDikey') ? $('#pvDikey').nextSibling : null); }
   const k = document.createElement('div'); k.className = 'sect hizli'; k.id = 'hizliKart';
   k.innerHTML = '<div class="hzBas">Hızlı yol · 4 adım</div><div class="hizliAdim"><button type="button" class="btn" data-h="ekle"><b>1</b> Fotoğraf / video ekle</button><button type="button" class="btn" data-h="voice"><b>2</b> Seslendir <small>isteğe bağlı</small></button><button type="button" class="btn" data-h="subs"><b>3</b> Altyazı oluştur</button><button type="button" class="btn primary" data-h="out"><b>4</b> Videoyu oluştur</button></div><p class="note">Müzik, logo, giriş başlığı ve kapanış varsayılan ayarlarla kendiliğinden gelir. Tüm ayarlar için önizlemenin altındaki <b>Tüm ayarlar</b> düğmesine dokun.</p>';
   const p = $('[data-panel="photo"]'); p.insertBefore(k, $('#clipSect'));
@@ -7969,8 +7970,10 @@ Object.entries(PHEAD).forEach(([k, [title, desc, heads]]) => {
 function ustYerlestir(){
   const mob = document.body.classList.contains('mobar'), hedef = mob ? $('#pvTools') : document.querySelector('.top .inline');
   if (!hedef) return; const els = ['#meta', '#temaBtn', '#newProj', '#fsBtn'].map(s => $(s)).filter(Boolean);
-  if (els[0].parentElement === hedef) return;
-  if (mob){ const ref = $('#pvFull'); hedef.insertBefore(els[0], ref); els.slice(1).forEach(e => hedef.insertBefore(e, ref)); }
+  if (els[0].parentElement === hedef || (mob && els[0].parentElement === $('#pvDahaMenu'))) return;
+  if (mob){ const ref = $('#pvFull'), m = $('#pvDahaMenu');   /* 8.3: telefonda sık kullanılmayanlar "Diğer" menüsünde */
+    if (m){ ['#meta', '#temaBtn', '#newProj'].forEach(q => { const e = $(q); if (e) m.appendChild(e); }); const f = $('#fsBtn'); if (f) hedef.insertBefore(f, ref); const bs = $('#pvBasit'); if (bs) m.appendChild(bs); }
+    else { hedef.insertBefore(els[0], ref); els.slice(1).forEach(e => hedef.insertBefore(e, ref)); } }
   else els.forEach(e => hedef.appendChild(e));
 }
 /* ---------- compact section bar in the sticky preview (shown when the main menu scrolls away) ---------- */
@@ -10209,6 +10212,66 @@ body.kv-studyo.kv-kapali #mininav button[aria-current="true"]{background:var(--p
   addEventListener('resize', iste); (mq.addEventListener ? mq.addEventListener('change', iste) : mq.addListener(iste));
   if (document.fonts) document.fonts.ready.then(iste); setTimeout(iste, 300); yerlesim();
   window.kvStudyo = {yerlesim, kapat, aktif};
+})();
+</script>
+
+<style id="kv83">
+/* 8.3 · önizleme altı araç çubuğu: tek parça, ince, şık; kayıt göstergesi videonun üstünden bu satıra alındı */
+body.mobar #pvTools.lbl-row{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:3px!important;gap:1px!important;justify-content:space-between!important;margin-top:8px;overflow:hidden}
+body.mobar #pvTools.lbl-row > button[data-lb]{flex:1 1 0!important;min-width:0!important;width:auto!important;min-height:44px!important;height:auto!important;padding:5px 1px 4px!important;gap:3px!important;border:0!important;background:transparent!important;box-shadow:none!important;border-radius:12px!important;color:var(--ink)!important;font-size:15px}
+body.mobar #pvTools.lbl-row > button[data-lb] svg{width:19px!important;height:19px!important}
+body.mobar #pvTools.lbl-row > button[data-lb]::after{font-size:9.5px;font-weight:600;opacity:.72;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+body.mobar #pvTools.lbl-row > button[data-lb]:active{background:color-mix(in srgb,var(--ink) 12%,transparent)!important}
+body.mobar #pvTools.lbl-row > button[data-lb][disabled]{opacity:.32}
+body.mobar #pvTools.lbl-row > #pvAdd{color:var(--accent)!important}
+body.mobar #pvTools.lbl-row > #pvAdd svg{stroke-width:2.1}
+body.mobar #pvTools.lbl-row > button[aria-pressed="true"],body.mobar #pvTools.lbl-row > #pvDaha[aria-expanded="true"]{background:color-mix(in srgb,var(--accent) 18%,transparent)!important;color:var(--accent)!important}
+body:not(.mobar) #pvTools > #pvDaha{display:none!important}
+.pvdaha{position:fixed;z-index:80;min-width:210px;max-width:calc(100vw - 24px);background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.35);padding:6px;display:flex;flex-direction:column;gap:2px}
+.pvdaha[hidden]{display:none}
+.pvdaha > button{display:flex!important;align-items:center;gap:12px;width:100%!important;height:auto!important;min-height:42px!important;padding:8px 10px!important;border:0!important;background:transparent!important;border-radius:10px!important;color:var(--ink)!important;font-size:16px;text-align:left;flex-direction:row!important}
+.pvdaha > button:active{background:color-mix(in srgb,var(--ink) 10%,transparent)!important}
+.pvdaha > button::after{content:attr(data-lb);font:600 14px/1.2 var(--ui,system-ui),sans-serif;opacity:1!important}
+.pvdaha > button > span{display:none}
+.pvdaha > button svg{width:18px!important;height:18px!important}
+.pvdaha > #meta{display:block!important;order:-1;font-size:11.5px;color:var(--mute);padding:6px 10px 8px;border-bottom:1px solid var(--line);margin-bottom:4px;white-space:normal;max-width:none!important}
+/* kayıt göstergesi: önizlemenin altında, araç çubuğunun yerinde */
+#expOv.expov{position:static;inset:auto;margin-top:8px;background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;pointer-events:auto;justify-content:flex-start}
+#expOv.expov .in{flex-wrap:nowrap;gap:10px;padding:7px 8px 7px 9px;align-items:center}
+#expOv.expov .ring{display:block;width:40px;height:40px}
+#expOv.expov .ring circle:first-child{stroke:var(--line)}
+#expOv.expov .ring b{font-size:11px;color:var(--ink)}
+#expOv.expov .tx{flex:1 1 auto;min-width:0;color:var(--ink)}
+#expOv.expov .tx strong{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#expOv.expov .tx span{font-size:10.5px;color:var(--mute);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+#expOv.expov .bt{flex:none;gap:5px}
+#expOv.expov .bt button{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:5px 11px;min-height:32px;font-size:12.5px}
+#expOv.expov .bt button.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700}
+#expOv.expov .line{height:3px;background:var(--line)}
+#expOv.expov.bitti{background:var(--panel)}
+#expOv.expov.bitti .in{flex-direction:row;text-align:left}
+#expOv.expov.bitti .ring{display:none}
+#expOv.expov.bitti .tx strong{font-size:13.5px}
+#expOv.expov.bitti .bt button{min-height:36px;padding:6px 14px;font-size:13.5px}
+#expOv.expov.bitti .line{display:none}
+@media (max-width:430px){#expOv.expov.bitti .in{flex-wrap:wrap}#expOv.expov.bitti .bt{width:100%;justify-content:flex-end}}
+.stage:has(> #expOv:not([hidden])) > #pvTools{display:none!important}
+</style>
+<script>
+/* 8.3: kayıt göstergesini önizlemenin altına taşı; "Diğer" menüsü */
+(function(){
+  var ov = document.getElementById('expOv'), pt = document.getElementById('pvTools');
+  if (ov && pt && pt.parentNode) pt.parentNode.insertBefore(ov, pt);
+  var b = document.getElementById('pvDaha'), m = document.getElementById('pvDahaMenu');
+  if (!b || !m) return;
+  function kapa(){ m.hidden = true; b.setAttribute('aria-expanded', 'false'); }
+  function ac(){ var r = b.getBoundingClientRect(); m.hidden = false; b.setAttribute('aria-expanded', 'true');
+    var h = m.offsetHeight, ust = r.bottom + 6; if (ust + h > innerHeight - 8) ust = Math.max(8, r.top - h - 6);
+    m.style.top = ust + 'px'; m.style.right = Math.max(8, innerWidth - r.right) + 'px'; m.style.left = 'auto'; }
+  b.addEventListener('click', function(e){ e.stopPropagation(); m.hidden ? ac() : kapa(); });
+  m.addEventListener('click', function(e){ if (e.target.closest('button')) setTimeout(kapa, 120); });
+  document.addEventListener('pointerdown', function(e){ if (!m.hidden && !m.contains(e.target) && e.target !== b && !b.contains(e.target)) kapa(); }, true);
+  addEventListener('resize', kapa); document.addEventListener('scroll', kapa, true);
 })();
 </script>
 </body>
