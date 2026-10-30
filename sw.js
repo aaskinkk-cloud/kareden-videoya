@@ -1,6 +1,6 @@
 /* Kareden Videoya çevrimdışı önbelleği. Yalnızca kendi önbelleğini siler (aynı adresteki diğer uygulamalara dokunmaz). */
-const P='kv-',V=P+'9.0';
-const SHELL=['./','index.html','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png','icon-maskable.png'];
+const P='kv-',V=P+'9.1';
+const SHELL=['./','index.html','manifest.webmanifest','icon.svg?v=2','icon-192.png?v=2','icon-512.png?v=2','icon-maskable.png?v=2'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.indexOf(P)===0&&k!==V).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',e=>{

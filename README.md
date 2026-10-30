@@ -21,7 +21,7 @@
 Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda çalışan uygulama (PWA). Dosyalar telefondan dışarı gönderilmez; video cihazda oluşturulur. Tek dosya: `index.html`; çevrimdışı önbellek `sw.js`.
 
 **Adres:** https://aaskinkk-cloud.github.io/kareden-videoya/  
-**Güncel sürüm:** 9.0 · 30.10.2026
+**Güncel sürüm:** 9.1 · 30.10.2026
 
 ## Bölümler
 - **Klipler** – klip sırası, katmanlar (zaman çizelgesi: böl, çoğalt, uzat/kısalt), kadraj, hareket (Ken Burns), takip eden yazı, toplu ayarlar.
@@ -35,6 +35,7 @@ Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda �
 - **Basit mod** – temel bölümler görünür; gizlenen ayarlar aynen çalışır.
 
 ## Sürüm notları
+- **9.1** – Kişisel uygulama ikonu: yuvarlak, orman yeşili zemin, batan güneşin içinde ▶, sırt çantalı yürüyüşçü (Şefin Doğası), dağlar, çamlar, film şeridi izi. Maskable (Android uyarlamalı) sürümü ayrı. Kurulu uygulamada ikon birkaç gün içinde kendiliğinden yenilenir; hemen görmek için kaldırıp yeniden kur.
 - **9.0** – **InShot düzeni (telefon).** Üstte ← (taslaklar) · ? (yardım) · **Dışa Aktar**. Önizlemenin altında: geri al · süre · ▶ · diğer · tam ekran. Altta simge + adlı araç satırı (**Tuval** · Klip · Şablon · Efekt · Müzik · Ses · Altyazı · Logo · Kapak · Yayın · Aktar) ve **film şeridi**: ortada sabit oynatma çizgisi, şeridi kaydırarak zamanda gezme, kırmızı **+** ile ekleme, klip aralarında geçiş düğmesi (⇄), iki parmakla yakınlaştırma. **Klibe dokununca** araç satırı klip araçlarına döner: Düzenle · Böl · Çoğalt · Doldur · Sığdır · Takip yazı · Hareket · Sil · Tamam; seçili klibin beyaz kenar tutamaçları sürüklenerek kırpılır. **Tuval**: 16:9 · 9:16 · 1:1 · 4:5, dikeye çevir, arka plan. Araç açılınca panel alt menü olarak açılır, ✓ ile kapanır. Koyu InShot renkleri. Masaüstü düzeni değişmedi.
 - **8.6** – **Ön hazırlık yeniden yazıldı.** Ölçüm: kareyi tuvale çizmek kare başına ~20 ms (asıl yavaşlık), kareyi videodan doğrudan almak ~0,1 ms. Yeni **doğrudan yol**: kareler doğrudan kodlayıcıya gider, video ekran yenileme hızının izin verdiği hızda oynar (120 Hz ekran + 30 fps → ~3,4x). Başta 8 karelik deneme yapılır; çıkan görüntü ekrandakiyle yön ve renk olarak karşılaştırılır (dikey/döndürülmüş videolar otomatik düzeltilir). Uyuşmazsa **güvenli yol** (her karede durup çizer, kayıpsız, ~1x). Deneme sonucu telefonda hatırlanır. İlerleme satırında hız (ör. "· 3,4x") ya da "· güvenli yol" yazar. 8.4–8.5'teki sürekli geri sarma sorunu bu yolla ortadan kalktı.
 - **8.5** – Ön hazırlık sürerken ekran açık tutulur (ekran kilidi); ekran kapanır ya da uygulamadan çıkılırsa Chrome videoyu durdurduğu için hazırlık duruyordu — artık geri dönünce kaldığı yerden sürer. Takılma bekçisi: ekran açıkken 8 sn ilerleme yoksa dürtülür, yine olmazsa bırakılır. Yarım kalan hazırlık kullanılmaz (eksik kare çıkmasın). İlk karelerdeki kayıp da yakalanıyor.
