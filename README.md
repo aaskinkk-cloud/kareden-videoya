@@ -21,7 +21,7 @@
 Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda çalışan uygulama (PWA). Dosyalar telefondan dışarı gönderilmez; video cihazda oluşturulur. Tek dosya: `index.html`; çevrimdışı önbellek `sw.js`.
 
 **Adres:** https://aaskinkk-cloud.github.io/kareden-videoya/  
-**Güncel sürüm:** 9.5 · 30.10.2026
+**Güncel sürüm:** 9.6 · 30.10.2026
 
 ## Bölümler
 - **Klipler** – klip sırası, katmanlar (zaman çizelgesi: böl, çoğalt, uzat/kısalt), kadraj, hareket (Ken Burns), takip eden yazı, toplu ayarlar.
@@ -35,6 +35,7 @@ Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda �
 - **Basit mod** – temel bölümler görünür; gizlenen ayarlar aynen çalışır.
 
 ## Sürüm notları
+- **9.6** – Odak noktaları: **arka plan bulanıklığı artık kapalı**; istenirse Odak sayfasında "Arkayı bulanıklaştır" ile açılır (tercih hatırlanır). **Geçişler yavaş ve sinematik**: Geçiş hızı Yavaş (varsayılan) / Orta / Hızlı; yumuşak başlayıp yumuşak biter, noktada beklerken kamera çok yavaş yaklaşır, uzak iki kişi arasında kamera geri çekilip ikisini birlikte gösterdikten sonra yaklaşır. ✓ ile kapatınca süre yetmiyorsa fotoğraf klibi otomatik uzatılır (bildirimle).
 - **9.5** – Düzeltme: araç satırı "yalnız yazı" kısayol görünümündeyken simgesiz ve çok satırlı ızgaraya dönüşüp ekranı kaplıyordu; artık görünüm ayarından bağımsız olarak hep tek satır, simge + ad, yana kayar.
 - **9.4** – **Odak noktaları (anahtar kare).** Fotoğraf klibine dokun → **Odak**: önizlemede fotoğrafın tamamı görünür, sırayla odaklanacağın kişilere/yerlere dokun (en çok 6; numaralı işaretler ve aralarında yol çizgisi). Video önce tüm fotoğrafı gösterir, sonra kamera yumuşak geçişle 1. noktaya yaklaşır, bekler, sonrakine kayar (uzak noktalar arasında hafifçe uzaklaşıp yaklaşır). **Arkası bulanık**: odaktaki kişi (baş + gövde, dikey elips) net, çevresi bulanık ve hafif karartılmış. Ayarlar: nokta başına yakınlık 1,4x–3x, net alan Dar/Orta/Geniş, "Önce tüm fotoğraf" aç/kapa, son noktayı sil, temizle, ▶ önizle. Noktaya dokunup fotoğrafta yeni yere dokunarak taşınır. Projeye kaydedilir, ↶ ile geri alınır. Şimdilik fotoğraflarda.
 - **9.3** – **Doldur ana nesneye odaklanır.** Yüz bulunmayan dikey fotoğraflarda kadraj eskiden "insan olabilir" diye üst kısma (baş/omuz hizası) kayıyordu; artık yeni ana nesne bulucu kullanılıyor: netlik (nesne keskin, arka plan bulanık), renk farkı ve doygunluk birleştirilir, gökyüzü/düz alan cezalandırılır, en güçlü bölgenin ortası kadrajın ortasına gelir. Yüz varsa yine yüze odaklanır. Deneme: eski yöntem 3 dikey fotoğrafta da üst kısmı (y≈0,2) seçti, yeni yöntem nesneyi ±0,01 doğrulukla buldu.
