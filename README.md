@@ -21,7 +21,7 @@
 Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda çalışan uygulama (PWA). Dosyalar telefondan dışarı gönderilmez; video cihazda oluşturulur. Tek dosya: `index.html`; çevrimdışı önbellek `sw.js`.
 
 **Adres:** https://aaskinkk-cloud.github.io/kareden-videoya/  
-**Güncel sürüm:** 9.8 · 30.10.2026
+**Güncel sürüm:** 9.9 · 30.10.2026
 
 ## Bölümler
 - **Klipler** – klip sırası, katmanlar (zaman çizelgesi: böl, çoğalt, uzat/kısalt), kadraj, hareket (Ken Burns), takip eden yazı, toplu ayarlar.
@@ -35,6 +35,7 @@ Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda �
 - **Basit mod** – temel bölümler görünür; gizlenen ayarlar aynen çalışır.
 
 ## Sürüm notları
+- **9.9** – **InShot teması tüm menülerde.** Bir araç açılınca üstte o aracın bölümleri tek satır (simge + kısa ad, yana kayar), altta yalnız seçili bölümün ayarları; uzun liste yok, önizleme hep görünür. Bölümler panel başlıklarından otomatik çıkar (Klip: Sıra · Genel · Seçili klip · Yeni klipler · Tümü; Efekt: Kısa video · Format · Hareket · Geçiş · Yardım · Arka plan · Renk; Şablon, Müzik, Ses, Altyazı, Yayın, Aktar da aynı); seçim hatırlanır. **Ayarla** (kısayol düzenleme) ve kapanmayan menüsü bu görünümden kaldırıldı. **⋯ menüsü** düğmenin yanında açılır (ekran dışına düşüyordu); içinde **Klasik görünüm / InShot görünümü** seçimi — iki görünüm birbirinden bağımsız. **Odak:** açılınca fotoğraftaki yüzler bulunur ve kesik halkayla gösterilir; dokunulan nokta en yakın yüzün ortasına yapışır, yakınlık yüz kadrajın ~üçte biri olacak şekilde ayarlanır; "Yüzleri ekle" ile tüm yüzler soldan sağa eklenir. Bulanık açıkken net alan tam o yüz + omuzlar; bulanıklık yalnız yüzde beklerken yumuşakça açılır, geçişte kapanır (açık alan ekranda gezmez).
 - **9.8** – Odak menüsü InShot alt menüsü gibi: ekranı kaplayan sayfa yerine **araç satırının yerinde tek satır**, yana kayar; önizleme büyük kalır, yüzlere oradan dokunulur. Satır: nokta numaraları · ▶ Önizle · Yakınlık · Yüzde kal · Yaklaşma · Geçiş · Önce tümü · Bulanık · (Net alan, yalnız bulanık açıkken) · Son nokta · Temizle. Her ayar tek düğme, dokundukça sıradaki değere geçer; üstte kısa yönerge ve ✓.
 - **9.7** – Odak noktaları: kamera yüze varınca orada **3,5 sn** kalır ve bu sürede **yavaşça yaklaşır** (yavaş başlar, yavaş biter). Ayarlar: **Yüzde kal** 2 / 3,5 / 5 sn · **Yaklaşma** Hafif %7 / Orta %15 / Belirgin %25 (tercihler hatırlanır). Zamanlama artık saniye cinsinden; fotoğraf klibi gereken süreye otomatik uzatılır (2 nokta, varsayılanlar: 12,2 sn).
 - **9.6** – Odak noktaları: **arka plan bulanıklığı artık kapalı**; istenirse Odak sayfasında "Arkayı bulanıklaştır" ile açılır (tercih hatırlanır). **Geçişler yavaş ve sinematik**: Geçiş hızı Yavaş (varsayılan) / Orta / Hızlı; yumuşak başlayıp yumuşak biter, noktada beklerken kamera çok yavaş yaklaşır, uzak iki kişi arasında kamera geri çekilip ikisini birlikte gösterdikten sonra yaklaşır. ✓ ile kapatınca süre yetmiyorsa fotoğraf klibi otomatik uzatılır (bildirimle).
