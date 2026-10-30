@@ -44,7 +44,7 @@
 </style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="9.2" data-ad="Kareden Videoya" data-tarih="22.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="9.3" data-ad="Kareden Videoya" data-tarih="22.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -546,7 +546,7 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 9.2 · 30.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 9.3 · 30.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -5574,6 +5574,46 @@ async function headsByClaude(list){
   if (fixed){ syncClipUI(); requestRender(); projSave(); toast(`${fixed} karede kişinin başı Claude ile bulundu; kadraj baş ve omuzlara göre ayarlandı`); }
   return fixed;
 }
+/* 9.3: ANA NESNE BULUCU — yüz yoksa kadraj ana nesnenin ortasına gelir.
+   İpuçları: netlik (nesne keskin, arka plan bulanık), renk farkı, doygunluk; gökyüzü / düz alan cezası; hafif merkez eğilimi.
+   Harita yumuşatılır, en güçlü bölge (tepe çevresi) seçilir, ağırlık merkezi ve kutusu döner. */
+function anaObje(cv){
+  const S2 = 128, sc = Math.min(1, S2/Math.max(cv.width, cv.height)), w = Math.max(16, Math.round(cv.width*sc)), h = Math.max(16, Math.round(cv.height*sc)), n = w*h;
+  const t = mk(w, h), g = t.getContext('2d', {willReadFrequently: true}); g.drawImage(cv, 0, 0, w, h);
+  const d = g.getImageData(0, 0, w, h).data; t.width = 0;
+  const L = new Float32Array(n), Sa = new Float32Array(n); let mr = 0, mg = 0, mb = 0;
+  for (let i = 0, j = 0; i < n; i++, j += 4){ const r = d[j], gg = d[j+1], b = d[j+2]; L[i] = 0.299*r + 0.587*gg + 0.114*b; const mx = Math.max(r, gg, b), mn = Math.min(r, gg, b); Sa[i] = mx ? (mx - mn)/mx : 0; mr += r; mg += gg; mb += b; }
+  mr /= n; mg /= n; mb /= n;
+  /* netlik: Laplace, 3x3 */
+  const ed = new Float32Array(n);
+  for (let y = 1; y < h-1; y++) for (let x = 1; x < w-1; x++){ const i = y*w + x; ed[i] = Math.abs(4*L[i] - L[i-1] - L[i+1] - L[i-w] - L[i+w]); }
+  /* kutu bulanıklaştırma (yerel ortalama) */
+  const kutu = (A, r) => { const B = new Float32Array(n), T = new Float32Array(n);
+    for (let y = 0; y < h; y++){ let s = 0; for (let x = -r; x <= r; x++) s += A[y*w + clamp(x, 0, w-1)]; for (let x = 0; x < w; x++){ T[y*w + x] = s/(2*r + 1); s += A[y*w + clamp(x + r + 1, 0, w-1)] - A[y*w + clamp(x - r, 0, w-1)]; } }
+    for (let x = 0; x < w; x++){ let s = 0; for (let y = -r; y <= r; y++) s += T[clamp(y, 0, h-1)*w + x]; for (let y = 0; y < h; y++){ B[y*w + x] = s/(2*r + 1); s += T[clamp(y + r + 1, 0, h-1)*w + x] - T[clamp(y - r, 0, h-1)*w + x]; } }
+    return B; };
+  const r1 = Math.max(2, Math.round(Math.min(w, h)*0.04));
+  const net = kutu(ed, r1);
+  let netMx = 0; for (let i = 0; i < n; i++) if (net[i] > netMx) netMx = net[i];
+  const sal = new Float32Array(n);
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++){
+    const i = y*w + x, j = i*4, cd = Math.hypot(d[j] - mr, d[j+1] - mg, d[j+2] - mb)/255;
+    const nt = netMx ? net[i]/netMx : 0;
+    /* gökyüzü: üst yarıda, açık, az doygun, düz */
+    const gok = (y < h*0.55 && L[i] > 150 && Sa[i] < 0.28 && nt < 0.25) ? 0.25 : 1;
+    const merkez = 1 - 0.45*Math.min(1, Math.hypot((x/w - 0.5)*1.1, (y/h - 0.5)));
+    sal[i] = (nt*1.0 + cd*0.7 + Sa[i]*0.45) * gok * merkez;
+  }
+  const S3 = kutu(sal, Math.max(3, Math.round(Math.min(w, h)*0.08)));
+  let pk = 0, pi = 0; for (let i = 0; i < n; i++) if (S3[i] > pk){ pk = S3[i]; pi = i; }
+  if (!pk) return {x: 0.5, y: 0.5, top: 0.3, bottom: 0.7, guven: 0};
+  /* tepeden bağlı bölge (eşik %62) */
+  const esik = pk*0.62, gor = new Uint8Array(n), yig = [pi]; gor[pi] = 1; let sx = 0, sy = 0, sw = 0, y0 = h, y1 = 0, alan = 0;
+  while (yig.length){ const i = yig.pop(), x = i % w, y = (i - x)/w, v = S3[i] - esik; sx += v*x; sy += v*y; sw += v; alan++; if (y < y0) y0 = y; if (y > y1) y1 = y;
+    for (const k of [i-1, i+1, i-w, i+w]){ if (k < 0 || k >= n || gor[k]) continue; if ((k === i-1 && x === 0) || (k === i+1 && x === w-1)) continue; if (S3[k] >= esik){ gor[k] = 1; yig.push(k); } } }
+  let ort = 0; for (let i = 0; i < n; i++) ort += S3[i]; ort /= n;
+  return {x: sx/sw/w, y: sy/sw/h, top: y0/h, bottom: (y1 + 1)/h, alan: alan/n, guven: Math.min(1, (pk - ort)/Math.max(1e-6, pk))};
+}
 async function smartFill(c){
   const cv = await focusSource(c);
   const faces = await detectFacesAny(cv);
@@ -5585,16 +5625,15 @@ async function smartFill(c){
     c.fx = fx; c.fy = fy; c.faceH = faceH;
   } else {
     c.fx = null; c.fy = null; c.faceH = 0;
-    const [W0, H0] = dims(), tallSrc = cv.height/cv.width > H0/W0*1.1;
-    if (tallSrc){ const bx = salientBox(cv); fx = bx.x; fy = bx.top + (bx.bottom - bx.top)*0.16; }   // insan olabilir: üst kısma (baş/omuz) odaklan
-    else { const p = salientPoint(cv); fx = p.x; fy = p.y; }
+    /* 9.3: eskiden dikey fotoğrafta "insan olabilir" diye üst kısma odaklanıyordu → artık ana nesnenin ortası */
+    const o = anaObje(cv); fx = o.x; fy = o.y; c.objY = [o.top, o.bottom];
     kind = 0;
   }
   cv.width = 0;
   c.hasFace = kind > 0; c.fv = 3; c.headSrc = kind ? 'face' : '';
   const [W, H] = dims(); c.zoom = Math.ceil(coverZoom(c)*1000)/1000 + 0.002;
   const fw = Math.min(W, H*c.aspect)*c.zoom, fh = fw/c.aspect, vertical = fh > H*1.25;
-  let ty = kind ? (vertical ? 0.36 : 0.4) : (vertical ? 0.4 : 0.5);
+  let ty = kind ? (vertical ? 0.36 : 0.4) : 0.5;   /* yüz yoksa nesne tam ortada */
   if (kind) ty = clamp(Math.max(ty, faceH*fh/H*0.85 + 0.05), 0.3, 0.5);   // baş kesilmesin, omuzlar görünsün
   const mxX = Math.max(0, (fw - W)/2/W), mxY = Math.max(0, (fh - H)/2/H);
   c.ox = clamp(((0.5 - fx)*fw)/W, -mxX, mxX); c.oy = clamp((H*ty - H/2 - (fy - 0.5)*fh)/H, -mxY, mxY);
@@ -5610,7 +5649,7 @@ $('#cFill').addEventListener('click', async () => {
     clipChanged();
     if (ts.length > 1) toast(`${ts.length} klipte kadraj dolduruldu; ${nf} tanesinde yüz bulundu`);
     else if (k1) toast(`${k1} yüz bulundu; kadraj yüze göre dolduruldu`);
-    else if (!(await headsByClaude(ts))) toast('Yüz bulunamadı; kadraj görüntünün üst kısmına göre dolduruldu');
+    else if (!(await headsByClaude(ts))) toast('Yüz bulunamadı; kadraj ana nesnenin ortasına göre dolduruldu');
   } finally { b.disabled = false; stripStatus(''); }
 });
 let refitBusy = false;

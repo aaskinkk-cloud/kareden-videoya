@@ -21,7 +21,7 @@
 Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda çalışan uygulama (PWA). Dosyalar telefondan dışarı gönderilmez; video cihazda oluşturulur. Tek dosya: `index.html`; çevrimdışı önbellek `sw.js`.
 
 **Adres:** https://aaskinkk-cloud.github.io/kareden-videoya/  
-**Güncel sürüm:** 9.2 · 30.10.2026
+**Güncel sürüm:** 9.3 · 30.10.2026
 
 ## Bölümler
 - **Klipler** – klip sırası, katmanlar (zaman çizelgesi: böl, çoğalt, uzat/kısalt), kadraj, hareket (Ken Burns), takip eden yazı, toplu ayarlar.
@@ -35,6 +35,7 @@ Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda �
 - **Basit mod** – temel bölümler görünür; gizlenen ayarlar aynen çalışır.
 
 ## Sürüm notları
+- **9.3** – **Doldur ana nesneye odaklanır.** Yüz bulunmayan dikey fotoğraflarda kadraj eskiden "insan olabilir" diye üst kısma (baş/omuz hizası) kayıyordu; artık yeni ana nesne bulucu kullanılıyor: netlik (nesne keskin, arka plan bulanık), renk farkı ve doygunluk birleştirilir, gökyüzü/düz alan cezalandırılır, en güçlü bölgenin ortası kadrajın ortasına gelir. Yüz varsa yine yüze odaklanır. Deneme: eski yöntem 3 dikey fotoğrafta da üst kısmı (y≈0,2) seçti, yeni yöntem nesneyi ±0,01 doğrulukla buldu.
 - **9.2** – Alt menü (Tuval) açılınca önizleme yukarı kayar, menünün altında kalmaz. InShot düzeninin siyah-gri renkleri yalnız gece modunda; gündüz modunda uygulamanın eski (krem-beyaz) renkleri. Oynatma çizgisi, seçili klip çerçevesi ve tutamaçlar temaya uyar.
 - **9.1** – Kişisel uygulama ikonu: yuvarlak, orman yeşili zemin, batan güneşin içinde ▶, sırt çantalı yürüyüşçü (Şefin Doğası), dağlar, çamlar, film şeridi izi. Maskable (Android uyarlamalı) sürümü ayrı. Kurulu uygulamada ikon birkaç gün içinde kendiliğinden yenilenir; hemen görmek için kaldırıp yeniden kur.
 - **9.0** – **InShot düzeni (telefon).** Üstte ← (taslaklar) · ? (yardım) · **Dışa Aktar**. Önizlemenin altında: geri al · süre · ▶ · diğer · tam ekran. Altta simge + adlı araç satırı (**Tuval** · Klip · Şablon · Efekt · Müzik · Ses · Altyazı · Logo · Kapak · Yayın · Aktar) ve **film şeridi**: ortada sabit oynatma çizgisi, şeridi kaydırarak zamanda gezme, kırmızı **+** ile ekleme, klip aralarında geçiş düğmesi (⇄), iki parmakla yakınlaştırma. **Klibe dokununca** araç satırı klip araçlarına döner: Düzenle · Böl · Çoğalt · Doldur · Sığdır · Takip yazı · Hareket · Sil · Tamam; seçili klibin beyaz kenar tutamaçları sürüklenerek kırpılır. **Tuval**: 16:9 · 9:16 · 1:1 · 4:5, dikeye çevir, arka plan. Araç açılınca panel alt menü olarak açılır, ✓ ile kapanır. Koyu InShot renkleri. Masaüstü düzeni değişmedi.
