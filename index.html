@@ -44,7 +44,7 @@
 </style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="9.1" data-ad="Kareden Videoya" data-tarih="22.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="9.2" data-ad="Kareden Videoya" data-tarih="22.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -546,7 +546,7 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 9.1 · 30.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 9.2 · 30.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -10023,12 +10023,12 @@ function isKur(){
   document.body.appendChild(tv);
   const tvSync = () => tv.querySelectorAll('[data-fmt]').forEach(b => b.classList.toggle('on', b.dataset.fmt === S.fmt));
   tv.addEventListener('click', e => { const b = e.target.closest('[data-fmt]'); if (b){ const x = $(`[data-k="fmt"] button[data-v="${b.dataset.fmt}"]`); if (x) x.click(); setTimeout(() => { tvSync(); isCiz(true); }, 60); } });
-  $('#isTvTmm').addEventListener('click', () => { tv.hidden = true; isYer(); });
+  $('#isTvTmm').addEventListener('click', () => { tv.hidden = true; requestAnimationFrame(isYer); });
   $('#isTvDikey').addEventListener('click', () => { const x = $('#pvDikey'); x && x.click(); setTimeout(tvSync, 80); });
   $('#isTvArka').addEventListener('click', () => { tv.hidden = true; sekme('look'); });
   const tuvalBtn = () => { const mn = $('#mininav'); if (!mn || mn.querySelector('#isTvBtn')) return;
     const b = document.createElement('button'); b.type = 'button'; b.id = 'isTvBtn'; b.innerHTML = ico('<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 8h3M8 8v3M16 16h-3M16 16v-3"/>') + '<span>Tuval</span>';
-    b.addEventListener('click', e => { e.stopPropagation(); tvSync(); tv.hidden = !tv.hidden; isSec(false); try { window.kvStudyo && kvStudyo.kapat(true); } catch(_){} isYer(); });
+    b.addEventListener('click', e => { e.stopPropagation(); tvSync(); const ac = tv.hidden; isSec(false); tv.hidden = !ac; try { window.kvStudyo && kvStudyo.kapat(true); } catch(_){} requestAnimationFrame(isYer); });
     mn.prepend(b); };
   tuvalBtn(); new MutationObserver(tuvalBtn).observe($('#mininav'), {childList: true});
   /* kaydırma / dokunma */
@@ -10076,7 +10076,7 @@ function isKur(){
   clipChanged = sar(clipChanged, () => isCiz(true));
   markStrip = sar(markStrip, () => isSecCiz());
   const pS = setPlayIcon; setPlayIcon = function(){ pS(); const o = $('#isOynat'); if (o) { o.innerHTML = playing ? ico('<path d="M7 4.5h3.6v15H7zM13.4 4.5H17v15h-3.6z" class="dolu"/>') : ico('<path d="M7 4.5l12 7.5-12 7.5z" class="dolu"/>'); o.setAttribute('aria-label', playing ? 'Duraklat' : 'Oynat'); } };
-  window.isAltEk = () => (isAktif() && B.classList.contains('kv-kapali') && zs.offsetParent !== null) ? zs.offsetHeight : 0;
+  window.isAltEk = () => { if (!isAktif() || !B.classList.contains('kv-kapali')) return 0; const t = $('#isTuval'); return (zs.offsetParent !== null ? zs.offsetHeight : 0) + (t && !t.hidden ? t.offsetHeight : 0); };   /* alt menü açılınca önizleme yukarı çıkar */
   isCiz(true); isYer(); requestAnimationFrame(isDongu);
   addEventListener('resize', () => { isCiz(true); isYer(); });
   new MutationObserver(isYer).observe(B, {attributes: true, attributeFilter: ['class']});
@@ -10086,7 +10086,8 @@ function isSecCiz(){ const kl = $('#isKl'); if (!kl) return; kl.querySelectorAll
 function isYer(){
   const zs = $('#isZs'); if (!zs) return; const B = document.body;
   const h = (isAktif() && B.classList.contains('kv-kapali')) ? zs.offsetHeight : 0;
-  if (IS.sonH !== h){ IS.sonH = h; B.style.setProperty('--isZsH', h + 'px'); requestAnimationFrame(() => { try { window.kvStudyo && kvStudyo.yerlesim(); } catch(e){} }); }
+  const tvH = (tv0 => tv0 && !tv0.hidden && h ? tv0.offsetHeight : 0)($('#isTuval')), imz = h + ':' + tvH;
+  if (IS.sonH !== imz){ IS.sonH = imz; B.style.setProperty('--isZsH', h + 'px'); requestAnimationFrame(() => { try { window.kvStudyo && kvStudyo.yerlesim(); } catch(e){} }); }
   const mn = $('#mininav'), ka = $('#isKlipAr'), tv = $('#isTuval');
   if (ka && mn){ ka.style.height = mn.offsetHeight + 'px'; }
   if (tv){ tv.style.bottom = (h + (mn ? mn.offsetHeight : 0)) + 'px'; }
@@ -10570,7 +10571,10 @@ body:not(.mobar) #pvTools > #pvDaha{display:none!important}
 <style id="kv90">
 /* 9.0 · InShot düzeni (yalnız telefon stüdyo düzeninde) */
 #isUst,#isKont,#isZs,#isKlipAr,#isTuval{display:none}
-body.kv-studyo.is-mod{--is-bg:#1f1f1f;--is-bg2:#2a2a2a;--is-ink:#f3f3f3;--is-mute:#9a9a9a;--is-kirmizi:#ff3d5a}
+body.kv-studyo.is-mod{--is-bg:#1f1f1f;--is-bg2:#2a2a2a;--is-ink:#f3f3f3;--is-mute:#9a9a9a;--is-kirmizi:#ff3d5a;--is-vurgu:#333}
+/* 9.2: gündüz modunda uygulamanın kendi (eski) renkleri; siyah-gri yalnız gece modunda */
+html[data-tema="gunduz"] body.kv-studyo.is-mod{--is-bg:var(--ground);--is-bg2:var(--panel);--is-ink:var(--ink);--is-mute:var(--mute);--is-kirmizi:#e23b55;--is-vurgu:var(--raise)}
+html[data-tema="gunduz"] body.kv-studyo.is-mod #isTuval,html[data-tema="gunduz"] body.kv-studyo.is-mod #isZs,html[data-tema="gunduz"] body.kv-studyo.is-mod #mininav,html[data-tema="gunduz"] body.kv-studyo.is-mod #isKlipAr{border-top:1px solid var(--line)!important}
 body.kv-studyo.is-mod .wrap{background:var(--is-bg)}
 body.kv-studyo.is-mod:not(.kv-klv) .wrap>header.top{display:block!important}
 body.kv-studyo.is-mod .wrap>header.top{padding-block:calc(env(safe-area-inset-top,0px) + 4px) 2px!important;background:var(--is-bg);border:0!important}
@@ -10579,7 +10583,7 @@ body.kv-studyo.is-mod #isUst{display:flex;align-items:center;gap:6px;width:100%;
 #isUst button{background:none;border:0;color:var(--is-ink);display:grid;place-items:center;width:42px;height:42px;border-radius:50%;padding:0;cursor:pointer}
 #isUst button svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 #isUst .is-bos{flex:1}
-#isUst #isAktar{width:auto;height:36px;border-radius:999px;padding:0 16px;font:700 14.5px/1 var(--ui,system-ui),sans-serif;background:var(--is-ink);color:#111;letter-spacing:.01em}
+#isUst #isAktar{width:auto;height:36px;border-radius:999px;padding:0 16px;font:700 14.5px/1 var(--ui,system-ui),sans-serif;background:var(--is-ink);color:var(--is-bg);letter-spacing:.01em}
 #isUst #isAktar:active{transform:scale(.96)}
 body.kv-studyo.is-mod .stage{background:var(--is-bg)}
 body.kv-studyo.is-mod .stage>.transport,body.kv-studyo.is-mod .stage>#pvTools,body.kv-studyo.is-mod .stage>.pvtools{display:none!important}
@@ -10602,10 +10606,10 @@ body.kv-studyo.is-mod #mininav button span{color:var(--is-mute);font-weight:500}
 body.kv-studyo.is-mod #mininav button[aria-current="true"],body.kv-studyo.is-mod.kv-kapali #mininav button[aria-current="true"]{background:none!important;color:var(--is-ink)!important}
 body.kv-studyo.is-mod:not(.kv-kapali) #mininav button[aria-current="true"] span{color:var(--is-ink);font-weight:700}
 body.kv-studyo.is-mod:not(.kv-kapali) #mininav button[aria-current="true"]::after{content:"";width:18px;height:2px;border-radius:2px;background:var(--is-ink);margin-top:-2px}
-body.kv-studyo.is-mod #mininav button:active{background:rgba(255,255,255,.08)!important}
+body.kv-studyo.is-mod #mininav button:active{background:color-mix(in srgb,var(--is-ink) 9%,transparent)!important}
 /* panel (alt menü) */
 body.kv-studyo.is-mod .kv-pan{background:var(--is-bg);border-top:0}
-body.kv-studyo.is-mod .kv-panb{background:var(--is-bg)!important;border-bottom:1px solid rgba(255,255,255,.08)!important}
+body.kv-studyo.is-mod .kv-panb{background:var(--is-bg)!important;border-bottom:1px solid color-mix(in srgb,var(--is-ink) 10%,transparent)!important}
 body.kv-studyo.is-mod .kv-panb b{font-size:15px;color:var(--is-ink)}
 body.kv-studyo.is-mod #kvPanKapa{font-size:0!important;width:42px;height:38px;padding:0!important;border:0!important;background:none!important;position:relative}
 body.kv-studyo.is-mod #kvPanKapa::before{content:"";position:absolute;inset:0;margin:auto;width:22px;height:22px;background:var(--is-ink);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/contain no-repeat}
@@ -10619,17 +10623,17 @@ body.kv-studyo.is-mod.kv-klv #isZs{display:none!important}
 #isZs .is-cetvel span{position:absolute;transform:translateX(-50%);font:500 10px/16px var(--mono,monospace);color:var(--is-mute);white-space:nowrap}
 #isZs .is-cetvel i{position:absolute;top:7px;width:2px;height:2px;border-radius:50%;background:var(--is-mute);transform:translateX(-50%)}
 #isZs .is-klipler{position:absolute;left:0;right:0;top:26px;height:58px}
-#isZs .is-blok{position:absolute;top:2px;height:52px;border-radius:5px;background:#333 left center/auto 100% repeat-x;overflow:visible;box-shadow:inset 0 0 0 1px rgba(0,0,0,.35)}
+#isZs .is-blok{position:absolute;top:2px;height:52px;border-radius:5px;background:var(--is-bg2) left center/auto 100% repeat-x;overflow:visible;box-shadow:inset 0 0 0 1px rgba(0,0,0,.35)}
 #isZs .is-blok em{position:absolute;left:4px;bottom:3px;font:600 9.5px/1 var(--mono,monospace);font-style:normal;color:#fff;background:rgba(0,0,0,.55);padding:2px 4px;border-radius:4px;pointer-events:none}
-#isZs .is-blok.sec{box-shadow:0 0 0 2px #fff;z-index:2}
-#isZs .is-tut{display:none;position:absolute;top:-2px;width:16px;height:56px;background:#fff;border-radius:4px;touch-action:none}
-#isZs .is-tut::after{content:"";position:absolute;left:6px;top:20px;width:4px;height:16px;border-left:1.5px solid #333;border-right:1.5px solid #333}
+#isZs .is-blok.sec{box-shadow:0 0 0 2px var(--is-ink);z-index:2}
+#isZs .is-tut{display:none;position:absolute;top:-2px;width:16px;height:56px;background:var(--is-ink);border-radius:4px;touch-action:none}
+#isZs .is-tut::after{content:"";position:absolute;left:6px;top:20px;width:4px;height:16px;border-left:1.5px solid var(--is-bg);border-right:1.5px solid var(--is-bg)}
 #isZs .is-tut[data-yan="sol"]{left:-15px;border-radius:5px 0 0 5px}
 #isZs .is-tut[data-yan="sag"]{right:-15px;border-radius:0 5px 5px 0}
 #isZs .is-blok.sec .is-tut{display:block}
 #isZs .is-gec{position:absolute;top:18px;width:22px;height:22px;transform:translateX(-50%);border-radius:5px;border:0;background:#fff;color:#222;font:700 12px/22px system-ui;padding:0;z-index:3;box-shadow:0 1px 4px rgba(0,0,0,.5)}
 #isZs .is-gec:not(.var){background:#e8e8e8;color:#777}
-#isZs .is-cizgi{position:absolute;left:50%;top:22px;width:2px;height:68px;margin-left:-1px;background:#fff;border-radius:2px;pointer-events:none;z-index:5;box-shadow:0 0 4px rgba(0,0,0,.6)}
+#isZs .is-cizgi{position:absolute;left:50%;top:22px;width:2px;height:68px;margin-left:-1px;background:var(--is-ink);border-radius:2px;pointer-events:none;z-index:5;box-shadow:0 0 3px rgba(0,0,0,.35)}
 #isZs .is-alt{position:absolute;left:0;right:0;top:90px;height:20px;pointer-events:none}
 #isZs .is-alt b{position:absolute;left:50%;transform:translateX(-50%);font:700 12px/20px var(--mono,monospace);color:var(--is-ink)}
 #isZs .is-alt span{position:absolute;right:12px;font:500 11px/20px var(--mono,monospace);color:var(--is-mute)}
@@ -10643,9 +10647,9 @@ body.kv-studyo.is-mod.kv-kapali #isKlipAr:not([hidden]){display:flex;position:fi
 #isKlipAr button svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 #isKlipAr button[data-is="sil"]{color:#ff7a7a}
 #isKlipAr button[data-is="tmm"]{margin-left:auto}
-#isKlipAr button:active{background:rgba(255,255,255,.08)}
+#isKlipAr button:active{background:color-mix(in srgb,var(--is-ink) 9%,transparent)}
 /* tuval */
-body.kv-studyo.is-mod.kv-kapali #isTuval:not([hidden]){display:block;position:fixed;left:0;right:0;z-index:32;background:var(--is-bg2);border-radius:16px 16px 0 0;padding:6px 12px 10px;box-shadow:0 -8px 24px rgba(0,0,0,.4)}
+body.kv-studyo.is-mod.kv-kapali #isTuval:not([hidden]){display:block;position:fixed;left:0;right:0;z-index:32;background:var(--is-bg2);border-radius:16px 16px 0 0;padding:6px 12px 10px;box-shadow:0 -8px 24px rgba(0,0,0,.25)}
 #isTuval .is-tv-bas{display:flex;align-items:center;justify-content:space-between;color:var(--is-ink);font-size:15px;padding:2px 0 6px}
 #isTuval .is-tv-bas button{background:none;border:0;color:var(--is-ink);width:40px;height:36px;display:grid;place-items:center;padding:0}
 #isTuval .is-tv-bas svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
@@ -10654,7 +10658,7 @@ body.kv-studyo.is-mod.kv-kapali #isTuval:not([hidden]){display:block;position:fi
 #isTuval .is-tv-sec button i{display:block;height:26px;max-width:40px;border:2px solid currentColor;border-radius:4px}
 #isTuval .is-tv-sec button b{font-size:13px}
 #isTuval .is-tv-sec button small{font-size:10px;color:var(--is-mute)}
-#isTuval .is-tv-sec button.on{border-color:var(--is-ink);background:#333}
+#isTuval .is-tv-sec button.on{border-color:var(--is-ink);background:var(--is-vurgu)}
 #isTuval .is-tv-alt{display:flex;gap:8px;margin-top:10px}
 #isTuval .is-tv-alt button{flex:1;background:var(--is-bg);border:0;border-radius:10px;color:var(--is-ink);min-height:38px;font-size:12.5px}
 body.kv-studyo.is-mod #mininav #isTvBtn{order:-1}
