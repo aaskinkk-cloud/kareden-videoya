@@ -44,7 +44,7 @@
 </style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="9.4" data-ad="Kareden Videoya" data-tarih="22.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="9.5" data-ad="Kareden Videoya" data-tarih="22.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -546,7 +546,7 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 9.4 · 30.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 9.5 · 30.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -10823,6 +10823,14 @@ body.kv-studyo.is-mod.kv-kapali #isTuval:not([hidden]){display:block;position:fi
 #isTuval .is-tv-alt{display:flex;gap:8px;margin-top:10px}
 #isTuval .is-tv-alt button{flex:1;background:var(--is-bg);border:0;border-radius:10px;color:var(--is-ink);min-height:38px;font-size:12.5px}
 body.kv-studyo.is-mod #mininav #isTvBtn{order:-1}
+/* 9.5: araç satırı görünüm ayarından (yalnız yazı / yalnız simge / ızgara) bağımsız: hep tek satır, simge + ad, yana kayar */
+body.kv-studyo.is-mod #mininav{display:flex!important;flex-wrap:nowrap!important;overflow-x:auto!important;overflow-y:hidden!important;grid-template-columns:none!important;align-items:stretch!important;max-height:none!important}
+body.kv-studyo.is-mod #mininav[hidden]{display:none!important}
+body.kv-studyo.is-mod #mininav button{flex-direction:column!important;align-items:center!important;justify-content:center!important;padding:6px 4px 4px!important;min-height:56px!important;max-height:64px}
+body.kv-studyo.is-mod #mininav button svg{display:block!important;flex:none}
+body.kv-studyo.is-mod #mininav button span{display:block!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:72px;padding:0!important}
+body.kv-studyo.is-mod #mininav button.cfg{border:0!important;opacity:.75}
+body.kv-studyo.is-mod #minicfg{bottom:calc(var(--isZsH,0px) + 70px + env(safe-area-inset-bottom,0px))!important}
 /* 9.4 odak noktaları */
 body.kv-studyo.is-mod.kv-kapali #isOdak:not([hidden]){display:block;position:fixed;left:0;right:0;z-index:32;background:var(--is-bg2);border-radius:16px 16px 0 0;padding:6px 12px 10px;box-shadow:0 -8px 24px rgba(0,0,0,.25)}
 #isOdak{display:none}
