@@ -44,7 +44,7 @@
 </style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="9.6" data-ad="Kareden Videoya" data-tarih="22.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="9.7" data-ad="Kareden Videoya" data-tarih="22.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -546,7 +546,7 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 9.6 · 30.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 9.7 · 30.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -3714,7 +3714,7 @@ function kbScale(c, i, local, T){
   const full = Math.min(KBCAP, r*(c.dur + T)), amt = Math.min(KBCAP, r*el);
   return (k.mode === 'alt' && i % 2) ? 1 + full - amt : 1 + amt;
 }
-function kbMax(c){ if (c.kf && c.kf.length) return Math.max(...c.kf.map(k => k.z || 1.8)) * 1.04; const k = KB(c); if (!k.on) return 1; if (faceZoomOn(c)) return Math.max(1.05, faceZoomMax(c)); if (tallFace(c)) return 1 + Math.max(0.15, faceHold(c)); return 1 + Math.min(KBCAP, k.rate/100*(c.dur + 2.5)); }
+function kbMax(c){ if (c.kf && c.kf.length) return Math.max(...c.kf.map(k => k.z || 1.8)) * (1 + (c.kfYak != null ? c.kfYak : 0.15)) * 1.02; const k = KB(c); if (!k.on) return 1; if (faceZoomOn(c)) return Math.max(1.05, faceZoomMax(c)); if (tallFace(c)) return 1 + Math.max(0.15, faceHold(c)); return 1 + Math.min(KBCAP, k.rate/100*(c.dur + 2.5)); }
 /* klibin kadraj içindeki kaydırma sınırı (iki yönde eşit) */
 function clipRange(c){ const [W, H] = dims(); const fw = Math.min(W, H*c.aspect)*(c.zoom || 1), fh = fw/c.aspect; return {x: Math.abs(fw - W)/2/W, y: Math.abs(fh - H)/2/H}; }
 /* sürükleme/kaydırma sınırı: görüntü kadrajı o eksende dolduruyorsa tam kenara kadar (boşluk görünmez), dolduramıyorsa eski serbestlik (±0,6) */
@@ -3829,25 +3829,26 @@ function waitMeta(v){ return new Promise((res, rej) => { if (v.readyState >= 1) 
    c.kf = [{x, y, z}] (fotoğrafta 0–1 konum, z yakınlık) · c.kfBl: arka plan bulanık · c.kfR: odak alanı · c.kfBas: önce tüm fotoğraf */
 const KF = {duzen: null};
 const kfE = t => t*t*t*(t*(t*6 - 15) + 10);   // yumuşak başla-yumuşak dur
-const KF_HIZ = {yavas: 1.9, orta: 1.15, hizli: 0.65};
-function kfAgirlik(c){ const n = (c.kf || []).length, M = KF_HIZ[c.kfHiz || 'yavas'] || 1.9, bas = c.kfBas !== false; return (bas ? .6 : 0) + n*1 + Math.max(0, n - 1 + (bas ? 1 : 0))*M; }
+/* 9.7: zamanlama saniye cinsinden — yüze varınca kc.kfBek sn (varsayılan 3,5) kalınır ve bu sürede yavaşça yaklaşılır (kfYak: %7 / %15 / %25) */
+const KF_GEC = {yavas: 2.2, orta: 1.3, hizli: 0.75};
+const kfSin = q => 0.5 - 0.5*Math.cos(Math.PI*clamp(q, 0, 1));   // yavaş başlar, yavaş biter
+function kfPlan(c){ const n = (c.kf || []).length, bas = c.kfBas !== false, H = c.kfBek || 3.5, M = KF_GEC[c.kfHiz || 'yavas'] || 2.2;
+  return {bas, H, M, P: c.kfYak != null ? c.kfYak : 0.15, top: (bas ? 0.8 : 0) + n*H + Math.max(0, n - 1 + (bas ? 1 : 0))*M}; }
 function kfDurum(c, local){
-  /* 9.6: daha yavaş ve etkili — geçişler uzun (yavaş/orta/hızlı), yumuşak başlayıp yumuşak biter; noktada beklerken kamera çok yavaş yaklaşır;
-     uzak noktalar arasında kamera hafifçe geri çekilip yeniden yaklaşır (sinema hissi) */
-  const K = c.kf, D = Math.max(0.3, c.dur), u = clamp(local / D, 0, 1), M = KF_HIZ[c.kfHiz || 'yavas'] || 1.9;
-  const seq = []; if (c.kfBas !== false) seq.push({x: .5, y: .5, z: 1, o: 0, h: .6});
-  K.forEach(k => seq.push({x: k.x, y: k.y, z: k.z || 1.8, o: 1, h: 1}));
-  if (seq.length === 1){ const a = seq[0], e = kfE(u); return {x: a.x, y: a.y, z: a.z*(0.86 + 0.14*e), o: Math.min(1, u*3)}; }
-  const top = seq.reduce((t, a) => t + a.h, 0) + M*(seq.length - 1); let t = u*top;
+  const K = c.kf, D = Math.max(0.3, c.dur), u = clamp(local / D, 0, 1), pl = kfPlan(c), M = pl.M, P = pl.P;
+  const seq = []; if (pl.bas) seq.push({x: .5, y: .5, z: 1, o: 0, h: 0.8, p: 0.02});
+  K.forEach(k => seq.push({x: k.x, y: k.y, z: k.z || 1.8, o: 1, h: pl.H, p: P}));
+  if (seq.length === 1){ const a = seq[0]; return {x: a.x, y: a.y, z: a.z*(1 + a.p*kfSin(u)), o: Math.min(1, u*3)}; }
+  let t = u*pl.top;
   for (let j = 0; j < seq.length; j++){
-    const a = seq[j];
-    if (t <= a.h || j === seq.length - 1){ const q = clamp(t / a.h, 0, 1); return {x: a.x, y: a.y, z: a.z*(1 + (a.o ? 0.045 : 0.02)*q), o: a.o}; }
+    const a = seq[j], son = j === seq.length - 1;
+    if (t <= a.h || son){ const q = son ? clamp(t / Math.max(a.h, pl.top*(1 - u) + t), 0, 1) : t / a.h; return {x: a.x, y: a.y, z: a.z*(1 + a.p*kfSin(son ? Math.min(1, t / a.h) : q)), o: a.o}; }
     t -= a.h; const b = seq[j + 1];
-    if (t <= M){ const e = kfE(t / M), uz = Math.hypot(b.x - a.x, b.y - a.y), za = a.z*(1 + (a.o ? 0.045 : 0.02)), dip = Math.min(0.55, uz*0.8)*Math.sin(Math.PI*e)*(Math.min(za, b.z) - 1 + 0.4);
+    if (t <= M){ const e = kfE(t / M), uz = Math.hypot(b.x - a.x, b.y - a.y), za = a.z*(1 + a.p), dip = Math.min(0.55, uz*0.8)*Math.sin(Math.PI*e)*(Math.min(za, b.z) - 1 + 0.4);
       return {x: a.x + (b.x - a.x)*e, y: a.y + (b.y - a.y)*e, z: Math.max(1, za + (b.z - za)*e - dip), o: a.o + (b.o - a.o)*e*0.6 + (a.o && b.o ? -0.35*Math.sin(Math.PI*e) : 0)}; }
     t -= M;
   }
-  const z = seq[seq.length - 1]; return {x: z.x, y: z.y, z: z.z, o: z.o};
+  const z = seq[seq.length - 1]; return {x: z.x, y: z.y, z: z.z*(1 + z.p), o: z.o};
 }
 function makeRenderer(ctx, W, H, getSrc){
   let scratch = null, scratch2 = null; const vbg = new Map(), geo = new Map();
@@ -5434,7 +5435,7 @@ $('#subCopy').addEventListener('click', () => { const t = toSRT(); if (t) copyTe
 
 /* ---------- undo ---------- */
 const undoStack = [];
-const UKEYS = ['dur','zoom','ox','oy','vin','vout','kbOff','vol','mute','rot','aspect','thumb','kbr','kbm','kbf','kbOn','tk','kf','kfBul','kfR','kfBas','kfHiz'];
+const UKEYS = ['dur','zoom','ox','oy','vin','vout','kbOff','vol','mute','rot','aspect','thumb','kbr','kbm','kbf','kbOn','tk','kf','kfBul','kfR','kfBas','kfHiz','kfBek','kfYak'];
 function pushUndo(){
   undoStack.push({sel:S.sel, clips:S.clips.map(c => [c, Object.fromEntries(UKEYS.map(k => [k, c[k]]))])});
   if (undoStack.length > 40) undoStack.shift();
@@ -9016,7 +9017,7 @@ async function projSaveNow(){
       id: PID, when: now, sel: S.sel, kp: S.kp || {}, settings: settingsSnap(), cover:{title:S.cover.title, band:S.cover.band || '', band2:S.cover.band2 || ''}, hook:{on:S.hook.on, text:S.hook.text}, exp: S.exported || null,
       pub:{topic:$('#pTopic').value, place:$('#pPlace').value, chan:$('#pChan').value, kw:$('#pKw').value, kwo:$('#pKwOpt').value},
       clips: S.clips.map(c => ({fkey:c.fkey, kind:c.kind, rot:c.rot || 0, af:!!c.autoFilled, name:c.name, date:c.date, dur:c.dur, zoom:c.zoom, ox:c.ox, oy:c.oy, kbOff:c.kbOff, hf:!!c.hasFace, fv:c.fv || 0, ffx:c.fx, ffy:c.fy, ffh:c.faceH, vin:c.vin, vout:c.vout, vol:c.vol, mute:c.mute,
-        w:c.w, h:c.h, a0:c.aspect0, sd:c.srcDur, fix:c.fix, th:thumbURL(c), kbr:c.kbr, kbm:c.kbm, kbf:c.kbf, kbOn:!!c.kbOn, hs:c.headSrc || '', tk:c.tk || null, tkEk:(c.tkEk && c.tkEk.length) ? c.tkEk : null, trw:c.trw || null, trwM:c.trwM || null, kes:c.kes ? 1 : 0, kf:(c.kf && c.kf.length) ? c.kf : null, kfBul:c.kfBul ? 1 : 0, kfR:c.kfR || null, kfBas:c.kfBas === false ? 0 : 1, kfHiz:c.kfHiz || null})),
+        w:c.w, h:c.h, a0:c.aspect0, sd:c.srcDur, fix:c.fix, th:thumbURL(c), kbr:c.kbr, kbm:c.kbm, kbf:c.kbf, kbOn:!!c.kbOn, hs:c.headSrc || '', tk:c.tk || null, tkEk:(c.tkEk && c.tkEk.length) ? c.tkEk : null, trw:c.trw || null, trwM:c.trwM || null, kes:c.kes ? 1 : 0, kf:(c.kf && c.kf.length) ? c.kf : null, kfBul:c.kfBul ? 1 : 0, kfR:c.kfR || null, kfBas:c.kfBas === false ? 0 : 1, kfHiz:c.kfHiz || null, kfBek:c.kfBek || null, kfYak:c.kfYak != null ? c.kfYak : null})),
       subs: S.subs.map(x => ({start:x.start, end:x.end, text:x.text, oto:x.oto ? 1 : 0, ws:x.oto ? x.ws : null, kay:x.kay || null})),
       intro:{title:S.intro.title, sub:S.intro.sub, band:S.intro.band || '', band2:S.intro.band2 || '', ek:S.intro.ek}, script: $('#vText').value,
       tracks: S.tracks.map(t => ({fkey:t.fkey || null, gen:t.gen || null, name:t.name, at:t.at, trim:t.trim, len:t.len, vol:t.vol, fin:t.fin, fout:t.fout, loop:t.loop, voice:!!t.voice, trw:t.trw || null, trwM:t.trwM || null, okurSesi:!!t.okurSesi}))
@@ -9126,7 +9127,7 @@ async function projRestore(m){
           if (!c){ upgrade = true; c = x.kind === 'video' ? await makeVideo(f) : await makePhoto(f, x.name, x.date); }
           Object.assign(c, {name:x.name, date:x.date, dur:x.dur, zoom:x.zoom, ox:x.ox, oy:x.oy, kbOff:!!x.kbOff, hasFace:!!x.hf, fv:x.fv || 0, fx:x.ffx == null ? null : x.ffx, fy:x.ffy == null ? null : x.ffy, faceH:x.ffh || 0, fkey:x.fkey, headSrc:x.hs || ''});
           if (x.tk && typeof x.tk === 'object') c.tk = x.tk; if (Array.isArray(x.trw)){ c.trw = x.trw; c.trwM = x.trwM; } if (x.kes) c.kes = true; if (Array.isArray(x.tkEk)) c.tkEk = x.tkEk;
-          if (Array.isArray(x.kf) && x.kf.length){ c.kf = x.kf; c.kfBul = x.kfBul === 1; c.kfR = x.kfR || 0.34; c.kfBas = x.kfBas !== 0; if (x.kfHiz) c.kfHiz = x.kfHiz; }
+          if (Array.isArray(x.kf) && x.kf.length){ c.kf = x.kf; c.kfBul = x.kfBul === 1; c.kfR = x.kfR || 0.34; c.kfBas = x.kfBas !== 0; if (x.kfHiz) c.kfHiz = x.kfHiz; if (x.kfBek) c.kfBek = x.kfBek; if (x.kfYak != null) c.kfYak = x.kfYak; }
           if (x.kbr != null) c.kbr = x.kbr; if (x.kbm) c.kbm = x.kbm; if (x.kbf != null) c.kbf = x.kbf; if (x.kbOn) c.kbOn = true;
           if (x.rot) setRot(c, x.rot); c.autoFilled = !!x.af;
           if (x.kind === 'video') Object.assign(c, {vin:x.vin, vout:x.vout, vol:x.vol, mute:x.mute});
@@ -10121,6 +10122,8 @@ function isKur(){
     + `<div class="is-od-nok" id="isOdNok"></div>`
     + `<div class="is-od-sat" id="isOdZ"><span>Yakınlık</span>${[1.4, 1.8, 2.4, 3].map(z => `<button type="button" data-z="${z}">${String(z).replace('.', ',')}x</button>`).join('')}</div>`
     + `<div class="is-od-sat" id="isOdH"><span>Geçiş</span>${[['yavas', 'Yavaş'], ['orta', 'Orta'], ['hizli', 'Hızlı']].map(([v, a]) => `<button type="button" data-h="${v}">${a}</button>`).join('')}</div>`
+    + `<div class="is-od-sat" id="isOdB"><span>Yüzde kal</span>${[[2, '2 sn'], [3.5, '3,5 sn'], [5, '5 sn']].map(([v, a]) => `<button type="button" data-b="${v}">${a}</button>`).join('')}</div>`
+    + `<div class="is-od-sat" id="isOdY"><span>Yaklaşma</span>${[[0.07, 'Hafif'], [0.15, 'Orta'], [0.25, 'Belirgin']].map(([v, a]) => `<button type="button" data-y="${v}">${a}</button>`).join('')}</div>`
     + `<div class="is-od-sat" id="isOdR"><span>Net alan</span>${[['0.24', 'Dar'], ['0.34', 'Orta'], ['0.48', 'Geniş']].map(([v, a]) => `<button type="button" data-r="${v}">${a}</button>`).join('')}</div>`
     + `<div class="is-od-sat is-od-ac"><button type="button" id="isOdBl">Arkayı bulanıklaştır</button><button type="button" id="isOdBas">Önce tüm fotoğraf</button></div>`
     + `<div class="is-tv-alt"><button type="button" id="isOdSil">Son noktayı sil</button><button type="button" id="isOdTem">Temizle</button><button type="button" id="isOdOyn">▶ Önizle</button></div>`;
@@ -10131,6 +10134,8 @@ function isKur(){
     if (b.dataset.n != null){ KF.sec = KF.sec === +b.dataset.n ? -1 : +b.dataset.n; kfSayfa(); return; }
     if (b.dataset.z){ pushUndo(); const z = +b.dataset.z; c.kf = (c.kf || []).map((k, j) => (KF.sec < 0 || j === KF.sec) ? Object.assign({}, k, {z}) : k); KF.z = z; try { LS.set('kv2.kfZ', z); } catch(_){} kfDegisti(c); return; }
     if (b.dataset.h){ pushUndo(); c.kfHiz = b.dataset.h; try { LS.set('kv2.kfHiz', c.kfHiz); } catch(_){} kfSure(c, true); kfDegisti(c); return; }
+    if (b.dataset.b){ pushUndo(); c.kfBek = +b.dataset.b; try { LS.set('kv2.kfBek', c.kfBek); } catch(_){} kfSure(c, true); kfDegisti(c); return; }
+    if (b.dataset.y){ pushUndo(); c.kfYak = +b.dataset.y; try { LS.set('kv2.kfYak', c.kfYak); } catch(_){} kfDegisti(c); return; }
     if (b.dataset.r){ pushUndo(); c.kfR = +b.dataset.r; kfDegisti(c); return; }
     if (b.id === 'isOdBl'){ pushUndo(); c.kfBul = !c.kfBul; try { LS.set('kv2.kfBul', c.kfBul); } catch(_){} kfDegisti(c); return; }
     if (b.id === 'isOdBas'){ pushUndo(); c.kfBas = c.kfBas === false; kfDegisti(c); return; }
@@ -10150,7 +10155,7 @@ function isKur(){
     pushUndo(); const K = (c.kf || []).slice(), z = KF.z || +LS.get('kv2.kfZ') || 1.8;
     if (KF.sec >= 0 && K[KF.sec]){ K[KF.sec] = Object.assign({}, K[KF.sec], {x, y}); KF.sec = -1; }
     else { if (K.length >= 6){ toast('En çok 6 nokta'); return; } K.push({x, y, z}); }
-    c.kf = K; if (c.kfBul == null) c.kfBul = !!LS.get('kv2.kfBul'); if (!c.kfHiz) c.kfHiz = LS.get('kv2.kfHiz') || 'yavas'; if (!c.kfR) c.kfR = 0.34; kfDegisti(c);
+    c.kf = K; if (c.kfBul == null) c.kfBul = !!LS.get('kv2.kfBul'); if (!c.kfHiz) c.kfHiz = LS.get('kv2.kfHiz') || 'yavas'; if (!c.kfBek) c.kfBek = +LS.get('kv2.kfBek') || 3.5; if (c.kfYak == null) c.kfYak = LS.get('kv2.kfYak') != null ? +LS.get('kv2.kfYak') : 0.15; if (!c.kfR) c.kfR = 0.34; kfDegisti(c);
   });
   /* Tuval aracı (biçim) */
   const tv = document.createElement('div'); tv.id = 'isTuval'; tv.hidden = true;
@@ -10231,7 +10236,7 @@ function kfKapat(){ const c = S.clips.find(x => x.id === KF.duzen); KF.duzen = n
 /* geçişlerin yavaş ve rahat görünmesi için gereken en kısa süre (birim ağırlık ≈ 1,15 sn); kısaysa fotoğraf klibi uzatılır */
 function kfSure(c, sessiz){
   if (!c || c.kind !== 'photo' || !(c.kf && c.kf.length)) return false;
-  const gerek = Math.round(kfAgirlik(c)*1.15*10)/10;
+  const gerek = Math.round(kfPlan(c).top*10)/10;
   if (c.dur + 0.05 >= gerek) return false;
   c.dur = gerek; renderStrip(); clipChanged(true);
   toast(`Geçişler rahat görünsün diye fotoğraf ${trNum(gerek, 1)} sn'ye uzatıldı (Klip'ten değiştirebilirsin)`, 4200); void sessiz; return true;
@@ -10245,6 +10250,8 @@ function kfSayfa(){
   $$('#isOdZ button').forEach(b => b.classList.toggle('on', +b.dataset.z === zSec));
   $$('#isOdR button').forEach(b => b.classList.toggle('on', +b.dataset.r === (c.kfR || 0.34)));
   $$('#isOdH button').forEach(b => b.classList.toggle('on', b.dataset.h === (c.kfHiz || 'yavas')));
+  $$('#isOdB button').forEach(b => b.classList.toggle('on', +b.dataset.b === (c.kfBek || 3.5)));
+  $$('#isOdY button').forEach(b => b.classList.toggle('on', +b.dataset.y === (c.kfYak != null ? c.kfYak : 0.15)));
   $('#isOdBl').classList.toggle('on', !!c.kfBul); $('#isOdBas').classList.toggle('on', c.kfBas !== false);
   /* noktaların işaretleri */
   const isr = $('#isOdIsr'), [W, H] = dims(), fw = Math.min(W, H*c.aspect)/W, fh = Math.min(W, H*c.aspect)/c.aspect/H;

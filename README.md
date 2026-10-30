@@ -21,7 +21,7 @@
 Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda çalışan uygulama (PWA). Dosyalar telefondan dışarı gönderilmez; video cihazda oluşturulur. Tek dosya: `index.html`; çevrimdışı önbellek `sw.js`.
 
 **Adres:** https://aaskinkk-cloud.github.io/kareden-videoya/  
-**Güncel sürüm:** 9.6 · 30.10.2026
+**Güncel sürüm:** 9.7 · 30.10.2026
 
 ## Bölümler
 - **Klipler** – klip sırası, katmanlar (zaman çizelgesi: böl, çoğalt, uzat/kısalt), kadraj, hareket (Ken Burns), takip eden yazı, toplu ayarlar.
@@ -35,6 +35,7 @@ Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda �
 - **Basit mod** – temel bölümler görünür; gizlenen ayarlar aynen çalışır.
 
 ## Sürüm notları
+- **9.7** – Odak noktaları: kamera yüze varınca orada **3,5 sn** kalır ve bu sürede **yavaşça yaklaşır** (yavaş başlar, yavaş biter). Ayarlar: **Yüzde kal** 2 / 3,5 / 5 sn · **Yaklaşma** Hafif %7 / Orta %15 / Belirgin %25 (tercihler hatırlanır). Zamanlama artık saniye cinsinden; fotoğraf klibi gereken süreye otomatik uzatılır (2 nokta, varsayılanlar: 12,2 sn).
 - **9.6** – Odak noktaları: **arka plan bulanıklığı artık kapalı**; istenirse Odak sayfasında "Arkayı bulanıklaştır" ile açılır (tercih hatırlanır). **Geçişler yavaş ve sinematik**: Geçiş hızı Yavaş (varsayılan) / Orta / Hızlı; yumuşak başlayıp yumuşak biter, noktada beklerken kamera çok yavaş yaklaşır, uzak iki kişi arasında kamera geri çekilip ikisini birlikte gösterdikten sonra yaklaşır. ✓ ile kapatınca süre yetmiyorsa fotoğraf klibi otomatik uzatılır (bildirimle).
 - **9.5** – Düzeltme: araç satırı "yalnız yazı" kısayol görünümündeyken simgesiz ve çok satırlı ızgaraya dönüşüp ekranı kaplıyordu; artık görünüm ayarından bağımsız olarak hep tek satır, simge + ad, yana kayar.
 - **9.4** – **Odak noktaları (anahtar kare).** Fotoğraf klibine dokun → **Odak**: önizlemede fotoğrafın tamamı görünür, sırayla odaklanacağın kişilere/yerlere dokun (en çok 6; numaralı işaretler ve aralarında yol çizgisi). Video önce tüm fotoğrafı gösterir, sonra kamera yumuşak geçişle 1. noktaya yaklaşır, bekler, sonrakine kayar (uzak noktalar arasında hafifçe uzaklaşıp yaklaşır). **Arkası bulanık**: odaktaki kişi (baş + gövde, dikey elips) net, çevresi bulanık ve hafif karartılmış. Ayarlar: nokta başına yakınlık 1,4x–3x, net alan Dar/Orta/Geniş, "Önce tüm fotoğraf" aç/kapa, son noktayı sil, temizle, ▶ önizle. Noktaya dokunup fotoğrafta yeni yere dokunarak taşınır. Projeye kaydedilir, ↶ ile geri alınır. Şimdilik fotoğraflarda.
