@@ -44,7 +44,7 @@
 </style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="9.7" data-ad="Kareden Videoya" data-tarih="22.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="9.8" data-ad="Kareden Videoya" data-tarih="22.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -546,7 +546,7 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 9.7 · 30.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 9.8 · 30.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -10115,34 +10115,46 @@ function isKur(){
     else if (k === 'sil'){ if (Date.now() - (IS.silArm || 0) > 2500){ IS.silArm = Date.now(); toast('Silmek için tekrar dokun'); return; } IS.silArm = 0;
       const idx = S.clips.indexOf(c); if (idx < 0) return; if (playing) pause(); pushUndo(); S.clips.splice(idx, 1); S.sel = clamp(idx, 0, Math.max(0, S.clips.length - 1)); renderStrip(); clipChanged(true); requestRender(); toast('Klip silindi · ↶ ile geri alınır'); if (!S.clips.length) isSec(false); }
   });
-  /* 9.4: Odak noktaları sayfası */
+  /* 9.8: Odak noktaları — InShot alt menüsü gibi: araç satırının yerine tek satır, yana kayar; önizleme büyük kalır.
+     Her ayar tek düğme; dokundukça sıradaki değere geçer. */
   const od = document.createElement('div'); od.id = 'isOdak'; od.hidden = true;
-  od.innerHTML = `<div class="is-tv-bas"><b>Odak noktaları</b><button type="button" id="isOdTmm" aria-label="Tamam">${ico('<path d="M5 12.5l4.5 4.5L19 7.5"/>')}</button></div>`
-    + `<p class="is-od-not" id="isOdNot">Önizlemede sırayla odaklanacağın kişilere / yerlere dokun (en çok 6).</p>`
-    + `<div class="is-od-nok" id="isOdNok"></div>`
-    + `<div class="is-od-sat" id="isOdZ"><span>Yakınlık</span>${[1.4, 1.8, 2.4, 3].map(z => `<button type="button" data-z="${z}">${String(z).replace('.', ',')}x</button>`).join('')}</div>`
-    + `<div class="is-od-sat" id="isOdH"><span>Geçiş</span>${[['yavas', 'Yavaş'], ['orta', 'Orta'], ['hizli', 'Hızlı']].map(([v, a]) => `<button type="button" data-h="${v}">${a}</button>`).join('')}</div>`
-    + `<div class="is-od-sat" id="isOdB"><span>Yüzde kal</span>${[[2, '2 sn'], [3.5, '3,5 sn'], [5, '5 sn']].map(([v, a]) => `<button type="button" data-b="${v}">${a}</button>`).join('')}</div>`
-    + `<div class="is-od-sat" id="isOdY"><span>Yaklaşma</span>${[[0.07, 'Hafif'], [0.15, 'Orta'], [0.25, 'Belirgin']].map(([v, a]) => `<button type="button" data-y="${v}">${a}</button>`).join('')}</div>`
-    + `<div class="is-od-sat" id="isOdR"><span>Net alan</span>${[['0.24', 'Dar'], ['0.34', 'Orta'], ['0.48', 'Geniş']].map(([v, a]) => `<button type="button" data-r="${v}">${a}</button>`).join('')}</div>`
-    + `<div class="is-od-sat is-od-ac"><button type="button" id="isOdBl">Arkayı bulanıklaştır</button><button type="button" id="isOdBas">Önce tüm fotoğraf</button></div>`
-    + `<div class="is-tv-alt"><button type="button" id="isOdSil">Son noktayı sil</button><button type="button" id="isOdTem">Temizle</button><button type="button" id="isOdOyn">▶ Önizle</button></div>`;
+  const OI = {
+    z: '<circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2M11 8.5v5M8.5 11h5"/>',
+    h: '<path d="M4 12h12M12 7l5 5-5 5"/><path d="M4 7v10" opacity=".5"/>',
+    b: '<circle cx="12" cy="13" r="7.5"/><path d="M12 9.5V13l2.5 2M9.5 3h5"/>',
+    y: '<path d="M4 9V4h5M20 15v5h-5M4 4l7 7M20 20l-7-7"/>',
+    bl: '<circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7.5" stroke-dasharray="2 2.6"/>',
+    r: '<ellipse cx="12" cy="12" rx="5" ry="8"/>',
+    bas: '<rect x="3" y="5" width="18" height="14" rx="2"/><rect x="8" y="9" width="8" height="6" rx="1"/>',
+    sil: '<path d="M9 6l-6 6 6 6M3 12h11a6 6 0 016 6"/>',
+    tem: '<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>',
+    oyn: '<path d="M7 4.5l12 7.5-12 7.5z" fill="currentColor" stroke="none"/>'
+  };
+  const oc = (k, ad) => `<button type="button" data-k="${k}">${ico(OI[k])}<b data-d="${k}"></b><span>${ad}</span></button>`;
+  od.innerHTML = `<div class="is-od-ust"><b id="isOdBas">Odak</b><span id="isOdNot">Yüzlere sırayla dokun</span><button type="button" id="isOdTmm" aria-label="Tamam">${ico('<path d="M5 12.5l4.5 4.5L19 7.5"/>')}</button></div>`
+    + `<div class="is-od-sira" id="isOdSira"><div class="is-od-nok" id="isOdNok"></div>`
+    + oc('oyn', 'Önizle') + oc('z', 'Yakınlık') + oc('b', 'Yüzde kal') + oc('y', 'Yaklaşma') + oc('h', 'Geçiş') + oc('bas', 'Önce tümü') + oc('bl', 'Bulanık') + oc('r', 'Net alan') + oc('sil', 'Son nokta') + oc('tem', 'Temizle') + `</div>`;
   document.body.appendChild(od);
   /* noktalar önizlemenin üstünde */
   const isr = document.createElement('div'); isr.id = 'isOdIsr'; isr.hidden = true; $('#viewer').appendChild(isr);
+  const DON = (dizi, v) => dizi[(dizi.indexOf(v) + 1) % dizi.length];
   od.addEventListener('click', e => { const c = S.clips.find(x => x.id === KF.duzen); if (!c) return; const b = e.target.closest('button'); if (!b) return;
     if (b.dataset.n != null){ KF.sec = KF.sec === +b.dataset.n ? -1 : +b.dataset.n; kfSayfa(); return; }
-    if (b.dataset.z){ pushUndo(); const z = +b.dataset.z; c.kf = (c.kf || []).map((k, j) => (KF.sec < 0 || j === KF.sec) ? Object.assign({}, k, {z}) : k); KF.z = z; try { LS.set('kv2.kfZ', z); } catch(_){} kfDegisti(c); return; }
-    if (b.dataset.h){ pushUndo(); c.kfHiz = b.dataset.h; try { LS.set('kv2.kfHiz', c.kfHiz); } catch(_){} kfSure(c, true); kfDegisti(c); return; }
-    if (b.dataset.b){ pushUndo(); c.kfBek = +b.dataset.b; try { LS.set('kv2.kfBek', c.kfBek); } catch(_){} kfSure(c, true); kfDegisti(c); return; }
-    if (b.dataset.y){ pushUndo(); c.kfYak = +b.dataset.y; try { LS.set('kv2.kfYak', c.kfYak); } catch(_){} kfDegisti(c); return; }
-    if (b.dataset.r){ pushUndo(); c.kfR = +b.dataset.r; kfDegisti(c); return; }
-    if (b.id === 'isOdBl'){ pushUndo(); c.kfBul = !c.kfBul; try { LS.set('kv2.kfBul', c.kfBul); } catch(_){} kfDegisti(c); return; }
-    if (b.id === 'isOdBas'){ pushUndo(); c.kfBas = c.kfBas === false; kfDegisti(c); return; }
-    if (b.id === 'isOdSil'){ if (c.kf && c.kf.length){ pushUndo(); c.kf = c.kf.slice(0, -1); KF.sec = -1; kfDegisti(c); } return; }
-    if (b.id === 'isOdTem'){ if (c.kf && c.kf.length){ pushUndo(); c.kf = []; KF.sec = -1; kfDegisti(c); toast('Odak noktaları temizlendi · ↶ ile geri alınır'); } return; }
-    if (b.id === 'isOdOyn'){ kfOnizle(c); return; }
     if (b.id === 'isOdTmm'){ kfKapat(); return; }
+    const k = b.dataset.k; if (!k) return;
+    if (k === 'oyn'){ kfOnizle(c); return; }
+    if (k === 'sil'){ if (c.kf && c.kf.length){ pushUndo(); c.kf = c.kf.slice(0, -1); KF.sec = -1; kfDegisti(c); } return; }
+    if (k === 'tem'){ if (c.kf && c.kf.length){ if (Date.now() - (KF.temArm || 0) > 2500){ KF.temArm = Date.now(); toast('Tüm noktaları silmek için tekrar dokun'); return; } KF.temArm = 0; pushUndo(); c.kf = []; KF.sec = -1; kfDegisti(c); toast('Noktalar temizlendi · ↶ ile geri alınır'); } return; }
+    pushUndo();
+    if (k === 'z'){ const K = c.kf || [], cur0 = KF.sec >= 0 && K[KF.sec] ? (K[KF.sec].z || 1.8) : (KF.z || 1.8), z = DON([1.4, 1.8, 2.4, 3], cur0);
+      c.kf = K.map((p, j) => (KF.sec < 0 || j === KF.sec) ? Object.assign({}, p, {z}) : p); KF.z = z; try { LS.set('kv2.kfZ', z); } catch(_){} }
+    else if (k === 'h'){ c.kfHiz = DON(['yavas', 'orta', 'hizli'], c.kfHiz || 'yavas'); try { LS.set('kv2.kfHiz', c.kfHiz); } catch(_){} kfSure(c, true); }
+    else if (k === 'b'){ c.kfBek = DON([2, 3.5, 5], c.kfBek || 3.5); try { LS.set('kv2.kfBek', c.kfBek); } catch(_){} kfSure(c, true); }
+    else if (k === 'y'){ c.kfYak = DON([0.07, 0.15, 0.25], c.kfYak != null ? c.kfYak : 0.15); try { LS.set('kv2.kfYak', c.kfYak); } catch(_){} }
+    else if (k === 'bl'){ c.kfBul = !c.kfBul; try { LS.set('kv2.kfBul', c.kfBul); } catch(_){} }
+    else if (k === 'r'){ c.kfR = DON([0.24, 0.34, 0.48], c.kfR || 0.34); }
+    else if (k === 'bas'){ c.kfBas = c.kfBas === false; kfSure(c, true); }
+    kfDegisti(c);
   });
   /* düzenleme sırasında önizlemedeki dokunuşlar (kaydırma/yakınlaştırma yerine) nokta ekler */
   $('#viewer').addEventListener('pointerdown', e => { if (!KF.duzen || od.hidden) return; e.stopImmediatePropagation(); e.preventDefault(); KF.pd = {x: e.clientX, y: e.clientY}; }, true);
@@ -10218,7 +10230,7 @@ function isKur(){
   clipChanged = sar(clipChanged, () => isCiz(true));
   markStrip = sar(markStrip, () => isSecCiz());
   const pS = setPlayIcon; setPlayIcon = function(){ pS(); const o = $('#isOynat'); if (o) { o.innerHTML = playing ? ico('<path d="M7 4.5h3.6v15H7zM13.4 4.5H17v15h-3.6z" class="dolu"/>') : ico('<path d="M7 4.5l12 7.5-12 7.5z" class="dolu"/>'); o.setAttribute('aria-label', playing ? 'Duraklat' : 'Oynat'); } };
-  window.isAltEk = () => { if (!isAktif() || !B.classList.contains('kv-kapali')) return 0; const t = $('#isTuval'), o = $('#isOdak'); return (zs.offsetParent !== null ? zs.offsetHeight : 0) + (t && !t.hidden ? t.offsetHeight : 0) + (o && !o.hidden ? o.offsetHeight : 0); };   /* alt menü açılınca önizleme yukarı çıkar */
+  window.isAltEk = () => { if (!isAktif() || !B.classList.contains('kv-kapali')) return 0; const t = $('#isTuval'), o = $('#isOdak'), mnH = ($('#mininav') || {}).offsetHeight || 0; return (zs.offsetParent !== null ? zs.offsetHeight : 0) + (t && !t.hidden ? t.offsetHeight : 0) + (o && !o.hidden ? Math.max(0, o.offsetHeight - mnH) : 0); };   /* alt menü açılınca önizleme yukarı çıkar */
   isCiz(true); isYer(); requestAnimationFrame(isDongu);
   addEventListener('resize', () => { isCiz(true); isYer(); });
   new MutationObserver(isYer).observe(B, {attributes: true, attributeFilter: ['class']});
@@ -10228,10 +10240,10 @@ function kfAc(c){
   if (c.kind !== 'photo'){ toast('Odak noktaları fotoğraflarda kullanılır'); return; }
   if (playing) pause(); const t = $('#isTuval'); if (t) t.hidden = true;
   KF.duzen = c.id; KF.sec = -1; KF.z = +LS.get('kv2.kfZ') || 1.8; const i = S.clips.indexOf(c), tl = timeline(); PT = tl.starts[i] + Math.min(c.dur*0.5, Math.max(0.05, c.dur - 0.05));
-  $('#isOdak').hidden = false; kfSayfa(); requestRender(); requestAnimationFrame(isYer);
+  $('#isOdak').hidden = false; const ka0 = $('#isKlipAr'); if (ka0) ka0.classList.add('odak-acik'); kfSayfa(); requestRender(); requestAnimationFrame(isYer);
   if (!(c.kf && c.kf.length)) toast('Fotoğrafta sırayla odaklanacağın yerlere dokun', 3500);
 }
-function kfKapat(){ const c = S.clips.find(x => x.id === KF.duzen); KF.duzen = null; clearTimeout(KF.oT); const o = $('#isOdak'); if (o) o.hidden = true; const r = $('#isOdIsr'); if (r) r.hidden = true;
+function kfKapat(){ const c = S.clips.find(x => x.id === KF.duzen); KF.duzen = null; const ka1 = $('#isKlipAr'); if (ka1) ka1.classList.remove('odak-acik'); clearTimeout(KF.oT); const o = $('#isOdak'); if (o) o.hidden = true; const r = $('#isOdIsr'); if (r) r.hidden = true;
   if (c){ const uz = kfSure(c); clipChanged(true); projSave(); if (c.kf && c.kf.length && !uz) toast(`${c.kf.length} odak noktası · ▶ ile izle`); } requestRender(); requestAnimationFrame(isYer); }
 /* geçişlerin yavaş ve rahat görünmesi için gereken en kısa süre (birim ağırlık ≈ 1,15 sn); kısaysa fotoğraf klibi uzatılır */
 function kfSure(c, sessiz){
@@ -10244,15 +10256,15 @@ function kfSure(c, sessiz){
 function kfDegisti(c){ pvCache.forEach(v => freePrep(v)); pvCache.clear(); kfSayfa(); requestRender(); projSave(); }
 function kfSayfa(){
   const c = S.clips.find(x => x.id === KF.duzen); if (!c) return; const K = c.kf || [];
-  $('#isOdNok').innerHTML = K.map((k, j) => `<button type="button" data-n="${j}" class="${KF.sec === j ? 'on' : ''}">${j + 1}<small>${String(k.z || 1.8).replace('.', ',')}x</small></button>`).join('') || '<em>Henüz nokta yok</em>';
-  $('#isOdNot').textContent = KF.sec >= 0 ? `${KF.sec + 1}. nokta seçili: fotoğrafta yeni yerine dokun ya da yakınlığını seç` : 'Önizlemede sırayla odaklanacağın kişilere / yerlere dokun (en çok 6).';
-  const zSec = KF.sec >= 0 && K[KF.sec] ? (K[KF.sec].z || 1.8) : (KF.z || 1.8);
-  $$('#isOdZ button').forEach(b => b.classList.toggle('on', +b.dataset.z === zSec));
-  $$('#isOdR button').forEach(b => b.classList.toggle('on', +b.dataset.r === (c.kfR || 0.34)));
-  $$('#isOdH button').forEach(b => b.classList.toggle('on', b.dataset.h === (c.kfHiz || 'yavas')));
-  $$('#isOdB button').forEach(b => b.classList.toggle('on', +b.dataset.b === (c.kfBek || 3.5)));
-  $$('#isOdY button').forEach(b => b.classList.toggle('on', +b.dataset.y === (c.kfYak != null ? c.kfYak : 0.15)));
-  $('#isOdBl').classList.toggle('on', !!c.kfBul); $('#isOdBas').classList.toggle('on', c.kfBas !== false);
+  $('#isOdNok').innerHTML = K.map((k, j) => `<button type="button" data-n="${j}" class="${KF.sec === j ? 'on' : ''}">${j + 1}</button>`).join('');
+  $('#isOdBas').textContent = K.length ? `Odak · ${K.length} nokta` : 'Odak';
+  $('#isOdNot').textContent = KF.sec >= 0 ? `${KF.sec + 1}. noktayı taşımak için yeni yere dokun` : (K.length ? 'Yeni yüz için dokun · numara: seç' : 'Yüzlere sırayla dokun');
+  const zSec = KF.sec >= 0 && K[KF.sec] ? (K[KF.sec].z || 1.8) : (KF.z || 1.8), v = (k, t) => { const e = document.querySelector(`#isOdak b[data-d="${k}"]`); if (e) e.textContent = t; };
+  v('oyn', ''); v('z', String(zSec).replace('.', ',') + 'x'); v('b', String(c.kfBek || 3.5).replace('.', ',') + ' sn');
+  v('y', {0.07: 'Hafif', 0.15: 'Orta', 0.25: 'Belirgin'}[c.kfYak != null ? c.kfYak : 0.15] || 'Orta'); v('h', {yavas: 'Yavaş', orta: 'Orta', hizli: 'Hızlı'}[c.kfHiz || 'yavas']);
+  v('bas', c.kfBas !== false ? 'Açık' : 'Kapalı'); v('bl', c.kfBul ? 'Açık' : 'Kapalı'); v('r', {0.24: 'Dar', 0.34: 'Orta', 0.48: 'Geniş'}[c.kfR || 0.34] || 'Orta'); v('sil', ''); v('tem', '');
+  const rb = document.querySelector('#isOdak button[data-k="r"]'); if (rb) rb.hidden = !c.kfBul;
+  ['sil', 'tem', 'oyn'].forEach(k => { const b = document.querySelector(`#isOdak button[data-k="${k}"]`); if (b) b.disabled = !K.length; });
   /* noktaların işaretleri */
   const isr = $('#isOdIsr'), [W, H] = dims(), fw = Math.min(W, H*c.aspect)/W, fh = Math.min(W, H*c.aspect)/c.aspect/H;
   isr.hidden = false;
@@ -10270,7 +10282,7 @@ function isYer(){
   const zs = $('#isZs'); if (!zs) return; const B = document.body;
   const h = (isAktif() && B.classList.contains('kv-kapali')) ? zs.offsetHeight : 0;
   const tvH = (tv0 => tv0 && !tv0.hidden && h ? tv0.offsetHeight : 0)($('#isTuval')), odH = (o => o && !o.hidden && h ? o.offsetHeight : 0)($('#isOdak')), imz = h + ':' + tvH + ':' + odH;
-  const od0 = $('#isOdak'), mn0 = $('#mininav'); if (od0) od0.style.bottom = (h + (mn0 ? mn0.offsetHeight : 0)) + 'px';
+  const od0 = $('#isOdak'); if (od0) od0.style.bottom = h + 'px';
   if (IS.sonH !== imz){ IS.sonH = imz; B.style.setProperty('--isZsH', h + 'px'); requestAnimationFrame(() => { try { window.kvStudyo && kvStudyo.yerlesim(); } catch(e){} }); }
   const mn = $('#mininav'), ka = $('#isKlipAr'), tv = $('#isTuval');
   if (ka && mn){ ka.style.height = mn.offsetHeight + 'px'; }
@@ -10854,26 +10866,29 @@ body.kv-studyo.is-mod #mininav button svg{display:block!important;flex:none}
 body.kv-studyo.is-mod #mininav button span{display:block!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:72px;padding:0!important}
 body.kv-studyo.is-mod #mininav button.cfg{border:0!important;opacity:.75}
 body.kv-studyo.is-mod #minicfg{bottom:calc(var(--isZsH,0px) + 70px + env(safe-area-inset-bottom,0px))!important}
-/* 9.4 odak noktaları */
-body.kv-studyo.is-mod.kv-kapali #isOdak:not([hidden]){display:block;position:fixed;left:0;right:0;z-index:32;background:var(--is-bg2);border-radius:16px 16px 0 0;padding:6px 12px 10px;box-shadow:0 -8px 24px rgba(0,0,0,.25)}
+/* 9.8 odak noktaları — tek satır alt menü (InShot) */
 #isOdak{display:none}
-#isOdak .is-tv-bas{display:flex;align-items:center;justify-content:space-between;color:var(--is-ink);font-size:15px;padding:2px 0 4px}
-#isOdak .is-tv-bas button{background:none;border:0;color:var(--is-ink);width:40px;height:36px;display:grid;place-items:center;padding:0}
-#isOdak .is-tv-bas svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
-#isOdak .is-od-not{margin:0 0 8px;font-size:12px;color:var(--is-mute)}
-#isOdak .is-od-nok{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;min-height:40px;align-items:center}
-#isOdak .is-od-nok em{font-size:12px;color:var(--is-mute);font-style:normal}
-#isOdak .is-od-nok button{width:44px;height:40px;border-radius:10px;border:1.5px solid transparent;background:var(--is-bg);color:var(--is-ink);font:700 15px/1 var(--ui,system-ui);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
-#isOdak .is-od-nok button small{font-size:9.5px;font-weight:500;color:var(--is-mute)}
-#isOdak .is-od-nok button.on{border-color:var(--accent);color:var(--accent)}
-#isOdak .is-od-sat{display:flex;align-items:center;gap:6px;margin-bottom:7px}
-#isOdak .is-od-sat span{flex:none;width:62px;font-size:12px;color:var(--is-mute)}
-#isOdak .is-od-sat button{flex:1;min-height:34px;border-radius:9px;border:1.5px solid transparent;background:var(--is-bg);color:var(--is-ink);font-size:12.5px}
-#isOdak .is-od-sat button.on{border-color:var(--is-ink);background:var(--is-vurgu);font-weight:700}
-#isOdak .is-od-ac button.on::before{content:"✓ "}
-#isOdak .is-tv-alt{display:flex;gap:8px;margin-top:4px}
-#isOdak .is-tv-alt button{flex:1;background:var(--is-bg);border:0;border-radius:10px;color:var(--is-ink);min-height:38px;font-size:12.5px}
-#isOdak .is-tv-alt #isOdOyn{background:var(--accent);color:var(--accent-ink);font-weight:700}
+body.kv-studyo.is-mod.kv-kapali #isOdak:not([hidden]){display:block;position:fixed;left:0;right:0;z-index:33;background:var(--is-bg);border-top:1px solid color-mix(in srgb,var(--is-ink) 10%,transparent)}
+body.kv-studyo.is-mod #isKlipAr.odak-acik{visibility:hidden}
+#isOdak .is-od-ust{display:flex;align-items:center;gap:8px;padding:4px 6px 0 12px;height:34px}
+#isOdak .is-od-ust b{font-size:13.5px;color:var(--is-ink);white-space:nowrap}
+#isOdak .is-od-ust span{flex:1;min-width:0;font-size:11.5px;color:var(--is-mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#isOdak .is-od-ust button{background:none;border:0;color:var(--is-ink);width:42px;height:34px;display:grid;place-items:center;padding:0}
+#isOdak .is-od-ust svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+#isOdak .is-od-sira{display:flex;align-items:stretch;gap:0;overflow-x:auto;scrollbar-width:none;padding:2px 4px 4px;overscroll-behavior-x:contain}
+#isOdak .is-od-sira::-webkit-scrollbar{display:none}
+#isOdak .is-od-sira>button{flex:0 0 auto;min-width:64px;background:none;border:0;border-radius:10px;color:var(--is-ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:4px 4px 3px;font:500 11px/1.15 var(--ui,system-ui),sans-serif}
+#isOdak .is-od-sira>button[hidden]{display:none}
+#isOdak .is-od-sira>button:disabled{opacity:.35}
+#isOdak .is-od-sira>button:active{background:color-mix(in srgb,var(--is-ink) 9%,transparent)}
+#isOdak .is-od-sira>button svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;margin-bottom:2px}
+#isOdak .is-od-sira>button b{font-size:11.5px;font-weight:700;color:var(--is-ink);min-height:13px}
+#isOdak .is-od-sira>button span{color:var(--is-mute);font-size:10.5px}
+#isOdak .is-od-sira>button[data-k="oyn"]{color:var(--accent)}
+#isOdak .is-od-nok{display:flex;align-items:center;gap:5px;padding:0 6px 0 4px;margin-right:2px;border-right:1px solid color-mix(in srgb,var(--is-ink) 12%,transparent)}
+#isOdak .is-od-nok:empty{display:none}
+#isOdak .is-od-nok button{width:34px;height:34px;border-radius:50%;border:2px solid transparent;background:var(--accent);color:var(--accent-ink);font:800 14px/1 var(--ui,system-ui);padding:0}
+#isOdak .is-od-nok button.on{background:#fff;color:#111;border-color:var(--accent)}
 #isOdIsr{position:absolute;inset:0;pointer-events:none;z-index:4}
 #isOdIsr i{position:absolute;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font:800 13px/26px var(--ui,system-ui);text-align:center;font-style:normal;box-shadow:0 0 0 3px rgba(255,255,255,.85),0 2px 8px rgba(0,0,0,.5)}
 #isOdIsr i.on{background:#fff;color:#111;box-shadow:0 0 0 3px var(--accent),0 2px 8px rgba(0,0,0,.5)}
