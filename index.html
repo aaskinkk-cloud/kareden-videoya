@@ -44,7 +44,7 @@
 </style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="9.14" data-ad="Kareden Videoya" data-tarih="22.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="9.15" data-ad="Kareden Videoya" data-tarih="22.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -546,7 +546,7 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 9.14 · 31.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 9.15 · 01.11.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -782,6 +782,7 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
       <div class="two" id="blurRows">
         <div class="row"><div class="lab"><label for="bgBlur">Bulanıklık</label><output data-o="bg.blur" data-f="pct"></output></div><input type="range" id="bgBlur" data-k="bg.blur" min="10" max="100" step="1"></div>
         <div class="row"><div class="lab"><label for="bgDim">Karartma</label><output data-o="bg.dim" data-f="pct"></output></div><input type="range" id="bgDim" data-k="bg.dim" min="0" max="80" step="1"></div>
+        <div class="row" id="kenarRow"><span class="note">Kenar geçişi (dikey fotoğraf/video kenarı arka plana yumuşakça karışır)</span><div class="seg" data-k="bg.kenar" data-num><button data-v="0">Kapalı<small>keskin kenar</small></button><button data-v="1">Orta</button><button data-v="2">Geniş</button></div></div>
       </div>
       <div class="inline" id="colorRow"><input type="color" id="bgColor" data-k="bg.color"><label for="bgColor" class="note">Arka plan rengi</label></div>
     </div>
@@ -821,12 +822,13 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
         </div></div>
       <p class="note" style="margin:10px 0 6px"><b>Reels tarzı</b> · şeritler sırayla kayarak gelir, sonda kayarak çıkar</p>
       <div class="seg" data-k="intro.tpl">
-        <button data-v="r_strip">Beyaz şerit<small>kırmızı çizgi</small></button><button data-v="r_redwhite">Kırmızı-beyaz<small>sarı not</small></button><button data-v="r_bang">Sarı ünlem<small>!! işareti</small></button><button data-v="r_green">Yeşil tırnak<small>alıntı</small></button><button data-v="r_quote">Sarı balon<small>alıntı kutusu</small></button><button data-v="r_alert">Ünlem kutusu<small>kırmızı çerçeve</small></button><button data-v="r_dikkat">Dikkat<small>siyah etiket</small></button><button data-v="r_torn">Yırtık kâğıt<small>çizgili bant</small></button><button data-v="r_frame">Köşe çerçeve<small>sarı yazı</small></button><button data-v="r_tricolor">Üç renk<small>kırmızı·sarı·siyah</small></button><button data-v="r_frekans">Kırmızı sekme<small>sarı kutu</small></button>
+        <button data-v="r_strip">Beyaz şerit<small>kırmızı çizgi</small></button><button data-v="r_redwhite">Kırmızı-beyaz<small>sarı not</small></button><button data-v="r_bang">Sarı ünlem<small>!! işareti</small></button><button data-v="r_green">Yeşil tırnak<small>alıntı</small></button><button data-v="r_quote">Sarı balon<small>alıntı kutusu</small></button><button data-v="r_alert">Ünlem kutusu<small>kırmızı çerçeve</small></button><button data-v="r_dikkat">Dikkat<small>siyah etiket</small></button><button data-v="r_torn">Yırtık kâğıt<small>çizgili bant</small></button><button data-v="r_frame">Köşe çerçeve<small>sarı yazı</small></button><button data-v="r_tricolor">Üç renk<small>kırmızı·sarı·siyah</small></button><button data-v="r_frekans">Kırmızı sekme<small>sarı kutu</small></button><button data-v="r_alinti">Kırmızı alıntı<small>“ blok + beyaz şerit</small></button>
       </div>
       <div id="rlRows">
         <div class="row"><label for="inBand">Vurgu bandı (kırmızı/sarı/siyah bant)</label><input type="text" id="inBand" data-k="intro.band" placeholder="Örn. sonuna kadar izle!"></div>
         <div class="row"><label for="inBand2">2. vurgu bandı (alt satırda, farklı renk)</label><input type="text" id="inBand2" data-k="intro.band2" placeholder="Örn. çok şaşıracaksınız!"></div>
         <div class="chips" id="bandSamples"></div>
+        <div class="inline" id="alRenkRow"><input type="color" id="alRenk" data-k="intro.alRenk"><label for="alRenk" class="note">Kırmızı alıntı rengi (blok ve “ sekmesi)</label></div>
         <p class="note">Satırı istediğin yerden bölmek için <b>|</b> yaz. Başlık: <span class="mono">doğum yapan | kadınlar | çok şanslı…</span> · Bant: <span class="mono">çay içmez! | yardım kabul etmiyor!</span> (her parça ayrı bant olur). "Dikkat" şablonunda ilk bant üstteki siyah etikettir.</p>
       </div>
       <div class="row"><span class="note">Giriş hareketi (reels yazıları)</span><div class="seg" data-k="intro.anim"><button data-v="trend">Trend<small>hızlı savrulma</small></button><button data-v="dus">Düşerek<small>zıplayarak</small></button><button data-v="kay">Kayarak</button><button data-v="yuksel">Yükselerek</button><button data-v="buyu">Büyüyerek</button></div></div>
@@ -840,7 +842,7 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
         <div class="row"><label for="ek0t2">Yazı (2. satır, isteğe bağlı)</label><input type="text" id="ek0t2" data-k="intro.ek.0.title2" placeholder="Örn. çok konuşulacak!"></div>
         <div class="row"><label for="ek0b">Vurgu bandı (isteğe bağlı)</label><input type="text" id="ek0b" data-k="intro.ek.0.band" placeholder="Örn. daha uzun ömür…"></div>
         <div class="row"><label for="ek0b2">2. vurgu bandı (alt satırda, farklı renk)</label><input type="text" id="ek0b2" data-k="intro.ek.0.band2" placeholder="Örn. herkes bunu yapıyor"></div>
-        <div class="two"><div class="row"><label for="ek0s">Stil</label><select id="ek0s" data-k="intro.ek.0.tpl"><option value="r_strip">Beyaz şerit</option><option value="r_redwhite">Kırmızı-beyaz</option><option value="r_bang">Sarı ünlem</option><option value="r_green">Yeşil tırnak</option><option value="r_quote">Sarı balon</option><option value="r_alert">Ünlem kutusu</option><option value="r_dikkat">Dikkat</option><option value="r_torn">Yırtık kâğıt</option><option value="r_frame">Köşe çerçeve</option><option value="r_tricolor">Üç renk</option><option value="r_frekans">Kırmızı sekme</option></select></div>
+        <div class="two"><div class="row"><label for="ek0s">Stil</label><select id="ek0s" data-k="intro.ek.0.tpl"><option value="r_strip">Beyaz şerit</option><option value="r_redwhite">Kırmızı-beyaz</option><option value="r_bang">Sarı ünlem</option><option value="r_green">Yeşil tırnak</option><option value="r_quote">Sarı balon</option><option value="r_alert">Ünlem kutusu</option><option value="r_dikkat">Dikkat</option><option value="r_torn">Yırtık kâğıt</option><option value="r_frame">Köşe çerçeve</option><option value="r_tricolor">Üç renk</option><option value="r_frekans">Kırmızı sekme</option><option value="r_alinti">Kırmızı alıntı</option></select></div>
         <div class="row"><span class="note">Konum</span><div class="seg" data-k="intro.ek.0.pos"><button data-v="top">Üstte</button><button data-v="middle">Ortada</button><button data-v="bottom">Altta</button></div></div></div>
       </div>
       <div class="cgrp ekyazi">
@@ -850,7 +852,7 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
         <div class="row"><label for="ek1t2">Yazı (2. satır, isteğe bağlı)</label><input type="text" id="ek1t2" data-k="intro.ek.1.title2" placeholder="Örn. çok konuşulacak!"></div>
         <div class="row"><label for="ek1b">Vurgu bandı (isteğe bağlı)</label><input type="text" id="ek1b" data-k="intro.ek.1.band" placeholder="Örn. daha uzun ömür…"></div>
         <div class="row"><label for="ek1b2">2. vurgu bandı (alt satırda, farklı renk)</label><input type="text" id="ek1b2" data-k="intro.ek.1.band2" placeholder="Örn. herkes bunu yapıyor"></div>
-        <div class="two"><div class="row"><label for="ek1s">Stil</label><select id="ek1s" data-k="intro.ek.1.tpl"><option value="r_strip">Beyaz şerit</option><option value="r_redwhite">Kırmızı-beyaz</option><option value="r_bang">Sarı ünlem</option><option value="r_green">Yeşil tırnak</option><option value="r_quote">Sarı balon</option><option value="r_alert">Ünlem kutusu</option><option value="r_dikkat">Dikkat</option><option value="r_torn">Yırtık kâğıt</option><option value="r_frame">Köşe çerçeve</option><option value="r_tricolor">Üç renk</option><option value="r_frekans">Kırmızı sekme</option></select></div>
+        <div class="two"><div class="row"><label for="ek1s">Stil</label><select id="ek1s" data-k="intro.ek.1.tpl"><option value="r_strip">Beyaz şerit</option><option value="r_redwhite">Kırmızı-beyaz</option><option value="r_bang">Sarı ünlem</option><option value="r_green">Yeşil tırnak</option><option value="r_quote">Sarı balon</option><option value="r_alert">Ünlem kutusu</option><option value="r_dikkat">Dikkat</option><option value="r_torn">Yırtık kâğıt</option><option value="r_frame">Köşe çerçeve</option><option value="r_tricolor">Üç renk</option><option value="r_frekans">Kırmızı sekme</option><option value="r_alinti">Kırmızı alıntı</option></select></div>
         <div class="row"><span class="note">Konum</span><div class="seg" data-k="intro.ek.1.pos"><button data-v="top">Üstte</button><button data-v="middle">Ortada</button><button data-v="bottom">Altta</button></div></div></div>
       </div>
       <p class="note">Ek yazılar, giriş başlığı açıkken görünür. İkisini birden kullanacaksan "Ekranda kalma" süresini 5 sn civarına çıkar.</p>
@@ -1092,7 +1094,7 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
       <h3>Yazı stili</h3>
       <div class="seg" data-k="cover.style"><button data-v="bold">Kalın vurgulu<small>YouTube klasiği</small></button><button data-v="box">Kutulu</button><button data-v="band">Renkli bant</button><button data-v="outline">Kenarlı sade</button><button data-v="cinema">Sinematik</button></div>
       <p class="note" style="margin:6px 0 0"><b>Reels stilleri</b> (vurgu rengi bunlarda kullanılmaz)</p>
-      <div class="seg" data-k="cover.style"><button data-v="r_strip">Beyaz şerit</button><button data-v="r_redwhite">Kırmızı-beyaz</button><button data-v="r_bang">Sarı ünlem</button><button data-v="r_green">Yeşil tırnak</button><button data-v="r_quote">Sarı balon</button><button data-v="r_alert">Ünlem kutusu</button><button data-v="r_dikkat">Dikkat</button><button data-v="r_torn">Yırtık kâğıt</button><button data-v="r_frame">Köşe çerçeve</button><button data-v="r_tricolor">Üç renk</button><button data-v="r_frekans">Kırmızı sekme</button></div>
+      <div class="seg" data-k="cover.style"><button data-v="r_strip">Beyaz şerit</button><button data-v="r_redwhite">Kırmızı-beyaz</button><button data-v="r_bang">Sarı ünlem</button><button data-v="r_green">Yeşil tırnak</button><button data-v="r_quote">Sarı balon</button><button data-v="r_alert">Ünlem kutusu</button><button data-v="r_dikkat">Dikkat</button><button data-v="r_torn">Yırtık kâğıt</button><button data-v="r_frame">Köşe çerçeve</button><button data-v="r_tricolor">Üç renk</button><button data-v="r_frekans">Kırmızı sekme</button><button data-v="r_alinti">Kırmızı alıntı</button></div>
       <div class="seg" data-k="cover.hl"><button data-v="#ffd400">Sarı</button><button data-v="#ff3b30">Kırmızı</button><button data-v="#35e06b">Yeşil</button><button data-v="#27d3ff">Mavi</button><button data-v="#ff8a00">Turuncu</button></div>
       <label class="check"><input type="checkbox" id="covPop" data-k="cover.pop">Renkleri canlandır ve kenarları karart (dikkat çeker)</label>
       <div class="row"><div class="lab"><label for="covSize">Yazı boyutu</label><output data-o="cover.size" data-f="pct"></output></div><input type="range" id="covSize" data-k="cover.size" min="5" max="20" step="0.5"></div>
@@ -3575,14 +3577,14 @@ let uid = 1;
 
 const DEF = {
   fmt:'16:9', res:1080, fps:30, quality:'mid',
-  bg:{mode:'blur', color:'#101114', blur:60, dim:20},
+  bg:{mode:'blur', color:'#101114', blur:60, dim:20, kenar:1},
   kb:{on:true, rate:3, mode:'auto', face:30},
   tr:{type:'melt', dur:0.9}, fadeIn:true, fadeOut:false,
   color:{b:100, c:100, s:100},
   music:{autoAdd:true, autoFit:true, endFade:3, duck:true, duckLevel:25, norm:true},
   endcard:{on:true, dur:10, style:'cta', text:'İzlediğin için teşekkürler!', sub:'Abone olmayı ve beğenmeyi unutma', chan:'',
     like:'Beğen', likeSub:'Videoyu beğendiysen beğen tuşuna dokun', subs:'Abone ol', subsSub:'Kanalı takip etmiyorsan abone ol', subsDone:'Abone olundu', share:'Paylaş', shareSub:'Bir arkadaşına gönder'},
-  intro:{on:true, tpl:'cinematic', date:true, title:'', sub:'', band:'', band2:'', quiet:true, anim:'trend', sfx:true, sfxVol:70, ek:[{on:false, tpl:'r_alert', title:'', title2:'', band:'', band2:'', pos:'top'}, {on:false, tpl:'r_quote', title:'', title2:'', band:'', band2:'', pos:'bottom'}], dur:3.5, blurIn:true, blurDur:2, blurStyle:'figure'},
+  intro:{alRenk:'#d0121a', on:true, tpl:'cinematic', date:true, title:'', sub:'', band:'', band2:'', quiet:true, anim:'trend', sfx:true, sfxVol:70, ek:[{on:false, tpl:'r_alert', title:'', title2:'', band:'', band2:'', pos:'top'}, {on:false, tpl:'r_quote', title:'', title2:'', band:'', band2:'', pos:'bottom'}], dur:3.5, blurIn:true, blurDur:2, blurStyle:'figure'},
   bokeh:{mode:'intro', color:'gold', amount:55, size:100},
   remind:{on:true, at:10, dur:5, text:'Kanalıma abone ol', text2:'Yeni videolar için zili aç'},
   voice:{wpm:130, font:30, rate:1, voiceURI:'', sessiz:5},
@@ -3755,13 +3757,14 @@ function autoFixOf(th){
   const m = s/n, sd = Math.sqrt(Math.max(0, s2/n - m*m));
   return {b: clamp(100*Math.pow(0.47/Math.max(0.05, m), 0.45), 88, 128), c: clamp(100*Math.pow(0.21/Math.max(0.03, sd), 0.35), 94, 118)};
 }
-function pkey(c, W, H){ return `${c.id}|${W}x${H}|${zb(Math.max(1,c.zoom)*kbMax(c))}|r${c.rot || 0}|${colorFilter(c)}|${S.bg.mode==='blur' ? S.bg.blur+','+S.bg.dim : '-'}`; }
+function pkey(c, W, H){ return `${c.id}|${W}x${H}|${zb(Math.max(1,c.zoom)*kbMax(c))}|r${c.rot || 0}|${colorFilter(c)}|${S.bg.mode==='blur' ? S.bg.blur+','+S.bg.dim+','+(S.bg.kenar|0) : '-'}`; }
 const pvCache = new Map(), inflight = new Map();
 function freePrep(o){ if (o && o.fg){ o.fg.width = 0; if (o.bg) o.bg.width = 0; } }
 async function prepare(c, W, H, cache, maxKeep){
   const k = pkey(c, W, H);
   if (cache.has(k)){ const v = cache.get(k); cache.delete(k); cache.set(k, v); return v; }
   if (inflight.has(k)) return inflight.get(k);
+  const kn0 = S.bg.kenar|0;   /* 9.15: ayar, hazırlık sırasında değişse de anahtarla aynı kalsın */
   const pr = (async () => {
     const bmp0 = await createImageBitmap(c.file);
     let bmp = bmp0;
@@ -3776,7 +3779,7 @@ async function prepare(c, W, H, cache, maxKeep){
     g.drawImage(bmp, 0, 0, fw, fh);
     bmp.close();
     let bg = null;
-    if (S.bg.mode === 'blur' && (c.zoom || 1) < coverZoom(c) - 0.001){ bg = mk(Math.max(64, Math.round(W/8)), Math.max(36, Math.round(Math.max(64, Math.round(W/8))*H/W))); paintBlur(bg, fg, fw, fh, ''); }
+    if (S.bg.mode === 'blur' && (c.zoom || 1) < coverZoom(c) - 0.001){ bg = mk(Math.max(64, Math.round(W/8)), Math.max(36, Math.round(Math.max(64, Math.round(W/8))*H/W))); paintBlur(bg, fg, fw, fh, '', kn0); }
     return {fg, bg};
   })();
   inflight.set(k, pr);
@@ -3793,12 +3796,14 @@ function rotCanvas(src, rot, maxSide){
   g.imageSmoothingQuality = 'high'; g.translate(out.width/2, out.height/2); g.rotate(r*Math.PI/2); g.drawImage(src, -w/2, -h/2, w, h);
   return out;
 }
-function paintBlur(bg, src, sw0, sh0, filt){
+function paintBlur(bg, src, sw0, sh0, filt, kn){
+  if (kn == null) kn = S.bg.kenar|0;
   const sw = bg.width, sh = bg.height, b = bg.getContext('2d');
   const r = S.bg.blur/100 * Math.max(sw, sh) * 0.07;
   b.save(); b.filter = `blur(${r.toFixed(2)}px)` + (filt ? ' ' + filt : '');
-  const cover = Math.max(sw/sw0, sh/sh0) * 1.3, dw = sw0*cover, dh = sh0*cover;
-  b.drawImage(src, (sw-dw)/2, (sh-dh)/2, dw, dh);
+  if (kn){ b.drawImage(src, -sw*0.05, -sh*0.05, sw*1.1, sh*1.1); }   /* 9.15: kenar geçişi — gerilmiş arka plan */
+  else { const cover = Math.max(sw/sw0, sh/sh0) * 1.3, dw = sw0*cover, dh = sh0*cover;
+  b.drawImage(src, (sw-dw)/2, (sh-dh)/2, dw, dh); }
   b.restore();
   if (S.bg.dim > 0){ b.fillStyle = `rgba(0,0,0,${S.bg.dim/100})`; b.fillRect(0,0,sw,sh); }
 }
@@ -3946,11 +3951,33 @@ function makeRenderer(ctx, W, H, getSrc){
       cx = clamp(tx - (c.fx - 0.5)*fw, dx + W - fw/2, dx + fw/2); cy = clamp(ty - (c.fy - 0.5)*fh, H - fh/2, fh/2);
     }
     if (filt) g.filter = filt;
-    if (img !== c.thumb && c.kind === 'video' && c.rot){ g.translate(cx, cy); g.rotate(c.rot*Math.PI/2); const sw = c.rot % 2 ? fh : fw, sh = c.rot % 2 ? fw : fh; g.drawImage(img, -sw/2, -sh/2, sw, sh); }
+    if (img !== c.thumb && c.kind === 'video' && c.rot){ g.save(); g.translate(cx, cy); g.rotate(c.rot*Math.PI/2); const sw = c.rot % 2 ? fh : fw, sh = c.rot % 2 ? fw : fh; g.drawImage(img, -sw/2, -sh/2, sw, sh); g.restore(); }
     else g.drawImage(img, cx - fw/2, cy - fh/2, fw, fh);
+    if (!covers && S.bg.mode === 'blur' && bgImg && (S.bg.kenar|0)) kenarCiz(g, bgImg, dx, cx, cy, fw, fh);
     g.restore();
     geo.set(i, {cx, cy, fw, fh, dx});
     try { tkKlipCiz(g, c, local, cx, cy, fw, fh, alpha, dx, W, H); } catch(e){}
+  }
+  /* 9.15: KENAR GEÇİŞİ — dikey fotoğraf/video kenarı bulanık arka plana keskin çizgi olmadan karışır.
+     Arka planın küçük kopyası, görüntünün kenarlarında içe doğru saydamlaşan maskeyle görüntünün üstüne çizilir. */
+  let knC = null, knM = null;
+  function kenarCiz(g, bg, dx, cx, cy, fw, fh){
+    const k = S.bg.kenar|0, l = cx - dx - fw/2, t = cy - fh/2, hx = l > 1.5 || l + fw < W - 1.5, hy = t > 1.5 || t + fh < H - 1.5;   /* kenarı ekranın içinde kalan eksen */
+    if (!hx && !hy) return;
+    const bw = bg.width, bh = bg.height, sx = bw/W, sy = bh/H;
+    if (!knC || knC.width !== bw || knC.height !== bh){ knC = mk(bw, bh); knM = mk(bw, bh); }
+    const fr = k >= 2 ? 0.30 : 0.18, ix = (cx - dx - fw/2)*sx, iy = (cy - fh/2)*sy, iw = fw*sx, ih = fh*sy;
+    if (iw < 2 || ih < 2) return;
+    /* maske = görüntünün görünürlüğü: yatay rampa × dikey rampa (yalnız boşluk olan eksende) */
+    const rampa = (o, yat, p) => { const gr = yat ? o.createLinearGradient(ix, 0, ix + iw, 0) : o.createLinearGradient(0, iy, 0, iy + ih);
+      if (p > 0){ gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(p*0.5, 'rgba(0,0,0,.55)'); gr.addColorStop(p, '#000'); gr.addColorStop(1 - p, '#000'); gr.addColorStop(1 - p*0.5, 'rgba(0,0,0,.55)'); gr.addColorStop(1, 'rgba(0,0,0,0)'); }
+      else { gr.addColorStop(0, '#000'); gr.addColorStop(1, '#000'); } return gr; };
+    const m = knM.getContext('2d'); m.globalCompositeOperation = 'source-over'; m.clearRect(0, 0, bw, bh);
+    m.fillStyle = rampa(m, true, hx ? Math.min(0.5, fr) : 0); m.fillRect(ix, iy, iw, ih);
+    if (hy){ m.globalCompositeOperation = 'destination-in'; m.fillStyle = rampa(m, false, Math.min(0.5, fr*(fw/fh < 1 ? 0.75 : 1))); m.fillRect(0, 0, bw, bh); m.globalCompositeOperation = 'source-over'; }
+    const o = knC.getContext('2d'); o.globalCompositeOperation = 'source-over'; o.clearRect(0, 0, bw, bh); o.drawImage(bg, 0, 0, bw, bh);
+    o.globalCompositeOperation = 'destination-out'; o.drawImage(knM, 0, 0); o.globalCompositeOperation = 'source-over';
+    g.save(); g.filter = 'none'; g.imageSmoothingEnabled = true; g.drawImage(knC, dx, 0, W, H); g.restore();
   }
   let kfS = null, kfK = null;
   function kfCiz(g, c, i, img, local, dx, extra){
@@ -4345,9 +4372,9 @@ function drawIntroBody(g, W, H, t){
   g.restore();
 }
 /* ---------- Reels / kanca tarzı giriş başlıkları (kayan şeritler, sessiz giriş) ---------- */
-const RL_TPL = ['r_strip','r_redwhite','r_bang','r_green','r_quote','r_alert','r_dikkat','r_torn','r_frame','r_tricolor','r_frekans'];
+const RL_TPL = ['r_strip','r_redwhite','r_bang','r_green','r_quote','r_alert','r_dikkat','r_torn','r_frame','r_tricolor','r_frekans','r_alinti'];
 const isReels = tpl => RL_TPL.includes(tpl);
-const RL_ADLAR = {r_strip:'Beyaz şerit', r_redwhite:'Kırmızı-beyaz', r_bang:'Sarı ünlem', r_green:'Yeşil tırnak', r_quote:'Sarı balon', r_alert:'Ünlem kutusu', r_dikkat:'Dikkat', r_torn:'Yırtık kâğıt', r_frame:'Köşe çerçeve', r_tricolor:'Üç renk', r_frekans:'Kırmızı sekme'};
+const RL_ADLAR = {r_strip:'Beyaz şerit', r_redwhite:'Kırmızı-beyaz', r_bang:'Sarı ünlem', r_green:'Yeşil tırnak', r_quote:'Sarı balon', r_alert:'Ünlem kutusu', r_dikkat:'Dikkat', r_torn:'Yırtık kâğıt', r_frame:'Köşe çerçeve', r_tricolor:'Üç renk', r_frekans:'Kırmızı sekme', r_alinti:'Kırmızı alıntı'};
 const RL_RED = '#e3101b', RL_YEL = '#ffd60a', RL_GRN = '#43a98a', RL_INK = '#111111';
 const RL_BAND_SAMPLES = ['sonuna kadar izle!', 'bunu kimse bilmiyor!', 'anlatırsan elden gider', 'çok şaşıracaksınız!', 'gül deyip geçme', 'DİKKAT'];
 const RL_COND = '{w} {s}px "Barlow Condensed", "Roboto Condensed", "Arial Narrow", Impact, sans-serif';
@@ -4606,6 +4633,26 @@ function drawReels(g, W, H, t, o){
         rlText(g, b.lines[0], W/2, yy + h2/2 + b.fs*0.34, rlFont(RL_COND, 800, b.fs), fgc, 'center', fgc === RL_INK ? 0 : b.fs*0.06);
         g.fillStyle = '#fff'; rlCorner(g, x2 - o, yy - o, arm, th, 1, 1); rlCorner(g, x2 + w2 + o, yy + h2 + o, arm, th, -1, -1); });
       y += h2 + fs*0.12; });
+  }
+  else if (tpl === 'r_alinti'){   /* 9.15: kırmızı alıntı bloğu (üstünde “ sekmesi) + soldan açılan beyaz şeritler */
+    const RC = /^#[0-9a-f]{6}$/i.test(S.intro.alRenk || '') ? S.intro.alRenk : '#d0121a';
+    const F = rlFit(g, title, RL_GEO, 800, fs0*1.02, maxW*0.86, 3), fs = F.fs, pad = fs*0.4, lh = fs*1.36, gap = fs*0.16;
+    const barsH = F.lines.length*(lh + gap) - gap, blockW = Math.max(...F.ws) + pad*2;
+    const bf = bands.map(b => rlFit(g, b, RL_COND, 800, fs*0.8, maxW*0.95, 1)), bH = bf.map(b => b.fs*1.35);
+    const bandsH = bf.length ? fs*0.42 + bH.reduce((a, h) => a + h + fs*0.12, 0) - fs*0.12 : 0;
+    const top = CY - (barsH + bandsH)/2 + fs*0.35, x0 = Math.max(W*0.04 + fs*0.7, (W - blockW)/2 + fs*0.55);
+    const rx = x0 - fs*0.7, rw = fs*1.95, ry = top - fs*0.3, rh = barsH + fs*0.95 + (bf.length ? 0 : fs*0.05);
+    const tw = fs*1.25, th = fs*0.95, tx = rx + (rw - tw)/2 + fs*0.18, ty = ry - th + fs*0.02;
+    add('growY', -1, {x:rx, y:ry, w:rw, h:rh}, g => { rlShadow(g, fs, true); g.beginPath(); if (g.roundRect) g.roundRect(rx, ry, rw, rh, [fs*0.3, 0, 0, fs*0.3]); else g.rect(rx, ry, rw, rh); g.fillStyle = RC; g.fill(); rlShadow(g, fs, false); });
+    add('pop', -1, {x:tx, y:ty, w:tw, h:th}, g => { g.beginPath(); if (g.roundRect) g.roundRect(tx, ty, tw, th + fs*0.05, [fs*0.48, fs*0.48, 0, 0]); else g.rect(tx, ty, tw, th + fs*0.05); g.fillStyle = RC; g.fill(); rlQuote(g, tx + tw/2, ty + th*0.42, th*1.25, '#fff'); });
+    F.lines.forEach((ln, i) => { const y = top + i*(lh + gap), w = F.ws[i] + pad*2;
+      add('wipe', -1, {x:x0, y, w, h:lh}, g => { rlShadow(g, fs, true); g.fillStyle = '#fff'; g.fillRect(x0, y, w, lh); rlShadow(g, fs, false);
+        rlText(g, ln, x0 + pad, y + lh/2 + fs*0.36, rlFont(RL_GEO, 800, fs), RL_INK, 'left'); }); });
+    let by = top + barsH + fs*0.42;
+    bf.forEach((b, j) => { const bw = b.ws[0] + b.fs*0.9, bh = bH[j], y = by, bx = Math.min(W - bw - W*0.03, x0);
+      add('slide', 1, {x:bx, y, w:bw, h:bh}, g => { const [bgc, fgc] = BR(balt[j], RC); rlShadow(g, fs, true); g.fillStyle = bgc; g.fillRect(bx, y, bw, bh); rlShadow(g, fs, false);
+        rlText(g, b.lines[0], bx + bw/2, y + bh/2 + b.fs*0.34, rlFont(RL_COND, 800, b.fs), fgc, 'center', fgc === RL_INK ? 0 : b.fs*0.06); });
+      by += bh + fs*0.12; });
   }
   if (o.collect){ items.forEach(it => o.collect.push({i:it.i, mode:it.mode})); g.restore(); return; }
   rlRun(g, items, t, o.still ? 999 : D, W, H, {anim:o.anim || S.intro.anim || 'trend', still:!!o.still});
@@ -7234,7 +7281,7 @@ async function buildCovers(){
     const picked = [], seen = new Map();
     for (const a of all){ const n = seen.get(a.c.id) || 0; if (n >= 1 && all.length > 6) continue; seen.set(a.c.id, n+1); picked.push(a); if (picked.length >= 6) break; }
     coverCands = picked;
-    { const s0 = [S.cover.style || 'bold', S.cover.hl || '#ffd400'], RS = ['r_strip', 'r_quote', 'r_alert', 'r_torn', 'r_frame', 'r_dikkat', 'r_tricolor', 'r_green', 'r_frekans', 'r_bang', 'r_redwhite'].map(x => [x, s0[1]]), sty = isReels(s0[0]) ? [s0, ...RS.filter(x => x[0] !== s0[0])] : RS; picked.forEach((a, k) => { a.st = sty[k % sty.length][0]; a.hl = sty[k % sty.length][1]; }); }
+    { const s0 = [S.cover.style || 'bold', S.cover.hl || '#ffd400'], RS = ['r_strip', 'r_quote', 'r_alert', 'r_torn', 'r_frame', 'r_dikkat', 'r_tricolor', 'r_green', 'r_frekans', 'r_bang', 'r_redwhite', 'r_alinti'].map(x => [x, s0[1]]), sty = isReels(s0[0]) ? [s0, ...RS.filter(x => x[0] !== s0[0])] : RS; picked.forEach((a, k) => { a.st = sty[k % sty.length][0]; a.hl = sty[k % sty.length][1]; }); }
     $('#covStatus').textContent = `${all.length} kare incelendi. Puanı en yüksek ${picked.length} öneri:`;
     const box = $('#cands'); box.innerHTML = '';
     for (let k=0;k<picked.length;k++){
@@ -8076,6 +8123,7 @@ function syncUI(){
   renderChips(); if ($('#vText')) vStats(); introOneriSoon();
   $('#tvNote').hidden = S.fmt === '16:9'; $('#tvNote').textContent = S.fmt === '16:9' ? '' : `Bu video ${S.fmt} biçiminde: televizyonda ve bilgisayarda yanlarda siyah boşluk olur. Televizyonu tam doldurması için Görünüm → 16:9 seç.`;
   $('#sfxRow').hidden = !S.intro.sfx;
+  { const ar = $('#alRenkRow'); if (ar) ar.hidden = S.intro.tpl !== 'r_alinti'; }
   { const R = isReels(S.intro.tpl); $('#rlRows').hidden = !R; $('#inSub').closest('.row').hidden = R; $('#subSamples').hidden = R; $('#inDate').closest('label').hidden = R; $('#inDateInfo').hidden = R; }
   { const ds = commonShotDate(); $('#inDateInfo').textContent = ds ? 'Ortak çekim tarihi: ' + ds : 'Çekim tarihi bulunamadı (fotoğraflarda tarih bilgisi yok).'; }
   $('#lSizeL').textContent = S.logo.auto !== false ? 'Boyut (otomatiğe göre büyüt/küçült)' : 'Boyut (genişliğin yüzdesi)'; $('#lGlowRow').hidden = !S.logo.glow;

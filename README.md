@@ -21,7 +21,7 @@
 Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda çalışan uygulama (PWA). Dosyalar telefondan dışarı gönderilmez; video cihazda oluşturulur. Tek dosya: `index.html`; çevrimdışı önbellek `sw.js`.
 
 **Adres:** https://aaskinkk-cloud.github.io/kareden-videoya/  
-**Güncel sürüm:** 9.14 · 31.10.2026
+**Güncel sürüm:** 9.15 · 01.11.2026
 
 ## Bölümler
 - **Klipler** – klip sırası, katmanlar (zaman çizelgesi: böl, çoğalt, uzat/kısalt), kadraj, hareket (Ken Burns), takip eden yazı, toplu ayarlar.
@@ -35,6 +35,7 @@ Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda �
 - **Basit mod** – temel bölümler görünür; gizlenen ayarlar aynen çalışır.
 
 ## Sürüm notları
+- **9.15** – **Kırmızı alıntı başlığı** (Şablon › Başlık, Reels tarzı; ek yazılarda ve kapakta da): üstünde “ sekmesi olan kırmızı blok büyür, beyaz şeritler soldan açılır, sonda geri kapanır; vurgu bandı desteklenir, blok rengi seçilebilir. **Kenar geçişi** (Görünüm › Arka plan, bulanık modda; Kapalı / **Orta** (varsayılan) / Geniş): dikey fotoğraf ve videoların kenarı arka plana keskin çizgi olmadan, yumuşakça karışır; arka plan fotoğrafın yana gerilmiş bulanık hâlinden yapılır (gökyüzü gökyüzüne denk gelir). Ekranı dolduran (Doldur) görüntülerde kenar olmadığından etkisi yoktur.
 - **9.14** – **Yeni ana ekran (InShot görünümü, telefon):** büyük kartlar — **Yeni video** (fotoğraf + video), **Fotoğraf** (yalnız fotoğraf seçici), **Kolaj** (yakında), **Taslaklar** (proje sayısı; dokununca taslak listesine iner); **Son projeye devam et**, video türü çipleri, proje paketi aç; üstte gündüz/gece ve klasik görünüm düğmeleri. Kartlar eski düğmelerin aynı işlevini çağırır; klasik görünümde eski ana ekran aynen durur. **Düzeltme:** Klip › **Hızlı yol · 4 adım** düğmeleri dar ekranda sağa taşıyordu — artık 2×2 sığar.
 - **9.13** – **Ara başlıklar da tek tek:** bölüm içindeki başlıklar üst satırın altında ikinci satır düğmeler olarak; her seferinde yalnız seçilen blok görünür (Klip › Seçili klip: Süre · Kadraj · Hareket · Takip yazı · Sıra; Şablon › Başlık: Genel · Ek yazı 1 · Ek yazı 2; Aktar › Çözünürlük: Çözünürlük · Kare hızı · Kalite). Seçim hatırlanır. **Düzeltme:** menüde aşağı kaydırınca her saniye başa fırlıyordu (bölüm yenilemesi kaydırmayı sıfırlıyordu) — artık kaydırma yeri korunur.
 - **9.12** – Düzeltmeler: Klasik görünümde **Ayarla** (kısayol çubuğu) menüsü açık panelin **arkasında** kalıyor, üst kısmı ve kapatma yolu örtülüyordu (ekran donmuş gibi) — artık en üst katmanda, üstte sabit **✕ Kapat**, dışına dokununca da kapanır. Klasik görünümde çalışmayan **Tuval / Metin** düğmeleri gizlendi (yalnız InShot görünümünde). **Hızlı yol · 4 adım** kartı yalnız basit modda görünüyordu, kayboluyordu — artık her zaman görünür; InShot görünümünde Klip menüsü ilk bölüm olarak **Hızlı yol** ile açılır.
