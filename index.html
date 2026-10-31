@@ -44,7 +44,7 @@
 </style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="9.11" data-ad="Kareden Videoya" data-tarih="22.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="9.12" data-ad="Kareden Videoya" data-tarih="22.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -519,7 +519,7 @@ body.pvfs #pvFull{display:inline-grid!important}
 }
 /* 7.1 basit mod + akıllı düzeltme */
 #pvBasit[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-html:not(.basit) #hizliKart{display:none}
+/* 9.12: Hızlı yol kartı her zaman görünür (yalnız basit modda görünüyordu, kayboluyordu) */
 html.basit .ileri{display:none!important}
 html.basit .tabs .tab:not([data-tab="photo"]):not([data-tab="voice"]):not([data-tab="music"]):not([data-tab="subs"]):not([data-tab="out"]){display:none}
 html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voice"]):not([data-tab="music"]):not([data-tab="subs"]):not([data-tab="out"]){display:none}
@@ -546,7 +546,7 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 9.11 · 31.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 9.12 · 31.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -10384,7 +10384,7 @@ function isKur(){
       d.innerHTML = '<span>Görünüm</span><div class="is-bt-sec"><button type="button" data-t="inshot"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="3" width="12" height="18" rx="2.5"/><path d="M9 15h6M9 18h6"/><rect x="8" y="6" width="8" height="6" rx="1"/></svg><b>InShot</b><small>sade · telefon</small></button><button type="button" data-t="klasik"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 20V9"/></svg><b>Klasik</b><small>tüm ayarlar</small></button></div>';
       d.addEventListener('click', e => { const x = e.target.closest('button[data-t]'); if (!x) return; try { LS.set('kv2.isKlasik', x.dataset.t === 'klasik'); } catch(_){} isTemaUygula(); toast(x.dataset.t === 'klasik' ? 'Klasik görünüm seçildi' : 'InShot görünümü seçildi'); });
       st.prepend(d); } }
-  isAltIzle(); isTemaUygula();
+  isAltIzle(); isCfgKur(); isTemaUygula();
   isCiz(true); isYer(); requestAnimationFrame(isDongu);
   addEventListener('resize', () => { isCiz(true); isYer(); });
   new MutationObserver(isYer).observe(B, {attributes: true, attributeFilter: ['class']});
@@ -10406,7 +10406,7 @@ const IS_IKON = [
   [/seslendir|okur ses/i, '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/>'], [/nasıl/i, '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 114 2c-.9.5-1.5 1-1.5 2M12 17v.1"/>'],
   [/metin/i, '<path d="M6 4h9l3 3v13H6z"/><path d="M9 11h6M9 15h6"/>'], [/temizle/i, '<path d="M4 20l6-6M14 4l6 6-8 8-6-6z"/>'], [/sonra/i, '<path d="M5 12h14M13 6l6 6-6 6"/>'],
   [/müzik ekle/i, '<path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><path d="M17 8v6M14 11h6"/>'], [/şarkı/i, '<path d="M4 6h12M4 12h12M4 18h8"/><circle cx="19" cy="17" r="2"/><path d="M21 17V9"/>'],
-  [/otomatik/i, '<path d="M12 3l1.8 4.7L18 9.5l-4.2 1.8L12 16l-1.8-4.7L6 9.5l4.2-1.8z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/>'],
+  [/hızlı yol/i, '<path d="M13 3L5 13h6l-1 8 8-10h-6z"/>'], [/otomatik/i, '<path d="M12 3l1.8 4.7L18 9.5l-4.2 1.8L12 16l-1.8-4.7L6 9.5l4.2-1.8z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/>'],
   [/altyazı ekle/i, '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 13h4M13 13h4M7 16h10"/>'], [/görünüm/i, '<path d="M4 7V4h16v3M9 20h6M12 4v16"/>'],
   [/logo dosya/i, '<circle cx="12" cy="12" r="8"/><path d="M8.5 13.5l2-3 2 2 1.5-2 2 3z"/>'], [/konum/i, '<path d="M12 21s-6-5.5-6-11a6 6 0 0112 0c0 5.5-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/>'],
   [/kapak öneri/i, '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 15l3-3 3 3 2-2 3 3"/>'], [/seçili kapak/i, '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 12.5l2.5 2.5L16 9.5"/>'],
@@ -10428,17 +10428,18 @@ function isAltYap(){
   const t = B.dataset.kvtab, pn = document.querySelector(`#editor [data-panel="${t}"]`); if (!pn){ row.hidden = true; return; }
   temizle();
   const gruplar = []; let g = null;
-  if (t === 'photo'){ const ek = [document.querySelector('.kv-pan > .strip'), document.querySelector('.kv-pan > #katman')].filter(e => e && getComputedStyle(e).display !== 'none'); if (ek.length) gruplar.push({ad: 'Sıra', els: ek}); }
+  const siraEk = t === 'photo' ? [document.querySelector('.kv-pan > .strip'), document.querySelector('.kv-pan > #katman')].filter(e => e && getComputedStyle(e).display !== 'none') : [];
   for (const ch of pn.children){
     if (ch.matches('.phead') || getComputedStyle(ch).display === 'none') continue;
     const h = ch.matches('.sect') && ch.querySelector(':scope > h3');
     if (h){ g = {ad: h.textContent.trim(), els: [ch], sect: ch}; gruplar.push(g); }
     else if (g) g.els.push(ch);
-    else { g = {ad: t === 'photo' ? 'Genel' : 'Genel', els: [ch]}; gruplar.push(g); }
+    else { g = {ad: t === 'photo' ? 'Hızlı yol' : 'Genel', els: [ch]}; gruplar.push(g); }
   }
+  if (siraEk.length) gruplar.splice(Math.min(1, gruplar.length), 0, {ad: 'Sıra', els: siraEk});
   const sakla = []; ['photo'].includes(t) || [document.querySelector('.kv-pan > .strip'), document.querySelector('.kv-pan > #katman')].forEach(e => e && sakla.push(e));
   if (gruplar.length < 2){ row.hidden = true; row.dataset.imza = ''; const G0 = gruplar[0]; if (G0 && G0.sect){ G0.sect.classList.add('is-tek'); if (G0.sect.classList.contains('kapali')) try { G0.sect.firstElementChild.click(); } catch(e){} } return; }   /* tek bölüm: doğrudan açık */
-  IS.alt = IS.alt || LS.get('kv2.isAlt') || {}; let sec = IS.alt[t]; if (!(sec >= 0 && sec < gruplar.length)) sec = gruplar.findIndex(x => x.sect) >= 0 ? (t === 'photo' && gruplar[0].ad === 'Sıra' ? 1 : 0) : 0;
+  IS.alt = IS.alt || LS.get('kv2.isAlt2') || {}; let sec = IS.alt[t]; if (!(sec >= 0 && sec < gruplar.length)) sec = 0;
   const imza = t + '|' + gruplar.map(x => x.ad).join('|');
   if (row.dataset.imza !== imza){ row.dataset.imza = imza;
     row.innerHTML = gruplar.map((x, i) => `<button type="button" data-i="${i}"><svg viewBox="0 0 24 24" aria-hidden="true">${isIkon(x.ad)}</svg><span>${isKisa(x.ad)}</span></button>`).join(''); }
@@ -10453,7 +10454,7 @@ function isAltKur(){
   const pan = document.querySelector('.kv-pan'), pb = pan && pan.querySelector('.kv-panb'); if (!pb || $('#isAltSek')) return;
   const row = document.createElement('div'); row.id = 'isAltSek'; row.hidden = true; pb.after(row);
   row.addEventListener('click', e => { const b = e.target.closest('button[data-i]'); if (!b) return; const t = document.body.dataset.kvtab;
-    IS.alt = IS.alt || {}; IS.alt[t] = +b.dataset.i; try { LS.set('kv2.isAlt', IS.alt); } catch(_){} isAltYap(); pan.scrollTop = 0; });
+    IS.alt = IS.alt || {}; IS.alt[t] = +b.dataset.i; try { LS.set('kv2.isAlt2', IS.alt); } catch(_){} isAltYap(); pan.scrollTop = 0; });
 }
 /* panel kabuğu düzenleyici açılınca oluşur: o zaman kur; sekme / görünüm / basit mod değişince yeniden düzenle */
 function isAltIzle(){
@@ -10463,6 +10464,15 @@ function isAltIzle(){
   iste();
 }
 /* klasik / InShot görünümü seçimi (⋯ menüsünde) */
+/* 9.12: Klasik görünümdeki kısayol ayarı menüsü — üstte sabit ✕ Kapat, dışına dokununca kapanır (Tamam altta kalıyordu) */
+function isCfgKur(){
+  const m = $('#minicfg'); if (!m || m.dataset.isKapat) return; m.dataset.isKapat = '1';
+  if (document.body.classList.contains('mobar')) document.body.appendChild(m);   /* telefonda panelin arkasında kalıyordu: en üst katmana */
+  const kapat = () => { const b = document.querySelector('#mininav button.cfg'); if (!m.hidden && b) b.click(); else m.hidden = true; };
+  const ust = document.createElement('div'); ust.className = 'is-cfg-ust'; ust.innerHTML = '<b>Kısayol çubuğu</b><button type="button">✕ Kapat</button>';
+  ust.querySelector('button').addEventListener('click', kapat); m.prepend(ust);
+  document.addEventListener('pointerdown', e => { if (m.hidden || getComputedStyle(m).display === 'none') return; if (m.contains(e.target) || e.target.closest('#mininav button.cfg')) return; kapat(); }, true);
+}
 function isTemaUygula(){
   const k = !!LS.get('kv2.isKlasik'), B = document.body; B.classList.toggle('is-mod', !k);
   const b = $('#isTemaSec'); if (b){ b.dataset.lb = k ? 'InShot görünümüne geç' : 'Klasik görünüme geç'; }
@@ -11118,6 +11128,11 @@ body.kv-studyo.is-mod #mininav button svg{display:block!important;flex:none}
 body.kv-studyo.is-mod #mininav button span{display:block!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:72px;padding:0!important}
 body.kv-studyo.is-mod #mininav button.cfg{border:0!important;opacity:.75}
 body.kv-studyo.is-mod #minicfg{bottom:calc(var(--isZsH,0px) + 70px + env(safe-area-inset-bottom,0px))!important}
+/* 9.12 · kısayol ayarı üst çubuğu */
+body.mobar #minicfg{z-index:70!important}
+#minicfg .is-cfg-ust{position:sticky;top:-1px;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:8px;margin:-4px -4px 8px;padding:8px 6px;background:var(--panel);border-bottom:1px solid var(--line)}
+#minicfg .is-cfg-ust b{font-size:14px}
+#minicfg .is-cfg-ust button{border:0;border-radius:999px;background:var(--accent);color:var(--accent-ink);font:700 14px/1 var(--ui,system-ui);padding:9px 16px}
 /* 9.11 · Metin */
 #isMetin{display:none}
 body.kv-studyo.is-mod.kv-kapali #isMetin:not([hidden]){display:block;position:fixed;left:0;right:0;z-index:33;background:var(--is-bg);border-top:1px solid color-mix(in srgb,var(--is-ink) 10%,transparent)}
@@ -11144,6 +11159,7 @@ body.kv-studyo.is-mod.kv-klv #isMetin:not([hidden]){display:block;position:fixed
 #isZs .is-yz{position:absolute;top:0;height:15px;border:0;border-radius:4px;background:#8a5cf6;color:#fff;font:700 9.5px/15px var(--ui,system-ui);padding:0 5px;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;z-index:4;opacity:.92}
 #isZs .is-yz.on{box-shadow:0 0 0 2px var(--is-ink)}
 body.kv-studyo.is-mod #mininav #isMtBtn{order:-1}
+body:not(.is-mod) #isTvBtn,body:not(.is-mod) #isMtBtn{display:none!important}
 /* 9.10 · ana sayfa görünüm seçimi */
 #isBasTema{display:flex;align-items:center;gap:12px;margin:4px 0 14px;padding:10px 12px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
 #isBasTema>span{font-size:13px;color:var(--mute);font-weight:600}
