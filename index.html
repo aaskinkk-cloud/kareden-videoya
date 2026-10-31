@@ -44,7 +44,7 @@
 </style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="9.13" data-ad="Kareden Videoya" data-tarih="22.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="9.14" data-ad="Kareden Videoya" data-tarih="22.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -546,7 +546,7 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 9.13 · 31.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 9.14 · 31.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -10384,6 +10384,47 @@ function isKur(){
       d.innerHTML = '<span>Görünüm</span><div class="is-bt-sec"><button type="button" data-t="inshot"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="3" width="12" height="18" rx="2.5"/><path d="M9 15h6M9 18h6"/><rect x="8" y="6" width="8" height="6" rx="1"/></svg><b>InShot</b><small>sade · telefon</small></button><button type="button" data-t="klasik"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 20V9"/></svg><b>Klasik</b><small>tüm ayarlar</small></button></div>';
       d.addEventListener('click', e => { const x = e.target.closest('button[data-t]'); if (!x) return; try { LS.set('kv2.isKlasik', x.dataset.t === 'klasik'); } catch(_){} isTemaUygula(); toast(x.dataset.t === 'klasik' ? 'Klasik görünüm seçildi' : 'InShot görünümü seçildi'); });
       st.prepend(d); } }
+  /* 9.14: YENİ ANA EKRAN (InShot görünümü, telefon) — büyük kartlar; eski düğmelerin aynısını çağırır, hiçbir işlev silinmez */
+  { const st = $('#start'); if (st && !$('#isAna')){
+    const d = document.createElement('div'); d.id = 'isAna';
+    const io2 = x => `<svg viewBox="0 0 24 24" aria-hidden="true">${x}</svg>`;
+    d.innerHTML = `<div class="is-ana-ust"><span class="is-ana-logo"><img src="icon-192.png?v=2" alt=""></span><div><b>Kareden Videoya</b><small id="isAnaSurum"></small></div><span class="is-bos"></span>
+        <button type="button" class="is-ana-yuv" id="isAnaTema" aria-label="Gündüz / gece">${io2('<path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/>')}</button>
+        <button type="button" class="is-ana-yuv" id="isAnaKlasik" aria-label="Klasik görünüme geç" title="Klasik görünüme geç">${io2('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 20V9"/>')}</button></div>
+      <button type="button" class="is-kart is-kart-ana" data-a="video"><span class="is-kart-ik">${io2('<rect x="3" y="6" width="13" height="12" rx="2.5"/><path d="M16 10.5l5-3v9l-5-3z"/>')}</span><span class="is-kart-y"><b>Yeni video</b><small>Fotoğraf ve videolarından YouTube videosu</small></span><span class="is-kart-art">${io2('<path d="M12 5v14M5 12h14"/>')}</span></button>
+      <div class="is-kart-ikili">
+        <button type="button" class="is-kart" data-a="foto"><span class="is-kart-ik is-mavi">${io2('<rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="9" cy="10" r="2"/><path d="M4 17l5-4 4 3 3-2 4 3"/>')}</span><b>Fotoğraf</b><small>Fotoğraflardan slayt</small></button>
+        <button type="button" class="is-kart" data-a="kolaj"><span class="is-kart-ik is-mor">${io2('<rect x="3" y="3" width="8" height="10" rx="1.5"/><rect x="13" y="3" width="8" height="6" rx="1.5"/><rect x="13" y="11" width="8" height="10" rx="1.5"/><rect x="3" y="15" width="8" height="6" rx="1.5"/>')}</span><b>Kolaj</b><small>Yakında</small></button>
+      </div>
+      <button type="button" class="is-kart is-kart-taslak" data-a="taslak"><span class="is-kart-ik is-yesil">${io2('<path d="M4 7a2 2 0 012-2h4l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H6a2 2 0 01-2-2z"/>')}</span><span class="is-kart-y"><b>Taslaklar</b><small id="isAnaTaslakSay">Kaydedilmiş projeler</small></span><span class="is-ana-thumbs" id="isAnaThumbs"></span></button>
+      <button type="button" class="is-ana-devam" id="isAnaDevam" hidden>${io2('<path d="M7 4.5l12 7.5-12 7.5z"/>')}<span>Son projeye devam et</span></button>
+      <div class="is-ana-tur"><span>Video türü</span><div class="is-ana-cips" id="isAnaTur"></div></div>
+      <div class="is-ana-alt"><button type="button" id="isAnaPaket">Proje paketi aç</button><small>Dosyaların telefondan dışarı gönderilmez.</small></div>`;
+    st.prepend(d);
+    const fi = $('#fileIn');
+    const sec = acc => { const eski = fi.getAttribute('accept'); if (acc) fi.setAttribute('accept', acc); fi.click(); setTimeout(() => fi.setAttribute('accept', eski), 1500); };
+    d.addEventListener('click', e => { const k = e.target.closest('[data-a]'); if (!k) return; const a = k.dataset.a;
+      if (a === 'video') sec(null);
+      else if (a === 'foto') sec('image/*');
+      else if (a === 'kolaj') toast('Kolaj yakında · şimdilik Fotoğraf ile slayt video yapabilirsin', 3200);
+      else if (a === 'taslak'){ const dr = $('#drafts'); if (dr && !dr.hidden) dr.scrollIntoView({behavior: 'smooth', block: 'start'}); else toast('Henüz taslak yok · yeni video başlatınca otomatik kaydedilir'); } });
+    $('#isAnaDevam').addEventListener('click', () => { const r = $('#resumeBtn'); if (r) r.click(); });
+    $('#isAnaPaket').addEventListener('click', () => { const r = $('#pkAc2'); if (r) r.click(); });
+    $('#isAnaTema').addEventListener('click', () => { const r = $('#temaBtn'); if (r) r.click(); });
+    $('#isAnaKlasik').addEventListener('click', () => { try { LS.set('kv2.isKlasik', true); } catch(_){} isTemaUygula(); toast('Klasik görünüm · ana sayfadan geri dönebilirsin'); });
+    /* eski düğmelerle eşitle: devam, taslak sayısı, video türü */
+    const esitle = () => {
+      const r = $('#resumeBtn'); $('#isAnaDevam').hidden = !r || r.hidden;
+      const g = $('#draftGrid'), n = g ? g.children.length : 0; $('#isAnaTaslakSay').textContent = n ? `${n} proje · dokun ve devam et` : 'Henüz taslak yok';
+      const th = $('#isAnaThumbs'); if (th && g){ const im = [...g.querySelectorAll('img')].slice(0, 3).map(x => x.src); const ims = im.join('|'); if (th.dataset.s !== ims){ th.dataset.s = ims; th.innerHTML = im.map(u => `<img src="${u}" alt="">`).join(''); } }
+      const sk = $('#startKinds'), tr = $('#isAnaTur'); if (sk && tr){ const bs = [...sk.querySelectorAll('button')]; const sig = bs.map(b => b.textContent + (b.getAttribute('aria-pressed') === 'true' || b.classList.contains('on') ? '*' : '')).join('|');
+        if (tr.dataset.s !== sig){ tr.dataset.s = sig; tr.innerHTML = bs.map((b, i) => `<button type="button" data-k="${i}" class="${b.getAttribute('aria-pressed') === 'true' || b.classList.contains('on') ? 'on' : ''}">${(b.childNodes[0] && b.childNodes[0].textContent || b.textContent).trim()}</button>`).join(''); } }
+      const sv = $('#isAnaSurum'); if (sv){ const m = document.querySelector('meta[name=surum]'); sv.textContent = 'sürüm ' + (m ? m.content : ''); }
+    };
+    $('#isAnaTur').addEventListener('click', e => { const b = e.target.closest('button[data-k]'); if (!b) return; const o = [...$('#startKinds').querySelectorAll('button')][+b.dataset.k]; if (o) o.click(); setTimeout(esitle, 50); });
+    const anaSinif = () => document.body.classList.toggle('is-ana-acik', !$('#start').hidden);
+    esitle(); anaSinif(); new MutationObserver(anaSinif).observe($('#start'), {attributes: true, attributeFilter: ['hidden']}); setInterval(() => { anaSinif(); if (!$('#start').hidden) esitle(); }, 1200);
+  } }
   isAltIzle(); isCfgKur(); isTemaUygula();
   isCiz(true); isYer(); requestAnimationFrame(isDongu);
   addEventListener('resize', () => { isCiz(true); isYer(); });
@@ -11171,6 +11212,63 @@ body.kv-studyo.is-mod #mininav button svg{display:block!important;flex:none}
 body.kv-studyo.is-mod #mininav button span{display:block!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:72px;padding:0!important}
 body.kv-studyo.is-mod #mininav button.cfg{border:0!important;opacity:.75}
 body.kv-studyo.is-mod #minicfg{bottom:calc(var(--isZsH,0px) + 70px + env(safe-area-inset-bottom,0px))!important}
+/* 9.14 · Hızlı yol taşmasın */
+#hizliKart{min-width:0;max-width:100%;box-sizing:border-box}
+#hizliKart .hizliAdim{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+#hizliKart .hizliAdim .btn{min-width:0;white-space:normal;font-size:14px;padding:8px 10px}
+#hizliKart .hizliAdim .btn small{font-size:10.5px}
+/* 9.14 · yeni ana ekran (InShot görünümü, telefon) */
+#isAna{display:none}
+@media (max-width:979px){
+body.is-mod.is-ana-acik #start{grid-template-columns:minmax(0,1fr)}
+body.is-mod.is-ana-acik #isAna{min-width:0;max-width:100%;display:flex;flex-direction:column;gap:12px;padding:calc(env(safe-area-inset-top,0px) + 4px) 0 18px}
+body.is-mod.is-ana-acik #start > .hero,body.is-mod.is-ana-acik #start > .hero-act,body.is-mod.is-ana-acik #isBasTema{display:none!important}
+body.is-mod.is-ana-acik .wrap > header.top{display:none!important}
+#isAna .is-ana-ust{display:flex;align-items:center;gap:10px;padding:4px 2px 6px}
+#isAna .is-ana-logo img{width:40px;height:40px;border-radius:50%;display:block}
+#isAna .is-ana-ust b{font-size:19px;letter-spacing:-.01em;display:block}
+#isAna .is-ana-ust small{font-size:11px;color:var(--mute)}
+#isAna .is-bos{flex:1}
+#isAna .is-ana-yuv{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--ink);display:grid;place-items:center;padding:0}
+#isAna svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#isAna .is-kart{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:22px;text-align:left;cursor:pointer;transition:transform .12s ease;-webkit-tap-highlight-color:transparent}
+#isAna .is-kart:active{transform:scale(.975)}
+#isAna .is-kart-ik{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:color-mix(in srgb,var(--accent) 18%,transparent);color:var(--accent);flex:none}
+#isAna .is-kart-ik svg{width:26px;height:26px}
+#isAna .is-kart-ik.is-mavi{background:rgba(63,150,255,.16);color:#4d9bff}
+#isAna .is-kart-ik.is-mor{background:rgba(138,92,246,.18);color:#9b7bff}
+#isAna .is-kart-ik.is-yesil{background:rgba(70,190,120,.16);color:#43c07a}
+#isAna .is-kart-ana{display:flex;align-items:center;gap:14px;padding:22px 18px;min-height:118px;border:0;background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 55%,#e2541c));color:var(--accent-ink);box-shadow:0 10px 28px color-mix(in srgb,var(--accent) 30%,transparent)}
+#isAna .is-kart-ana .is-kart-ik{background:rgba(255,255,255,.25);color:inherit;width:56px;height:56px;border-radius:18px}
+#isAna .is-kart-y{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+#isAna .is-kart-ana b{font-size:22px;letter-spacing:-.01em}
+#isAna .is-kart-ana small{font-size:13px;opacity:.85}
+#isAna .is-kart-art{width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.14);display:grid;place-items:center;flex:none}
+#isAna .is-kart-ikili{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#isAna .is-kart-ikili .is-kart{display:flex;flex-direction:column;gap:6px;padding:16px;min-height:132px}
+#isAna .is-kart-ikili .is-kart b{font-size:16px;margin-top:6px}
+#isAna .is-kart-ikili .is-kart small{font-size:12px;color:var(--mute)}
+#isAna .is-kart[data-a="kolaj"]{opacity:.75}
+#isAna .is-kart-taslak{display:flex;align-items:center;gap:14px;padding:14px 16px}
+#isAna .is-kart-taslak b{font-size:16px}
+#isAna .is-kart-taslak small{font-size:12px;color:var(--mute)}
+#isAna .is-ana-thumbs{display:flex;flex:none}
+#isAna .is-ana-thumbs img{width:38px;height:38px;object-fit:cover;border-radius:10px;border:2px solid var(--panel);margin-left:-12px;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+#isAna .is-ana-devam{display:flex;align-items:center;justify-content:center;gap:8px;border:1.5px solid var(--accent);background:transparent;color:var(--accent);border-radius:999px;min-height:46px;font:700 15px/1 var(--ui,system-ui)}
+#isAna .is-ana-devam[hidden]{display:none}
+#isAna .is-ana-devam svg{width:18px;height:18px;fill:currentColor;stroke:none}
+#isAna .is-ana-tur{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+#isAna .is-ana-tur>span{font-size:12.5px;color:var(--mute);font-weight:600;padding-left:2px}
+#isAna .is-ana-cips{min-width:0;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+#isAna .is-ana-cips::-webkit-scrollbar{display:none}
+#isAna .is-ana-cips button{flex:none;border:1.5px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:9px 14px;font:600 13px/1 var(--ui,system-ui);white-space:nowrap}
+#isAna .is-ana-cips button.on{border-color:var(--ink);background:var(--ink);color:var(--ground)}
+#isAna .is-ana-alt{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:2px}
+#isAna .is-ana-alt button{border:0;background:none;color:var(--accent);font:600 13.5px/1 var(--ui,system-ui);padding:8px 2px}
+#isAna .is-ana-alt small{font-size:11px;color:var(--mute);text-align:right}
+body.is-mod.is-ana-acik #drafts{margin-top:4px}
+body.is-mod.is-ana-acik #drafts .dgrid{gap:10px}
+}
 /* 9.12 · kısayol ayarı üst çubuğu */
 body.mobar #minicfg{z-index:70!important}
 #minicfg .is-cfg-ust{position:sticky;top:-1px;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:8px;margin:-4px -4px 8px;padding:8px 6px;background:var(--panel);border-bottom:1px solid var(--line)}
