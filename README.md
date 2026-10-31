@@ -21,7 +21,7 @@
 Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda çalışan uygulama (PWA). Dosyalar telefondan dışarı gönderilmez; video cihazda oluşturulur. Tek dosya: `index.html`; çevrimdışı önbellek `sw.js`.
 
 **Adres:** https://aaskinkk-cloud.github.io/kareden-videoya/  
-**Güncel sürüm:** 9.10 · 31.10.2026
+**Güncel sürüm:** 9.11 · 31.10.2026
 
 ## Bölümler
 - **Klipler** – klip sırası, katmanlar (zaman çizelgesi: böl, çoğalt, uzat/kısalt), kadraj, hareket (Ken Burns), takip eden yazı, toplu ayarlar.
@@ -35,6 +35,7 @@ Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda �
 - **Basit mod** – temel bölümler görünür; gizlenen ayarlar aynen çalışır.
 
 ## Sürüm notları
+- **9.11** – **Metin aracı** (InShot görünümü, araç satırında Tuval'in yanında). Videonun istenen anına serbest, hareketli yazı: **Yazı ekle** oynatma çizgisinin olduğu yere 3 sn'lik yazı koyar, klavye açılır. Tek satır, yana kayan ayarlar — her düğme dokundukça sıradakine geçer, **basılı tutunca bir öncekine** döner: Yazı tipi (Montserrat, Bebas, Anton, Barlow, Playfair, El yazısı, Archivo, Daktilo) · Renk (7) · Stil (Gölge, Kontur, Kutu, Bant, Neon) · Boyut (S–XL) · Giriş (Trend, Düşerek, Kayarak, Yükselerek, Büyüyerek, Daktilo, Belirerek; seçince önizlemede oynar) · Çıkış (Solarak, Kayarak, Küçülerek) · Süre (2–10 sn) · Buradan başla · Ortala (orta/alt/üst) · Çoğalt · Sil. Önizlemede yazıya dokun: seç, sürükle: taşı (ortaya yapışır). Film şeridinde mor yazı çubukları; dokununca düzenlenir. Aynı satırdan mevcut yazı özellikleri: Giriş başlığı, Takip yazı, Altyazı, Kanca, Abone. Yazılar projeye kaydedilir, dışa aktarmada aynen çıkar.
 - **9.10** – Ana sayfada **Görünüm** seçimi: **InShot** (sade · telefon) / **Klasik** (tüm ayarlar). Seçim hatırlanır; düzenleyicideki ⋯ menüsündeki seçimle aynı ayardır.
 - **9.9** – **InShot teması tüm menülerde.** Bir araç açılınca üstte o aracın bölümleri tek satır (simge + kısa ad, yana kayar), altta yalnız seçili bölümün ayarları; uzun liste yok, önizleme hep görünür. Bölümler panel başlıklarından otomatik çıkar (Klip: Sıra · Genel · Seçili klip · Yeni klipler · Tümü; Efekt: Kısa video · Format · Hareket · Geçiş · Yardım · Arka plan · Renk; Şablon, Müzik, Ses, Altyazı, Yayın, Aktar da aynı); seçim hatırlanır. **Ayarla** (kısayol düzenleme) ve kapanmayan menüsü bu görünümden kaldırıldı. **⋯ menüsü** düğmenin yanında açılır (ekran dışına düşüyordu); içinde **Klasik görünüm / InShot görünümü** seçimi — iki görünüm birbirinden bağımsız. **Odak:** açılınca fotoğraftaki yüzler bulunur ve kesik halkayla gösterilir; dokunulan nokta en yakın yüzün ortasına yapışır, yakınlık yüz kadrajın ~üçte biri olacak şekilde ayarlanır; "Yüzleri ekle" ile tüm yüzler soldan sağa eklenir. Bulanık açıkken net alan tam o yüz + omuzlar; bulanıklık yalnız yüzde beklerken yumuşakça açılır, geçişte kapanır (açık alan ekranda gezmez).
 - **9.8** – Odak menüsü InShot alt menüsü gibi: ekranı kaplayan sayfa yerine **araç satırının yerinde tek satır**, yana kayar; önizleme büyük kalır, yüzlere oradan dokunulur. Satır: nokta numaraları · ▶ Önizle · Yakınlık · Yüzde kal · Yaklaşma · Geçiş · Önce tümü · Bulanık · (Net alan, yalnız bulanık açıkken) · Son nokta · Temizle. Her ayar tek düğme, dokundukça sıradaki değere geçer; üstte kısa yönerge ve ✓.
