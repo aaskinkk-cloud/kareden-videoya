@@ -44,7 +44,7 @@
 </style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="9.9" data-ad="Kareden Videoya" data-tarih="22.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="9.10" data-ad="Kareden Videoya" data-tarih="22.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -546,7 +546,7 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 9.9 · 30.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 9.10 · 31.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -10246,6 +10246,11 @@ function isKur(){
       tb.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 15h18M8 20v-5"/></svg>';
       tb.addEventListener('click', () => { try { LS.set('kv2.isKlasik', !LS.get('kv2.isKlasik')); } catch(_){} isTemaUygula(); toast(LS.get('kv2.isKlasik') ? 'Klasik görünüm' : 'InShot görünümü'); });
       m.appendChild(tb); } }
+  /* 9.10: ana sayfada görünüm seçimi (InShot / Klasik) */
+  { const st = $('#start'); if (st && !$('#isBasTema')){ const d = document.createElement('div'); d.id = 'isBasTema';
+      d.innerHTML = '<span>Görünüm</span><div class="is-bt-sec"><button type="button" data-t="inshot"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="3" width="12" height="18" rx="2.5"/><path d="M9 15h6M9 18h6"/><rect x="8" y="6" width="8" height="6" rx="1"/></svg><b>InShot</b><small>sade · telefon</small></button><button type="button" data-t="klasik"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 20V9"/></svg><b>Klasik</b><small>tüm ayarlar</small></button></div>';
+      d.addEventListener('click', e => { const x = e.target.closest('button[data-t]'); if (!x) return; try { LS.set('kv2.isKlasik', x.dataset.t === 'klasik'); } catch(_){} isTemaUygula(); toast(x.dataset.t === 'klasik' ? 'Klasik görünüm seçildi' : 'InShot görünümü seçildi'); });
+      st.prepend(d); } }
   isAltIzle(); isTemaUygula();
   isCiz(true); isYer(); requestAnimationFrame(isDongu);
   addEventListener('resize', () => { isCiz(true); isYer(); });
@@ -10328,6 +10333,7 @@ function isAltIzle(){
 function isTemaUygula(){
   const k = !!LS.get('kv2.isKlasik'), B = document.body; B.classList.toggle('is-mod', !k);
   const b = $('#isTemaSec'); if (b){ b.dataset.lb = k ? 'InShot görünümüne geç' : 'Klasik görünüme geç'; }
+  document.querySelectorAll('#isBasTema button').forEach(x => x.setAttribute('aria-pressed', String((x.dataset.t === 'klasik') === k)));
   if (k){ isSec(false); const tv = $('#isTuval'); if (tv) tv.hidden = true; }
   IS.sonH = null; requestAnimationFrame(() => { try { isYer(); isCiz(true); isAltYap(); window.kvStudyo && kvStudyo.yerlesim(); } catch(e){} });
 }
@@ -10978,6 +10984,17 @@ body.kv-studyo.is-mod #mininav button svg{display:block!important;flex:none}
 body.kv-studyo.is-mod #mininav button span{display:block!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:72px;padding:0!important}
 body.kv-studyo.is-mod #mininav button.cfg{border:0!important;opacity:.75}
 body.kv-studyo.is-mod #minicfg{bottom:calc(var(--isZsH,0px) + 70px + env(safe-area-inset-bottom,0px))!important}
+/* 9.10 · ana sayfa görünüm seçimi */
+#isBasTema{display:flex;align-items:center;gap:12px;margin:4px 0 14px;padding:10px 12px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
+#isBasTema>span{font-size:13px;color:var(--mute);font-weight:600}
+#isBasTema .is-bt-sec{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#isBasTema button{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:8px;align-items:center;text-align:left;padding:8px 10px;border-radius:12px;border:1.5px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+#isBasTema button svg{grid-row:1/3;width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+#isBasTema button b{font-size:14px}
+#isBasTema button small{font-size:11px;color:var(--mute)}
+#isBasTema button[aria-pressed="true"]{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,transparent)}
+#isBasTema button[aria-pressed="true"] svg{color:var(--accent)}
+@media (min-width:980px){#isBasTema{max-width:520px}}
 /* 9.9 · InShot teması: Ayarla (kısayol düzenleme) ve eski menüler bu görünümde yok */
 body.kv-studyo.is-mod #mininav button.cfg,body.kv-studyo.is-mod #minicfg{display:none!important}
 body.kv-studyo.is-mod .kv-pan [data-panel] > .phead{display:none!important}
