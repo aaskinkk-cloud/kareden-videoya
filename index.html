@@ -44,7 +44,7 @@
 </style>
 </head>
 <body>
-<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="9.12" data-ad="Kareden Videoya" data-tarih="22.10.2026">
+<title>Kareden Videoya</title><script>try{document.documentElement.dataset.tema=localStorage.getItem("kv2.tema")==="gunduz"?"gunduz":"gece"}catch(e){}</script><meta name="surum" content="9.13" data-ad="Kareden Videoya" data-tarih="22.10.2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Archivo:wght@400;500;600;700;800&family=Bebas+Neue&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap">
@@ -546,7 +546,7 @@ html.basit #mininav button[data-tab]:not([data-tab="photo"]):not([data-tab="voic
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 9.12 · 31.10.2026</small></div>
+    <div class="brand"><span class="tally" aria-hidden="true"></span>Kareden Videoya<small class="surum-et" style="font:500 11px/1.2 system-ui,sans-serif;opacity:.65;margin-left:8px;letter-spacing:.02em;white-space:nowrap">sürüm 9.13 · 31.10.2026</small></div>
     <div class="inline"><span class="meta mono" id="meta">16:9 · 1920×1080 · 30 fps</span><button class="topbtn temabtn" id="temaBtn" type="button" aria-label="Gündüz görünümüne geç" title="Gündüz / gece görünümü">☀</button><button class="topbtn" id="newProj" hidden aria-label="Yeni video" title="Yeni video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg><span>Yeni video</span></button><button class="topbtn" id="fsBtn" hidden aria-label="Tam ekran" title="Tam ekran">⛶</button></div>
   </header>
   <div id="support" class="banner" hidden></div>
@@ -10419,13 +10419,30 @@ const IS_KISA = [[/okur ses/i, 'Okur sesi'], [/yeni eklenen/i, 'Yeni klipler'], 
   [/metin ve okuma/i, 'Metin'], [/seslendirmeden sonra/i, 'Sonrası'], [/seslendirme nasıl/i, 'Nasıl?'], [/altyazıyı otomatik/i, 'Otomatik'], [/altyazı ekle/i, 'Ekle'], [/kanca/i, 'Kanca'],
   [/başka cihaz/i, 'Taşı'], [/hazır paket/i, 'Paketler'], [/hazır ayar/i, 'Hazırlar'], [/giriş başlığı/i, 'Başlık'], [/açılış efekt/i, 'Açılış'], [/kısa video/i, 'Kısa video'], [/hareket efekt/i, 'Hareket'],
   [/renk/i, 'Renk'], [/logo dosya/i, 'Logo'], [/kapak öneri/i, 'Öneriler'], [/seçili kapak/i, 'Seçili'], [/konuşmayı temizle/i, 'Temizle'], [/açık olan/i, 'Açık olanlar'], [/video oluştur/i, 'Oluştur']];
-const isKisa = ad => { for (const [r, k] of IS_KISA) if (r.test(ad)) return k; let a = ad.replace(/^[^\p{L}\p{N}]+/u, '').replace(/[·:].*$|\(.*?\)/g, '').trim(); a = a.charAt(0).toLocaleUpperCase('tr') + a.slice(1); return a.length > 13 ? a.slice(0, 12).trim() + '…' : a; };
+const isKisa = ad => { const ek = ad.match(/ek reels yazısı\s*(\d)/i); if (ek) return 'Ek yazı ' + ek[1]; if (/takip eden yazı/i.test(ad)) return 'Takip yazı'; for (const [r, k] of IS_KISA) if (r.test(ad)) return k; let a = ad.replace(/^[^\p{L}\p{N}]+/u, '').replace(/[·:].*$|\(.*?\)/g, '').trim(); a = a.charAt(0).toLocaleUpperCase('tr') + a.slice(1); return a.length > 13 ? a.slice(0, 12).trim() + '…' : a; };
+/* 9.13: bölüm içindeki ara başlıklar (SÜRE · KADRAJ · HAREKET gibi .cgrp blokları ya da ek H3 başlıkları) ikinci satırda tek tek */
+function isAltBloklar(sect){
+  const kids = [...sect.children], gor = e => getComputedStyle(e).display !== 'none';
+  const cg = kids.filter(c => c.matches('.cgrp') && c.querySelector(':scope > h4') && gor(c));
+  const ad4 = c => { const h = c.querySelector(':scope > h4'); const n = [...h.childNodes].find(x => x.nodeType === 3 && x.textContent.trim()); return (n ? n.textContent : h.textContent).trim(); };
+  if (cg.length){
+    const diger = kids.filter(c => c.tagName !== 'H3' && !c.matches('.cgrp, .cliphead, .mselbar') && gor(c));
+    const bl = []; if (diger.length) bl.push({ad: 'Genel', els: diger});
+    cg.forEach(c => bl.push({ad: ad4(c), els: [c]}));
+    return bl.length >= 2 ? bl : null;
+  }
+  const h3 = kids.filter(c => c.tagName === 'H3'); if (h3.length < 2) return null;
+  const bl = []; let cur = null;
+  kids.forEach(c => { if (c.tagName === 'H3'){ cur = {ad: c.textContent.trim(), els: c === h3[0] ? [] : [c]}; bl.push(cur); } else if (cur && gor(c)) cur.els.push(c); });
+  return bl.filter(x => x.els.length).length >= 2 ? bl.filter(x => x.els.length) : null;
+}
 function isAltYap(){
   const B = document.body, row = $('#isAltSek'); if (!row) return;
-  const pan = document.querySelector('.kv-pan');
-  const temizle = () => { document.querySelectorAll('.is-gizle').forEach(e => e.classList.remove('is-gizle')); document.querySelectorAll('.is-tek').forEach(e => e.classList.remove('is-tek')); };
-  if (!isAktif() || B.classList.contains('kv-kapali') || !pan){ row.hidden = true; temizle(); return; }
+  const pan = document.querySelector('.kv-pan'), row2 = $('#isAltSek2');
+  const temizle = () => { document.querySelectorAll('.is-gizle').forEach(e => e.classList.remove('is-gizle')); document.querySelectorAll('.is-tek').forEach(e => e.classList.remove('is-tek', 'is-alt2')); };
+  if (!isAktif() || B.classList.contains('kv-kapali') || !pan){ row.hidden = true; if (row2) row2.hidden = true; temizle(); return; }
   const t = B.dataset.kvtab, pn = document.querySelector(`#editor [data-panel="${t}"]`); if (!pn){ row.hidden = true; return; }
+  const kay0 = pan.scrollTop;   /* 9.13: yenilemede kaydırma yeri korunur (aşağı inince başa fırlıyordu) */
   temizle();
   const gruplar = []; let g = null;
   const siraEk = t === 'photo' ? [document.querySelector('.kv-pan > .strip'), document.querySelector('.kv-pan > #katman')].filter(e => e && getComputedStyle(e).display !== 'none') : [];
@@ -10437,24 +10454,50 @@ function isAltYap(){
     else { g = {ad: t === 'photo' ? 'Hızlı yol' : 'Genel', els: [ch]}; gruplar.push(g); }
   }
   if (siraEk.length) gruplar.splice(Math.min(1, gruplar.length), 0, {ad: 'Sıra', els: siraEk});
-  const sakla = []; ['photo'].includes(t) || [document.querySelector('.kv-pan > .strip'), document.querySelector('.kv-pan > #katman')].forEach(e => e && sakla.push(e));
-  if (gruplar.length < 2){ row.hidden = true; row.dataset.imza = ''; const G0 = gruplar[0]; if (G0 && G0.sect){ G0.sect.classList.add('is-tek'); if (G0.sect.classList.contains('kapali')) try { G0.sect.firstElementChild.click(); } catch(e){} } return; }   /* tek bölüm: doğrudan açık */
   IS.alt = IS.alt || LS.get('kv2.isAlt2') || {}; let sec = IS.alt[t]; if (!(sec >= 0 && sec < gruplar.length)) sec = 0;
+  const tek = gruplar.length < 2;
   const imza = t + '|' + gruplar.map(x => x.ad).join('|');
-  if (row.dataset.imza !== imza){ row.dataset.imza = imza;
-    row.innerHTML = gruplar.map((x, i) => `<button type="button" data-i="${i}"><svg viewBox="0 0 24 24" aria-hidden="true">${isIkon(x.ad)}</svg><span>${isKisa(x.ad)}</span></button>`).join(''); }
-  row.hidden = false;
-  row.querySelectorAll('button').forEach((b, i) => b.classList.toggle('on', i === sec));
-  gruplar.forEach((x, i) => x.els.forEach(e => e.classList.toggle('is-gizle', i !== sec)));
-  const G = gruplar[sec];
-  if (G.sect){ G.sect.classList.add('is-tek'); if (G.sect.classList.contains('kapali')){ IS.altAc = true; try { G.sect.firstElementChild.click(); } catch(e){} IS.altAc = false; } }
-  const on = row.querySelector('button.on'); if (on && IS.altKay !== imza + sec){ IS.altKay = imza + sec; try { on.scrollIntoView({inline: 'center', block: 'nearest'}); } catch(e){} }
+  if (tek){ row.hidden = true; row.dataset.imza = ''; sec = 0; }
+  else {
+    if (row.dataset.imza !== imza){ row.dataset.imza = imza;
+      row.innerHTML = gruplar.map((x, i) => `<button type="button" data-i="${i}"><svg viewBox="0 0 24 24" aria-hidden="true">${isIkon(x.ad)}</svg><span>${isKisa(x.ad)}</span></button>`).join(''); }
+    row.hidden = false;
+    row.querySelectorAll('button').forEach((b, i) => b.classList.toggle('on', i === sec));
+    gruplar.forEach((x, i) => x.els.forEach(e => e.classList.toggle('is-gizle', i !== sec)));
+  }
+  const G = gruplar[sec], anahtar = imza + '#' + sec;
+  if (G && G.sect){ G.sect.classList.add('is-tek');
+    if (G.sect.classList.contains('kapali')){
+      if (IS.altAcAnahtar !== anahtar){ IS.altAcAnahtar = anahtar; try { G.sect.firstElementChild.click(); } catch(e){} }   /* yalnız ilk seçişte başlığa dokun */
+      else G.sect.classList.remove('kapali'); } }
+  /* ikinci satır */
+  let ikinciAnahtar = '';
+  if (row2){
+    const bl = G && G.sect ? isAltBloklar(G.sect) : null;
+    if (!bl){ row2.hidden = true; row2.dataset.imza = ''; }
+    else {
+      IS.alt2 = IS.alt2 || LS.get('kv2.isAlt3') || {}; let s2 = IS.alt2[anahtar]; if (!(s2 >= 0 && s2 < bl.length)) s2 = 0;
+      const im2 = anahtar + '|' + bl.map(x => x.ad).join('|');
+      if (row2.dataset.imza !== im2){ row2.dataset.imza = im2; row2.dataset.anahtar = anahtar; row2.innerHTML = bl.map((x, i) => `<button type="button" data-j="${i}">${isKisa(x.ad)}</button>`).join(''); }
+      row2.hidden = false; row2.querySelectorAll('button').forEach((b, i) => b.classList.toggle('on', i === s2));
+      G.sect.classList.add('is-alt2');
+      bl.forEach((x, i) => x.els.forEach(e => e.classList.toggle('is-gizle', i !== s2)));
+      ikinciAnahtar = '#' + s2;
+    }
+  }
+  const tumAnahtar = anahtar + ikinciAnahtar;
+  if (IS.altSon === tumAnahtar){ if (pan.scrollTop !== kay0) pan.scrollTop = kay0; }
+  else { IS.altSon = tumAnahtar; pan.scrollTop = 0;
+    const on = row.querySelector('button.on'); if (on) row.scrollLeft = Math.max(0, on.offsetLeft - row.clientWidth/2 + on.offsetWidth/2);
+    const on2 = row2 && row2.querySelector('button.on'); if (on2) row2.scrollLeft = Math.max(0, on2.offsetLeft - row2.clientWidth/2 + on2.offsetWidth/2); }
 }
 function isAltKur(){
   const pan = document.querySelector('.kv-pan'), pb = pan && pan.querySelector('.kv-panb'); if (!pb || $('#isAltSek')) return;
   const row = document.createElement('div'); row.id = 'isAltSek'; row.hidden = true; pb.after(row);
+  const row2 = document.createElement('div'); row2.id = 'isAltSek2'; row2.hidden = true; row.after(row2);
+  row2.addEventListener('click', e => { const b = e.target.closest('button[data-j]'); if (!b) return; IS.alt2 = IS.alt2 || {}; IS.alt2[row2.dataset.anahtar] = +b.dataset.j; try { LS.set('kv2.isAlt3', IS.alt2); } catch(_){} isAltYap(); });
   row.addEventListener('click', e => { const b = e.target.closest('button[data-i]'); if (!b) return; const t = document.body.dataset.kvtab;
-    IS.alt = IS.alt || {}; IS.alt[t] = +b.dataset.i; try { LS.set('kv2.isAlt2', IS.alt); } catch(_){} isAltYap(); pan.scrollTop = 0; });
+    IS.alt = IS.alt || {}; IS.alt[t] = +b.dataset.i; try { LS.set('kv2.isAlt2', IS.alt); } catch(_){} isAltYap(); });
 }
 /* panel kabuğu düzenleyici açılınca oluşur: o zaman kur; sekme / görünüm / basit mod değişince yeniden düzenle */
 function isAltIzle(){
@@ -11186,6 +11229,13 @@ body.kv-studyo.is-mod #isAltSek:not([hidden]){display:flex;position:sticky;top:4
 #isAltSek button span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 #isAltSek button.on{color:var(--is-ink)}
 #isAltSek button.on svg{color:var(--accent)}
+#isAltSek2{display:none}
+body.kv-studyo.is-mod #isAltSek2:not([hidden]){display:flex;position:sticky;top:112px;z-index:5;gap:6px;overflow-x:auto;scrollbar-width:none;background:var(--is-bg);padding:2px 2px 8px;margin:-2px -4px 6px;overscroll-behavior-x:contain}
+#isAltSek2::-webkit-scrollbar{display:none}
+#isAltSek2 button{flex:0 0 auto;border:1.5px solid color-mix(in srgb,var(--is-ink) 16%,transparent);background:transparent;color:var(--is-mute);border-radius:999px;padding:6px 14px;font:600 12.5px/1 var(--ui,system-ui),sans-serif;white-space:nowrap}
+#isAltSek2 button.on{background:var(--is-ink);color:var(--is-bg);border-color:var(--is-ink)}
+body.kv-studyo.is-mod .kv-pan .sect.is-alt2 > .cgrp > h4{display:none!important}
+body.kv-studyo.is-mod .kv-pan .sect.is-alt2 > .cgrp{border:0!important;padding-top:0!important;margin-top:0!important;background:none!important}
 #isAltSek button.on::after{content:"";position:absolute;left:30%;right:30%;bottom:0;height:2px;border-radius:2px;background:var(--accent)}
 #isAltSek button:active{background:color-mix(in srgb,var(--is-ink) 9%,transparent)}
 /* 9.8 odak noktaları — tek satır alt menü (InShot) */

@@ -21,7 +21,7 @@
 Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda çalışan uygulama (PWA). Dosyalar telefondan dışarı gönderilmez; video cihazda oluşturulur. Tek dosya: `index.html`; çevrimdışı önbellek `sw.js`.
 
 **Adres:** https://aaskinkk-cloud.github.io/kareden-videoya/  
-**Güncel sürüm:** 9.12 · 31.10.2026
+**Güncel sürüm:** 9.13 · 31.10.2026
 
 ## Bölümler
 - **Klipler** – klip sırası, katmanlar (zaman çizelgesi: böl, çoğalt, uzat/kısalt), kadraj, hareket (Ken Burns), takip eden yazı, toplu ayarlar.
@@ -35,6 +35,7 @@ Telefondaki fotoğraf ve videolardan YouTube videosu hazırlayan, tarayıcıda �
 - **Basit mod** – temel bölümler görünür; gizlenen ayarlar aynen çalışır.
 
 ## Sürüm notları
+- **9.13** – **Ara başlıklar da tek tek:** bölüm içindeki başlıklar üst satırın altında ikinci satır düğmeler olarak; her seferinde yalnız seçilen blok görünür (Klip › Seçili klip: Süre · Kadraj · Hareket · Takip yazı · Sıra; Şablon › Başlık: Genel · Ek yazı 1 · Ek yazı 2; Aktar › Çözünürlük: Çözünürlük · Kare hızı · Kalite). Seçim hatırlanır. **Düzeltme:** menüde aşağı kaydırınca her saniye başa fırlıyordu (bölüm yenilemesi kaydırmayı sıfırlıyordu) — artık kaydırma yeri korunur.
 - **9.12** – Düzeltmeler: Klasik görünümde **Ayarla** (kısayol çubuğu) menüsü açık panelin **arkasında** kalıyor, üst kısmı ve kapatma yolu örtülüyordu (ekran donmuş gibi) — artık en üst katmanda, üstte sabit **✕ Kapat**, dışına dokununca da kapanır. Klasik görünümde çalışmayan **Tuval / Metin** düğmeleri gizlendi (yalnız InShot görünümünde). **Hızlı yol · 4 adım** kartı yalnız basit modda görünüyordu, kayboluyordu — artık her zaman görünür; InShot görünümünde Klip menüsü ilk bölüm olarak **Hızlı yol** ile açılır.
 - **9.11** – **Metin aracı** (InShot görünümü, araç satırında Tuval'in yanında). Videonun istenen anına serbest, hareketli yazı: **Yazı ekle** oynatma çizgisinin olduğu yere 3 sn'lik yazı koyar, klavye açılır. Tek satır, yana kayan ayarlar — her düğme dokundukça sıradakine geçer, **basılı tutunca bir öncekine** döner: Yazı tipi (Montserrat, Bebas, Anton, Barlow, Playfair, El yazısı, Archivo, Daktilo) · Renk (7) · Stil (Gölge, Kontur, Kutu, Bant, Neon) · Boyut (S–XL) · Giriş (Trend, Düşerek, Kayarak, Yükselerek, Büyüyerek, Daktilo, Belirerek; seçince önizlemede oynar) · Çıkış (Solarak, Kayarak, Küçülerek) · Süre (2–10 sn) · Buradan başla · Ortala (orta/alt/üst) · Çoğalt · Sil. Önizlemede yazıya dokun: seç, sürükle: taşı (ortaya yapışır). Film şeridinde mor yazı çubukları; dokununca düzenlenir. Aynı satırdan mevcut yazı özellikleri: Giriş başlığı, Takip yazı, Altyazı, Kanca, Abone. Yazılar projeye kaydedilir, dışa aktarmada aynen çıkar.
 - **9.10** – Ana sayfada **Görünüm** seçimi: **InShot** (sade · telefon) / **Klasik** (tüm ayarlar). Seçim hatırlanır; düzenleyicideki ⋯ menüsündeki seçimle aynı ayardır.
